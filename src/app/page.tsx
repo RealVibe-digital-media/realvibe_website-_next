@@ -78,7 +78,7 @@ function HeroSection() {
           transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
           className="inline-block px-4 py-1.5 rounded-full border border-white/10 text-xs text-gray-400 uppercase tracking-widest mb-10 bg-white/[0.02]"
         >
-          Web Design Agency
+          Digital Marketing Agency
         </motion.div>
 
         {/* Title */}
