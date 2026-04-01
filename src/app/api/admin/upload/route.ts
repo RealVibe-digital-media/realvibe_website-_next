@@ -1,7 +1,11 @@
 import { NextResponse } from 'next/server';
-import { writeFile, mkdir } from 'fs/promises';
-import { existsSync } from 'fs';
-import { join } from 'path';
+import { v2 as cloudinary } from 'cloudinary';
+
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 export async function POST(request: Request) {
     try {
@@ -26,22 +30,23 @@ export async function POST(request: Request) {
         const bytes = await file.arrayBuffer();
         const buffer = Buffer.from(bytes);
 
-        // Create unique filename
-        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
-        const filename = file.name.replace(/[^a-zA-Z0-9._-]/g, '-').toLowerCase();
-        const uniqueFilename = `${uniqueSuffix}-${filename}`;
+        // Upload to Cloudinary using a Promise wrapper for the upload_stream
+        const result = await new Promise((resolve, reject) => {
+            const uploadStream = cloudinary.uploader.upload_stream(
+                {
+                    folder: 'realvibe/clients',
+                    resource_type: 'auto',
+                },
+                (error, result) => {
+                    if (error) reject(error);
+                    else resolve(result);
+                }
+            );
+            uploadStream.end(buffer);
+        });
 
-        // Ensure persistent assets directory exists
-        const uploadDir = join(process.cwd(), 'public', 'assets', 'clients');
-        if (!existsSync(uploadDir)) {
-            await mkdir(uploadDir, { recursive: true });
-        }
-
-        const filePath = join(uploadDir, uniqueFilename);
-        await writeFile(filePath, buffer);
-
-        // Return the public URL for the image (stored in persistent assets)
-        const publicUrl = `/assets/clients/${uniqueFilename}`;
+        // Return the permanent Cloudinary URL
+        const publicUrl = (result as any).secure_url;
 
         return NextResponse.json({ success: true, url: publicUrl });
     } catch (error: any) {
