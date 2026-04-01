@@ -297,31 +297,50 @@ function ServicesSection() {
   );
 }
 
+// ════════ SHAPE DIVIDER ════════
+function ShapeDivider() {
+  return (
+    <div className="relative h-24 md:h-32 w-full overflow-hidden bg-black -mt-16 md:-mt-24 pointer-events-none z-20">
+      <svg className="absolute bottom-0 left-0 w-[200%] md:w-full h-full fill-black" viewBox="0 0 1000 100" preserveAspectRatio="none">
+        <path d="M0,0 c200,80 400,20 600,80 s400,0 400,0 V100 H0 Z" />
+      </svg>
+    </div>
+  );
+}
+
 // ════════ STATS ════════
 function StatsSection() {
   const stats = [
-    { value: 500, suffix: '+', label: 'Projects Delivered' },
-    { value: 150, suffix: '+', label: 'Happy Clients' },
-    { value: 10, suffix: '+', label: 'Years Experience' },
-    { value: 98, suffix: '%', label: 'Client Satisfaction' },
+    { value: 500, suffix: '+', label: 'Projects Delivered', color: 'from-purple-500/20 to-transparent' },
+    { value: 150, suffix: '+', label: 'Happy Clients', color: 'from-pink-500/20 to-transparent' },
+    { value: 10, suffix: '+', label: 'Years Experience', color: 'from-orange-500/20 to-transparent' },
+    { value: 98, suffix: '%', label: 'Satisfaction Rate', color: 'from-blue-500/20 to-transparent' },
   ];
 
   return (
-    <section id="stats-section" className="relative py-28 px-6 z-10 overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-black via-purple-950/20 to-black"></div>
-      <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[1px] h-40 bg-gradient-to-b from-transparent via-purple-400/50 to-transparent"></div>
-      <div className="absolute right-0 top-1/2 -translate-y-1/2 w-[1px] h-40 bg-gradient-to-b from-transparent via-pink-400/50 to-transparent"></div>
+    <section id="stats-section" className="relative py-28 px-6 z-10 overflow-visible bg-black">
+      {/* Background Decor */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(128,90,213,0.05),transparent_70%)] pointer-events-none"></div>
+      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
 
       <div className="max-w-7xl mx-auto relative">
-        <div className="w-full h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent mb-16"></div>
-
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-0 divide-x divide-white/[0.06]">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 relative z-10">
           {stats.map((stat, i) => (
-            <StatItem key={i} stat={stat} />
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.1, duration: 0.8 }}
+              className={`relative p-8 rounded-[2rem] bg-white/[0.02] border border-white/5 backdrop-blur-3xl overflow-hidden group hover:bg-white/[0.04] transition-all duration-500 ${i % 2 === 1 ? 'md:translate-y-8' : ''}`}
+            >
+              {/* Inner Glow */}
+              <div className={`absolute -top-24 -right-24 w-48 h-48 bg-gradient-to-br ${stat.color} blur-[60px] opacity-0 group-hover:opacity-100 transition-opacity duration-700`}></div>
+              
+              <StatItem stat={stat} />
+            </motion.div>
           ))}
         </div>
-
-        <div className="w-full h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent mt-16"></div>
       </div>
     </section>
   );
@@ -335,33 +354,26 @@ function StatItem({ stat }: { stat: { value: number; suffix: string; label: stri
   useEffect(() => {
     if (isInView) {
       let startTimestamp: number | null = null;
-      const duration = 2000;
+      const duration = 2500;
       const finalValue = stat.value;
 
       const step = (timestamp: number) => {
         if (!startTimestamp) startTimestamp = timestamp;
         const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-
-        // easeOutQuart easing
-        const easeProgress = 1 - Math.pow(1 - progress, 4);
-
+        const easeProgress = 1 - Math.pow(1 - progress, 5); // Brisk Quintic ease-out
         setCount(Math.floor(easeProgress * finalValue));
-
-        if (progress < 1) {
-          window.requestAnimationFrame(step);
-        }
+        if (progress < 1) window.requestAnimationFrame(step);
       };
-
       window.requestAnimationFrame(step);
     }
   }, [isInView, stat.value]);
 
   return (
-    <div ref={ref} className="text-center px-4 py-6 group">
-      <div className="text-5xl md:text-7xl lg:text-8xl font-black mb-3 bg-gradient-to-b from-white via-white to-white/40 bg-clip-text text-transparent tracking-tighter">
+    <div ref={ref} className="relative z-10">
+      <div className="text-4xl md:text-5xl lg:text-6xl font-black mb-3 bg-gradient-to-b from-white via-white to-white/40 bg-clip-text text-transparent tracking-tighter">
         <span>{count}</span><span className="text-gradient-primary">{stat.suffix}</span>
       </div>
-      <div className="text-gray-400 font-semibold text-xs md:text-sm uppercase tracking-[0.2em]">{stat.label}</div>
+      <div className="text-gray-400 font-bold text-[10px] uppercase tracking-[0.3em] ml-1">{stat.label}</div>
     </div>
   );
 }
@@ -369,39 +381,57 @@ function StatItem({ stat }: { stat: { value: number; suffix: string; label: stri
 // ════════ ABOUT ════════
 function AboutSection() {
   const features = [
-    { title: 'Data-Driven', desc: 'Real-time analytics & market insights.' },
-    { title: 'Creative Excellence', desc: 'Award-winning standout campaigns.' },
-    { title: 'Transparent Reports', desc: 'Monthly performance dashboards.' },
-    { title: 'Dedicated Team', desc: 'Personal account manager for you.' },
+    { title: 'Data-Driven Strategy', desc: 'Real-time analytics and behavioral market insights.' },
+    { title: 'Creative Excellence', desc: 'Award-winning visual identities that demand attention.' },
+    { title: 'Transparent Performance', desc: 'Live dashboards so you see every rupee of growth.' },
+    { title: 'Dedicated Experts', desc: 'Direct access to senior strategists, not junior interns.' },
   ];
 
   return (
-    <section id="about" className="relative py-16 md:py-32 px-4 md:px-6 z-10">
+    <section id="about" className="relative py-24 md:py-40 px-4 md:px-6 z-10 bg-black overflow-hidden">
       <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
-          {/* Left Stacked Images */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-20 items-center">
+          
+          {/* Left: Premium 3st Layer Parallax Stack */}
           <motion.div
             initial={{ x: -100, opacity: 0 }}
             whileInView={{ x: 0, opacity: 1 }}
             viewport={{ once: true, margin: "-10%" }}
-            transition={{ duration: 0.9, ease: "easeOut" }}
-            className="lg:col-span-5 relative"
+            transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+            className="lg:col-span-6 relative aspect-[4/5] lg:aspect-auto h-[400px] md:h-[600px] lg:h-[700px]"
           >
-            <div className="relative">
-              <div className="relative rounded-[1.5rem] md:rounded-[2rem] overflow-hidden aspect-[3/4] shadow-2xl shadow-purple-900/20">
-                <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&h=1000&fit=crop" alt="Team at work" className="w-full h-full object-cover" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-purple-900/20"></div>
-              </div>
-              <div className="absolute -bottom-4 -right-4 md:-bottom-8 md:-right-8 w-32 h-32 md:w-56 md:h-56 rounded-2xl overflow-hidden border-4 border-black shadow-2xl">
-                <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=400&h=400&fit=crop" alt="Team brainstorming" className="w-full h-full object-cover" />
-              </div>
-              <div className="absolute -top-4 -left-4 bg-gradient-to-br from-purple-600 to-pink-500 rounded-2xl p-5 shadow-2xl shadow-purple-500/30">
-                <div className="text-3xl font-black text-white leading-none">10+</div>
-                <div className="text-[11px] text-white/80 font-bold uppercase tracking-wider mt-1">Years</div>
-              </div>
-              <div className="absolute -z-10 -top-12 -right-12 w-40 h-40 rounded-full border border-purple-500/10"></div>
-              <div className="absolute -z-10 -bottom-16 -left-16 w-60 h-60 rounded-full border border-pink-500/10"></div>
+            {/* Base Layer */}
+            <div className="absolute inset-x-12 inset-y-12 rounded-[3rem] overflow-hidden rotate-[-3deg] border border-white/10 shadow-2xl scale-95 opacity-50 z-0">
+              <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&fit=crop" alt="Agency background" className="w-full h-full object-cover blur-sm" />
             </div>
+
+            {/* Middle Layer */}
+            <motion.div 
+               whileHover={{ scale: 1.02, rotate: 0 }}
+               transition={{ duration: 0.5 }}
+               className="absolute inset-x-6 inset-y-6 rounded-[3rem] overflow-hidden rotate-[3deg] border border-white/10 shadow-2xl z-10"
+            >
+              <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1000&fit=crop" alt="Team meeting" className="w-full h-full object-cover grayscale opacity-60" />
+              <div className="absolute inset-0 bg-gradient-to-tr from-purple-900/40 via-transparent to-pink-900/40" />
+            </motion.div>
+
+            {/* Front Floating Layer */}
+            <motion.div
+              animate={{ y: [0, -20, 0] }}
+              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+              className="absolute top-1/2 -right-8 -translate-y-1/2 w-2/3 aspect-square rounded-[3.5rem] overflow-hidden border-8 border-black shadow-[0_40px_100px_rgba(0,0,0,0.8)] z-20"
+            >
+              <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&fit=crop" alt="Strategy session" className="w-full h-full object-cover" />
+              {/* Achievement Badge */}
+              <div className="absolute top-8 left-8 p-4 md:p-6 bg-white rounded-3xl shadow-2xl flex flex-col items-center">
+                 <span className="text-2xl md:text-4xl font-black text-black leading-none tracking-tighter">98%</span>
+                 <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest mt-1">Growth</span>
+              </div>
+            </motion.div>
+
+            {/* Decorative Elements */}
+            <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-purple-500/10 blur-[100px] rounded-full" />
+            <div className="absolute top-0 right-0 w-60 h-60 bg-pink-500/10 blur-[120px] rounded-full" />
           </motion.div>
 
           {/* Right Content */}
@@ -409,34 +439,44 @@ function AboutSection() {
             initial={{ x: 100, opacity: 0 }}
             whileInView={{ x: 0, opacity: 1 }}
             viewport={{ once: true, margin: "-10%" }}
-            transition={{ duration: 0.9, delay: 0.1, ease: "easeOut" }}
-            className="lg:col-span-7 lg:pl-8"
+            transition={{ duration: 0.9, delay: 0.2, ease: "easeOut" }}
+            className="lg:col-span-6"
           >
-            <span className="inline-block px-4 py-1.5 rounded-full bg-pink-500/10 border border-pink-500/20 text-pink-300 text-xs font-bold uppercase tracking-widest mb-6">
-              Why RealVibe
-            </span>
-            <h2 className="text-3xl md:text-5xl lg:text-6xl font-black mb-6 md:mb-8 leading-[1.1] text-white">
+            <div className="flex items-center gap-4 mb-8">
+              <span className="w-12 h-px bg-pink-500/30"></span>
+              <span className="text-[10px] font-black text-pink-400 uppercase tracking-[0.4em]">Why RealVibe</span>
+            </div>
+
+            <h2 className="text-4xl md:text-6xl lg:text-7xl font-black mb-8 leading-[1.05] text-white tracking-tight">
               We Don't Just<br />
               Market. <span className="text-gradient-primary">We Transform.</span>
             </h2>
-            <p className="text-gray-300 text-lg leading-relaxed mb-12 max-w-xl">
-              We combine creative storytelling with data-driven precision to build brands that
-              don't just survive — they thrive. Every strategy is backed by analytics, fueled
-              by creativity, and measured by results.
+
+            <p className="text-gray-400 text-lg md:text-xl leading-relaxed mb-12 max-w-2xl">
+              In a world crowded with noise, <span className="text-white font-bold">we create clarity.</span> We've spent a decade refining the science of lead generation for the premium sector, combining absolute data-precision with creative storytelling that commands attention.
             </p>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 md:gap-10">
               {features.map((item, i) => (
-                <div key={i} className="group flex gap-4 p-4 rounded-xl hover:bg-white/[0.03] transition-all duration-300">
-                  <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500/20 to-pink-500/20 border border-white/[0.06] flex items-center justify-center text-sm font-black text-purple-300 group-hover:border-purple-500/30 transition-colors">
-                    {String(i + 1).padStart(2, '0')}
+                <div key={i} className="group">
+                  <div className="flex items-center gap-4 mb-4">
+                    <div className="w-1 h-8 bg-gradient-to-b from-purple-500 items-center justify-center rounded-full" />
+                    <h4 className="font-black text-white text-base md:text-lg tracking-tight">{item.title}</h4>
                   </div>
-                  <div>
-                    <h4 className="font-bold text-white mb-1 text-[15px]">{item.title}</h4>
-                    <p className="text-gray-400 text-sm leading-relaxed">{item.desc}</p>
-                  </div>
+                  <p className="text-gray-500 text-sm md:text-base leading-snug pl-5 group-hover:text-gray-300 transition-colors duration-300 border-l border-white/5">{item.desc}</p>
                 </div>
               ))}
+            </div>
+
+            <div className="mt-16">
+               <Link href="/about" className="group flex items-center gap-6 text-white no-underline">
+                  <div className="w-16 h-16 rounded-full border border-white/10 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all duration-500">
+                    <MoveRight className="w-6 h-6 group-hover:scale-110 transition-transform" />
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-xs font-bold text-gray-500 uppercase tracking-widest border-b border-transparent group-hover:border-white transition-all">Learn our story</span>
+                  </div>
+               </Link>
             </div>
           </motion.div>
         </div>
@@ -548,97 +588,122 @@ function TeamSection() {
 
 // ════════ PORTFOLIO ════════
 function PortfolioSection() {
-  const [filter, setFilter] = useState('All');
-  const categories = ['All', 'Social Media', 'Branding', 'SEO', 'PPC'];
+  const [portfolioItems, setPortfolioItems] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const portfolioItems = [
-    { title: 'Luxury Real Estate Campaign', category: 'Social Media', image: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=600&h=400&fit=crop' },
-    { title: 'E-Commerce Brand Launch', category: 'Branding', image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=400&fit=crop' },
-    { title: 'SaaS Growth Strategy', category: 'SEO', image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop' },
-    { title: 'Restaurant Chain Rebrand', category: 'Branding', image: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&h=400&fit=crop' },
-    { title: 'Fitness App Campaign', category: 'PPC', image: 'https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?w=600&h=400&fit=crop' },
-    { title: 'Tech Startup Social Launch', category: 'Social Media', image: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=600&h=400&fit=crop' },
-  ];
+  useEffect(() => {
+    const fetchPortfolio = async () => {
+      try {
+        const res = await fetch('https://real-vibe-s-portfolio.vercel.app/api/public/portfolio');
+        if (res.ok) {
+          const data = await res.json();
+          const allowedClients = ['Central Park', 'Eldeco', 'Omaxe', 'Sehgal', 'Census'];
+          
+          const filteredData = data.filter((item: any) => {
+            if (!item.client?.name) return false;
+            const clientName = item.client.name;
+            return allowedClients.some(allowed => 
+              clientName.toLowerCase().includes(allowed.toLowerCase())
+            );
+          });
 
-  const filteredItems = filter === 'All' ? portfolioItems : portfolioItems.filter(item => item.category === filter);
+          setPortfolioItems(filteredData);
+        }
+      } catch (err) {
+        console.error("Failed to load portfolio", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchPortfolio();
+  }, []);
 
   return (
-    <section id="portfolio" className="relative py-16 md:py-32 px-4 md:px-6 z-10 w-full overflow-hidden">
-
+    <section id="portfolio" className="relative py-24 md:py-32 px-4 md:px-6 z-10 w-full overflow-hidden bg-black">
       <div className="max-w-7xl mx-auto relative">
+        {/* Section Header */}
         <motion.div
-          initial={{ y: 60, opacity: 0 }}
+          initial={{ y: 40, opacity: 0 }}
           whileInView={{ y: 0, opacity: 1 }}
-          viewport={{ once: true, margin: "-10%" }}
-          transition={{ duration: 0.8 }}
-          className="flex flex-col md:flex-row md:items-end md:justify-between mb-14 gap-6"
+          viewport={{ once: true }}
+          className="mb-16"
         >
-          <div>
-            <span className="inline-block px-4 py-1.5 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-300 text-xs font-bold uppercase tracking-widest mb-6">
-              Portfolio
-            </span>
-            <h2 className="text-4xl md:text-6xl lg:text-7xl font-black text-white leading-[1.05]">
-              Featured<br />
-              <span className="text-gradient-primary">Projects</span>
+          <div className="flex flex-col gap-4">
+            <h2 className="text-5xl md:text-7xl font-black text-white tracking-tighter uppercase leading-none">
+              Our <span className="text-pink-500">Developers</span>
             </h2>
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-[1px] bg-white/20"></div>
+              <p className="text-gray-400 font-medium tracking-wide">Leading developers we've collaborated with.</p>
+            </div>
           </div>
+        </motion.div>
 
-          <div className="flex flex-wrap gap-2">
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setFilter(cat)}
-                className={`px-5 py-2.5 rounded-full text-sm font-bold transition-all duration-300 ${filter === cat ? 'bg-white text-black shadow-lg' : 'bg-white/[0.05] text-gray-300 hover:bg-white/10 border border-white/10 hover:border-white/20'}`}
-              >
-                {cat}
-              </button>
+        {loading ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[...Array(4)].map((_, i) => (
+              <div key={i} className="h-[380px] rounded-3xl bg-white/[0.02] border border-white/5 animate-pulse" />
             ))}
           </div>
-        </motion.div>
-
-        <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-5 auto-rows-[280px]">
-          {filteredItems.map((item, i) => {
-            let spanClass = '';
-            if (i === 0) spanClass = 'lg:col-span-7 lg:row-span-2';
-            else if (i === 1 || i === 2) spanClass = 'lg:col-span-5';
-            else spanClass = 'lg:col-span-4';
-
-            return (
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+            {portfolioItems.map((item, i) => (
               <motion.div
-                layout
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ duration: 0.4 }}
-                key={item.title}
-                className={`group relative rounded-2xl overflow-hidden cursor-pointer ${spanClass}`}
+                key={item.id}
+                initial={{ y: 30, opacity: 0 }}
+                whileInView={{ y: 0, opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                className="group relative flex flex-col h-full"
               >
-                <img src={item.image} alt={item.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-70 group-hover:opacity-100 transition-opacity duration-500"></div>
-                <div className="absolute inset-0 p-6 flex flex-col justify-between">
-                  <div className="flex justify-between items-start">
-                    <span className="inline-block px-3 py-1.5 bg-white/10 backdrop-blur-md rounded-full text-xs font-bold text-white border border-white/10">
-                      {item.category}
-                    </span>
-                    <div className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center opacity-0 group-hover:opacity-100 -translate-y-2 group-hover:translate-y-0 transition-all duration-500 border border-white/10">
-                      <MoveRight className="w-5 h-5 text-white -rotate-45" />
+                {/* Logo Box - The 'Square' Logo Container */}
+                <div className="relative aspect-square rounded-[2rem] bg-white/[0.03] border border-white/5 p-8 flex items-center justify-center overflow-hidden transition-all duration-500 group-hover:border-pink-500/30 group-hover:bg-white/[0.05] shadow-2xl">
+                    {/* Background Glow */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-pink-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity" />
+                    
+                    {/* The Logo Container (White box like reference) */}
+                    <div className="relative z-10 w-full h-full bg-white rounded-2xl p-6 shadow-xl flex items-center justify-center transform group-hover:scale-105 transition-transform duration-500">
+                        <img 
+                          src={item.client?.logo || 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=200&fit=crop'} 
+                          alt={item.client?.name} 
+                          className="w-full h-full object-contain"
+                        />
                     </div>
-                  </div>
-                  <div className="translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                    <h3 className="text-xl md:text-2xl font-black text-white mb-1">{item.title}</h3>
-                    <p className="text-gray-300 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">View project details &rarr;</p>
-                  </div>
+                </div>
+
+                {/* Metadata Area */}
+                <div className="mt-6 flex justify-between items-end">
+                    <div className="flex flex-col gap-1">
+                        <span className="text-[10px] font-black text-gray-500 uppercase tracking-[0.2em]">Portfolio</span>
+                        <h3 className="text-xl font-bold text-white group-hover:text-pink-400 transition-colors">{item.name}</h3>
+                    </div>
+                    
+                    {/* Circular Pink Arrow Button (Ref style) */}
+                    <div className="w-12 h-12 rounded-full border border-pink-500/30 flex items-center justify-center text-pink-500 transition-all duration-500 group-hover:bg-pink-500 group-hover:text-white group-hover:border-pink-500">
+                        <MoveRight className="w-5 h-5" />
+                    </div>
                 </div>
               </motion.div>
-            );
-          })}
-        </motion.div>
+            ))}
+          </div>
+        )}
 
-        <div className="text-center mt-14">
-          <Link href="/clients" className="group inline-flex items-center gap-3 px-8 py-4 rounded-full font-bold text-white bg-white/[0.05] border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all duration-300 hover:scale-[1.03]">
-            View Full Client Portfolio
-            <MoveRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-          </Link>
+        <div className="mt-20 flex justify-center">
+          <a 
+            href="https://real-vibe-s-portfolio.vercel.app" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="group flex flex-col items-center gap-4 text-white/40 hover:text-white transition-colors duration-500"
+          >
+            <span className="text-xs font-bold uppercase tracking-[0.3em]">Explore our curated portfolio of work.</span>
+            <div className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center group-hover:border-white group-hover:scale-110 transition-all">
+                <motion.div animate={{ y: [0, 5, 0] }} transition={{ repeat: Infinity, duration: 2 }}>
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 13.5L12 21m0 0l-7.5-7.5M12 21V3" />
+                  </svg>
+                </motion.div>
+            </div>
+          </a>
         </div>
       </div>
     </section>
