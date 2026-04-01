@@ -1,0 +1,327 @@
+@import "tailwindcss";
+
+@theme {
+  --color-accent: #f97316;
+  --color-purple: #c026d3;
+  --color-pink: #ec4899;
+
+  --font-sans: "Inter", sans-serif;
+  --font-heading: "Outfit", sans-serif;
+}
+
+@layer base {
+  body {
+    @apply bg-black text-white font-sans;
+    overflow-x: clip;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-heading font-bold;
+  }
+}
+
+@layer utilities {
+  .text-gradient-primary {
+    background: linear-gradient(135deg, var(--color-purple) 0%, var(--color-pink) 50%, var(--color-accent) 100%);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: gradientShift 4s ease infinite;
+  }
+
+  .glass {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .glass-strong {
+    background: rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+}
+
+@keyframes gradientShift {
+
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes pulseSlow {
+
+  0%,
+  100% {
+    opacity: 0.15;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.25;
+    transform: scale(1.05);
+  }
+}
+
+.animate-pulse-slow {
+  animation: pulseSlow 6s ease-in-out infinite;
+}
+
+@keyframes bounceSlow {
+
+  0%,
+  100% {
+    transform: translateX(-50%) translateY(0);
+  }
+
+  50% {
+    transform: translateX(-50%) translateY(-8px);
+  }
+}
+
+.animate-bounce-slow {
+  animation: bounceSlow 3s ease-in-out infinite;
+}
+
+@keyframes scrollDot {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(12px);
+    opacity: 0;
+  }
+}
+
+.animate-scroll-dot {
+  animation: scrollDot 1.5s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.animate-shimmer {
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+  background-size: 200% 100%;
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+.grid-background {
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(236, 72, 153, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(192, 38, 211, 0.02) 1px, transparent 1px);
+  background-size: 80px 80px;
+  pointer-events: none;
+}
+
+/* Custom Cursor Hide */
+@media (pointer: fine) {
+  body.cursor-none {
+    cursor: none;
+  }
+
+  body.cursor-none a,
+  body.cursor-none button,
+  body.cursor-none [role="button"] {
+    cursor: none;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #000;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--color-purple), var(--color-pink), var(--color-accent));
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-pink);
+}
+
+::selection {
+  background: rgba(192, 38, 211, 0.4);
+  color: white;
+}
+
+/* Lenis */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+html {
+  scroll-behavior: auto;
+}
+
+.particle {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(192, 38, 211, 0.08), transparent 70%);
+  animation: floatParticle 20s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.particle:nth-child(odd) {
+  background: radial-gradient(circle, rgba(236, 72, 153, 0.06), transparent 70%);
+  animation-duration: 25s;
+  animation-direction: reverse;
+}
+
+@keyframes floatParticle {
+
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  25% {
+    transform: translate(30px, -40px) scale(1.1);
+  }
+
+  50% {
+    transform: translate(-20px, 20px) scale(0.9);
+  }
+
+  75% {
+    transform: translate(40px, 30px) scale(1.05);
+  }
+}
+
+@keyframes marqueeScroll {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.trusted-marquee {
+  animation: marqueeScroll 25s linear infinite;
+}
+
+.trusted-marquee:hover {
+  animation-play-state: paused;
+}
+
+.trusted-marquee-wrapper {
+  mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+}
+
+/* GPU-accelerated marquee */
+.trusted-marquee {
+  will-change: transform;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+/* Reduce motion for users who prefer it (fixes mouse lag on some browsers) */
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .trusted-marquee {
+    animation: none !important;
+  }
+}
+
+/* Force GPU compositing for heavy elements */
+.blur-3xl,
+[class*="blur-"] {
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+/* ═══ MOBILE SCROLL SNAP — snappy section-by-section feel ═══ */
+@media (max-width: 768px) {
+  html {
+    scroll-snap-type: y proximity;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  section {
+    scroll-snap-align: start;
+    scroll-snap-stop: normal;
+  }
+
+  /* Hide scrollbar on mobile for cleaner feel */
+  ::-webkit-scrollbar {
+    width: 0;
+    display: none;
+  }
+}
+
+/* ═══ TAP MICRO-INTERACTIONS ═══ */
+/* Buttons and links get a satisfying tap bounce */
+@media (pointer: coarse) {
+
+  a,
+  button,
+  [role="button"] {
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+/* Tap-bounce for buttons */
+.tap-bounce:active {
+  transform: scale(0.95);
+  transition: transform 0.1s ease;
+}
+
+/* Subtle entrance pulse for cards on scroll */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.mobile-fade-in {
+  animation: fadeInUp 0.5s ease-out both;
+}
