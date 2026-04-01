@@ -37,6 +37,7 @@ export function Navbar() {
         { name: "About", href: "/#about" },
         { name: "Portfolio", href: "/#portfolio" },
         { name: "Our Clients", href: "/clients" },
+        { name: "Work Culture", href: "/work-culture" },
         { name: "Contact", href: "/contact" },
     ];
 
