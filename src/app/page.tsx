@@ -181,7 +181,6 @@ function ServicesSection() {
         { name: 'Google Ads', url: 'https://www.vectorlogo.zone/logos/google_ads/google_ads-icon.svg' },
         { name: 'Meta', url: 'https://www.vectorlogo.zone/logos/facebook/facebook-icon.svg' },
         { name: 'LinkedIn', url: 'https://www.vectorlogo.zone/logos/linkedin/linkedin-icon.svg' },
-        { name: 'TikTok', url: 'https://www.vectorlogo.zone/logos/tiktok/tiktok-icon.svg' },
         { name: 'Analytics', url: 'https://www.vectorlogo.zone/logos/google_analytics/google_analytics-icon.svg' }
       ],
       bg: 'bg-gradient-to-br from-[#2e1a0a] to-[#4e2d1b]',
