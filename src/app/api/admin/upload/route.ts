@@ -31,8 +31,8 @@ export async function POST(request: Request) {
         const filename = file.name.replace(/[^a-zA-Z0-9._-]/g, '-').toLowerCase();
         const uniqueFilename = `${uniqueSuffix}-${filename}`;
 
-        // Ensure uploads directory exists
-        const uploadDir = join(process.cwd(), 'public', 'uploads');
+        // Ensure persistent assets directory exists
+        const uploadDir = join(process.cwd(), 'public', 'assets', 'clients');
         if (!existsSync(uploadDir)) {
             await mkdir(uploadDir, { recursive: true });
         }
@@ -40,8 +40,8 @@ export async function POST(request: Request) {
         const filePath = join(uploadDir, uniqueFilename);
         await writeFile(filePath, buffer);
 
-        // Return the public URL for the image
-        const publicUrl = `/uploads/${uniqueFilename}`;
+        // Return the public URL for the image (stored in persistent assets)
+        const publicUrl = `/assets/clients/${uniqueFilename}`;
 
         return NextResponse.json({ success: true, url: publicUrl });
     } catch (error: any) {
