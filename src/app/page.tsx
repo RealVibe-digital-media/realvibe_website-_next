@@ -11,7 +11,7 @@ import { MoveRight } from "lucide-react";
 
 export default function Home() {
   return (
-    <main className="min-h-screen relative">
+    <main className="min-h-screen relative overflow-x-hidden">
       <Navbar />
       <HeroSection />
       <ServicesSection />
@@ -48,8 +48,8 @@ function HeroSection() {
 
   return (
     <section id="hero-section" className="relative h-screen flex flex-col justify-center overflow-hidden bg-black">
-      {/* Top subtle light ray — reduced blur for performance */}
-      <div className="absolute top-[-40%] left-1/4 w-[800px] h-[800px] bg-white/[0.03] rounded-full blur-3xl pointer-events-none transform -rotate-45 will-change-transform"></div>
+      {/* Top subtle light ray — responsive width to prevent overflow */}
+      <div className="absolute top-[-20%] md:top-[-40%] left-1/2 -translate-x-1/2 w-full max-w-[800px] h-[400px] md:h-[800px] bg-white/[0.03] rounded-full blur-3xl pointer-events-none transform -rotate-45 will-change-transform"></div>
 
       {/* Tiny Box Particles (Static CSS representation of the reference) */}
       <div className="absolute inset-0 pointer-events-none">

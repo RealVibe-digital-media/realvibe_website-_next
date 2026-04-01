@@ -23,7 +23,7 @@ export function Preloader() {
                     initial={{ opacity: 1 }}
                     exit={{ opacity: 0, y: "-100%" }}
                     transition={{ duration: 0.8, ease: "easeInOut" }}
-                    className="fixed inset-0 z-[10000] flex flex-col items-center justify-center bg-black"
+                    className="fixed inset-0 z-[10000] flex flex-col items-center justify-center bg-black overflow-hidden"
                 >
                     <div className="relative flex flex-col items-center gap-6">
                         {/* Animated Infinity SVG */}
