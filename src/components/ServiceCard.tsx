@@ -44,16 +44,16 @@ export function ServiceCard({ index, totalCards, title, description, tags, techI
     return (
         <div
             ref={cardRef}
-            className="sticky top-20 md:top-28 pt-4 pb-12 md:pb-16 origin-top"
+            className="sticky top-20 md:top-28 pt-4 pb-[60vh] md:pb-[100vh] origin-top overflow-visible"
             style={{ zIndex: index }}
         >
             <motion.div
                 style={{ scale, opacity, transformOrigin: "top center" }}
-                initial={{ y: 60, opacity: 0 }}
+                initial={{ y: 40, opacity: 0 }}
                 whileInView={{ y: 0, opacity: 1 }}
-                viewport={{ once: true, margin: "-5%" }}
-                transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-                className={`card-inner ${bg} rounded-[2.5rem] md:rounded-[3rem] overflow-hidden ${glowColors[glowColor]} border border-white/[0.08] shadow-2xl transition-all duration-500 relative`}
+                viewport={{ once: true, margin: "-10%" }}
+                transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+                className={`card-inner ${bg} rounded-[2.5rem] md:rounded-[3rem] overflow-hidden ${glowColors[glowColor]} border border-white/[0.08] shadow-2xl transition-all duration-500 relative will-change-transform translate-z-0`}
             >
                 {/* Background Shimmer Effect */}
                 <div className="absolute inset-0 bg-gradient-to-tr from-white/[0.02] to-transparent pointer-events-none" />
