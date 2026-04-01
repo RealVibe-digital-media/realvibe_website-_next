@@ -178,10 +178,10 @@ function ServicesSection() {
       description: 'Maximize ROI with precision-targeted campaigns across Google Ads, Meta Ads, and programmatic networks. Every rupee spent is optimized for maximum impact and measurable results.',
       tags: ['Google Ads', 'Meta Ads', 'Display Ads', 'Retargeting', 'Analytics'],
       techIcons: [
-        { name: 'Google Ads', url: 'https://svgl.app/library/google-ads.svg' },
-        { name: 'Meta', url: 'https://svgl.app/library/meta.svg' },
-        { name: 'LinkedIn', url: 'https://svgl.app/library/linkedin.svg' },
-        { name: 'TikTok', url: 'https://svgl.app/library/tiktok.svg' },
+        { name: 'Google Ads', url: 'https://www.vectorlogo.zone/logos/google_ads/google_ads-icon.svg' },
+        { name: 'Meta', url: 'https://www.vectorlogo.zone/logos/facebook/facebook-icon.svg' },
+        { name: 'LinkedIn', url: 'https://www.vectorlogo.zone/logos/linkedin/linkedin-icon.svg' },
+        { name: 'TikTok', url: 'https://www.vectorlogo.zone/logos/tiktok/tiktok-icon.svg' },
         { name: 'Analytics', url: 'https://www.vectorlogo.zone/logos/google_analytics/google_analytics-icon.svg' }
       ],
       bg: 'bg-gradient-to-br from-[#2e1a0a] to-[#4e2d1b]',
@@ -195,10 +195,10 @@ function ServicesSection() {
       description: 'Build engaged communities and viral brand presence across Instagram, Facebook, LinkedIn, and emerging platforms. We create scroll-stopping content that drives real engagement and conversions.',
       tags: ['Content Strategy', 'Reels & Stories', 'Community Management', 'Influencer Marketing', 'Paid Social'],
       techIcons: [
-        { name: 'Instagram', url: 'https://svgl.app/library/instagram.svg' },
-        { name: 'Facebook', url: 'https://svgl.app/library/facebook.svg' },
-        { name: 'LinkedIn', url: 'https://svgl.app/library/linkedin.svg' },
-        { name: 'Discord', url: 'https://svgl.app/library/discord.svg' }
+        { name: 'Instagram', url: 'https://www.vectorlogo.zone/logos/instagram/instagram-icon.svg' },
+        { name: 'Facebook', url: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/facebook/facebook-original.svg' },
+        { name: 'LinkedIn', url: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linkedin/linkedin-original.svg' },
+        { name: 'Discord', url: 'https://www.vectorlogo.zone/logos/discordapp/discordapp-tile.svg' }
       ],
       bg: 'bg-gradient-to-br from-[#2e0a1a] to-[#4e1b2d]',
       iconGradient: 'from-pink-400 via-rose-400 to-red-400',
@@ -211,11 +211,11 @@ function ServicesSection() {
       description: 'Build blazing-fast, conversion-optimized websites and web applications with cutting-edge technology. From landing pages to full e-commerce platforms — we code experiences that convert.',
       tags: ['React/Next.js', 'E-Commerce', 'Landing Pages', 'UI/UX Design', 'Performance'],
       techIcons: [
-        { name: 'Next.js', url: 'https://svgl.app/library/nextjs_icon_dark.svg' },
-        { name: 'React', url: 'https://svgl.app/library/react.svg' },
-        { name: 'Tailwind', url: 'https://svgl.app/library/tailwindcss.svg' },
-        { name: 'Shopify', url: 'https://svgl.app/library/shopify.svg' },
-        { name: 'Vercel', url: 'https://svgl.app/library/vercel_dark.svg' }
+        { name: 'Next.js', url: 'https://www.vectorlogo.zone/logos/nextjs/nextjs-icon.svg' },
+        { name: 'React', url: 'https://www.vectorlogo.zone/logos/reactjs/reactjs-icon.svg' },
+        { name: 'Tailwind', url: 'https://www.vectorlogo.zone/logos/tailwindcss/tailwindcss-icon.svg' },
+        { name: 'Shopify', url: 'https://www.vectorlogo.zone/logos/shopify/shopify-icon.svg' },
+        { name: 'TypeScript', url: 'https://www.vectorlogo.zone/logos/typescriptlang/typescriptlang-icon.svg' }
       ],
       bg: 'bg-gradient-to-br from-[#0a1a2e] to-[#1b2d4e]',
       iconGradient: 'from-blue-400 via-cyan-400 to-teal-400',
@@ -228,10 +228,10 @@ function ServicesSection() {
       description: 'Define your brand DNA — from visual identity systems to positioning strategy. We craft compelling brand narratives that make your audience feel something and remember you forever.',
       tags: ['Brand Identity', 'Logo Design', 'Brand Guidelines', 'Pitch Decks', 'Graphic Design'],
       techIcons: [
-        { name: 'Figma', url: 'https://svgl.app/library/figma.svg' },
-        { name: 'Adobe', url: 'https://svgl.app/library/adobe.svg' },
-        { name: 'Illustrator', url: 'https://svgl.app/library/adobe-illustrator.svg' },
-        { name: 'Photoshop', url: 'https://svgl.app/library/adobe-photoshop.svg' }
+        { name: 'Figma', url: 'https://www.vectorlogo.zone/logos/figma/figma-icon.svg' },
+        { name: 'Adobe', url: 'https://www.vectorlogo.zone/logos/adobe/adobe-icon.svg' },
+        { name: 'Illustrator', url: 'https://www.vectorlogo.zone/logos/adobe_illustrator/adobe_illustrator-icon.svg' },
+        { name: 'Photoshop', url: 'https://raw.githubusercontent.com/devicons/devicon/master/icons/photoshop/photoshop-line.svg' }
       ],
       bg: 'bg-gradient-to-br from-[#1a0a20] to-[#3d1b4e]',
       iconGradient: 'from-fuchsia-400 via-purple-400 to-violet-400',
@@ -244,8 +244,8 @@ function ServicesSection() {
       description: 'Dominate search rankings with data-driven SEO strategies. We optimize every aspect of your online presence to deliver sustainable organic growth and qualified traffic that converts.',
       tags: ['SEO Audit', 'Keyword Strategy', 'Link Building', 'Local SEO', 'Technical SEO'],
       techIcons: [
-        { name: 'SEMRush', url: 'https://www.vectorlogo.zone/logos/semrush/semrush-icon.svg' },
-        { name: 'Ahrefs', url: 'https://www.vectorlogo.zone/logos/ahrefs/ahrefs-icon.svg' },
+        { name: 'SEMRush', url: 'https://cdn.worldvectorlogo.com/logos/semrush-1.svg' },
+        { name: 'Ahrefs', url: 'https://upload.wikimedia.org/wikipedia/commons/e/e0/Ahrefs_logo.svg' },
         { name: 'Console', url: 'https://www.vectorlogo.zone/logos/google_search_console/google_search_console-icon.svg' }
       ],
       bg: 'bg-gradient-to-br from-[#1a0a2e] to-[#2d1b4e]',
@@ -257,7 +257,7 @@ function ServicesSection() {
   ];
 
   return (
-    <section id="services" className="relative z-10 pt-20 md:pt-32 pb-10 md:pb-16">
+    <section id="services" className="relative py-24 md:py-32 overflow-visible min-h-screen">
       {/* Section Header */}
       <motion.div
         initial={{ y: 60, opacity: 0 }}
@@ -284,7 +284,7 @@ function ServicesSection() {
       </motion.div>
 
       {/* Stacking Cards Container */}
-      <div className="max-w-7xl mx-auto px-6">
+      <div className="max-w-7xl mx-auto px-6 relative z-0">
         {servicesData.map((service, index) => (
           <ServiceCard
             key={index}

@@ -279,18 +279,8 @@ html {
   backface-visibility: hidden;
 }
 
-/* ═══ MOBILE SCROLL SNAP — snappy section-by-section feel ═══ */
+/* ═══ MOBILE TAP MICRO-INTERACTIONS ═══ */
 @media (max-width: 768px) {
-  html {
-    scroll-snap-type: y proximity;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  section {
-    scroll-snap-align: start;
-    scroll-snap-stop: normal;
-  }
-
   /* Hide scrollbar on mobile for cleaner feel */
   ::-webkit-scrollbar {
     width: 0;
