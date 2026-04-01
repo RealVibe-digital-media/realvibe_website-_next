@@ -10,7 +10,7 @@ interface ServiceCardProps {
     title: string;
     description: string;
     tags: string[];
-    techIcons?: string[];
+    techIcons?: { name: string; url: string }[];
     bg: string;
     iconGradient: string;
     glowColor: string;
@@ -82,20 +82,34 @@ export function ServiceCard({ index, totalCards, title, description, tags, techI
                             {description}
                         </p>
 
-                        {/* Tech Stack Upgrade */}
+                        {/* Tech Stack Upgrade with Real Logos */}
                         {techIcons && (
                             <div className="mb-10 p-5 rounded-2xl bg-black/20 border border-white/5 backdrop-blur-sm">
                                 <div className="text-[10px] font-black text-gray-500 uppercase tracking-widest mb-4 flex items-center gap-2">
                                     <div className="w-1.5 h-1.5 rounded-full bg-purple-500 animate-pulse"></div>
                                     Technologies We Use
                                 </div>
-                                <div className="flex flex-wrap gap-4 md:gap-6">
+                                <div className="flex flex-wrap gap-4 md:gap-7">
                                     {techIcons.map((tech) => (
-                                        <div key={tech} className="flex flex-col items-center gap-2 group/icon">
-                                            <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-white/[0.03] border border-white/10 flex items-center justify-center group-hover/icon:bg-white/10 group-hover/icon:border-purple-500/50 transition-all duration-300">
-                                                <span className="text-[10px] font-black text-white/40 group-hover/icon:text-white transition-colors">{tech.substring(0, 2).toUpperCase()}</span>
+                                        <div key={tech.name} className="flex flex-col items-center gap-2 group/icon">
+                                            <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-white/[0.03] border border-white/10 flex items-center justify-center p-2.5 group-hover/icon:bg-white/10 group-hover/icon:border-purple-500/50 transition-all duration-300">
+                                                <img 
+                                                    src={tech.url} 
+                                                    alt={tech.name} 
+                                                    className="w-full h-full object-contain grayscale opacity-60 group-hover/icon:grayscale-0 group-hover/icon:opacity-100 transition-all duration-300"
+                                                    onError={(e) => {
+                                                        const target = e.currentTarget;
+                                                        target.style.display = 'none';
+                                                        if (target.parentElement) {
+                                                            const span = document.createElement('span');
+                                                            span.className = "text-[10px] font-black text-white/40";
+                                                            span.textContent = tech.name.substring(0, 2).toUpperCase();
+                                                            target.parentElement.appendChild(span);
+                                                        }
+                                                    }}
+                                                />
                                             </div>
-                                            <span className="text-[9px] font-bold text-gray-500 group-hover/icon:text-gray-300 transition-colors uppercase tracking-tighter">{tech}</span>
+                                            <span className="text-[9px] font-bold text-gray-500 group-hover/icon:text-gray-300 transition-colors uppercase tracking-widest">{tech.name}</span>
                                         </div>
                                     ))}
                                 </div>
@@ -132,7 +146,7 @@ export function ServiceCard({ index, totalCards, title, description, tags, techI
                             {/* Floating decorative tech labels for desktop only */}
                             {techIcons?.slice(0, 3).map((tech, i) => (
                                 <motion.div
-                                    key={tech}
+                                    key={tech.name}
                                     animate={{ 
                                         y: [0, -10, 0],
                                         rotate: [0, i % 2 === 0 ? 5 : -5, 0]
@@ -145,7 +159,7 @@ export function ServiceCard({ index, totalCards, title, description, tags, techI
                                     }}
                                     className={`absolute ${i === 0 ? '-top-10 -right-4' : i === 1 ? '-bottom-8 -left-6' : 'top-10 -left-12'} px-4 py-2 rounded-xl bg-white/[0.03] border border-white/10 backdrop-blur-md hidden xl:block`}
                                 >
-                                    <span className="text-[10px] font-black text-white/50 uppercase tracking-widest">{tech}</span>
+                                    <span className="text-[10px] font-black text-white/50 uppercase tracking-widest">{tech.name}</span>
                                 </motion.div>
                             ))}
                         </div>

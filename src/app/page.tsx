@@ -11,7 +11,7 @@ import { MoveRight } from "lucide-react";
 
 export default function Home() {
   return (
-    <main className="min-h-screen relative overflow-x-hidden">
+    <main className="min-h-screen relative">
       <Navbar />
       <HeroSection />
       <ServicesSection />
@@ -138,7 +138,7 @@ function HeroSection() {
                 {(!loading && clients.length > 0) ? (
                   clients.map((client, i) => (
                     <div key={`client-${loop}-${i}`} className="flex-shrink-0 w-20 md:w-32 h-10 md:h-12 flex items-center justify-center opacity-60 hover:opacity-100 transition-opacity duration-300" title={client.name}>
-                      <img src={client.logo_url} alt={client.name || "Client"} className="max-w-full max-h-full object-contain grayscale hover:grayscale-0 transition-all duration-300" loading="lazy" />
+                    <img src={client.logo_url} alt={client.name || "Client"} className="max-w-full max-h-full object-contain grayscale hover:grayscale-0 transition-all duration-300" loading="eager" />
                     </div>
                   ))
                 ) : (
@@ -177,7 +177,13 @@ function ServicesSection() {
       title: 'PPC & Performance Ads',
       description: 'Maximize ROI with precision-targeted campaigns across Google Ads, Meta Ads, and programmatic networks. Every rupee spent is optimized for maximum impact and measurable results.',
       tags: ['Google Ads', 'Meta Ads', 'Display Ads', 'Retargeting', 'Analytics'],
-      techIcons: ['Google Ads', 'Meta', 'LinkedIn', 'Analytics', 'TikTok Ads'],
+      techIcons: [
+        { name: 'Google Ads', url: 'https://svgl.app/library/google-ads.svg' },
+        { name: 'Meta', url: 'https://svgl.app/library/meta.svg' },
+        { name: 'LinkedIn', url: 'https://svgl.app/library/linkedin.svg' },
+        { name: 'TikTok', url: 'https://svgl.app/library/tiktok.svg' },
+        { name: 'Analytics', url: 'https://www.vectorlogo.zone/logos/google_analytics/google_analytics-icon.svg' }
+      ],
       bg: 'bg-gradient-to-br from-[#2e1a0a] to-[#4e2d1b]',
       iconGradient: 'from-orange-400 via-amber-400 to-yellow-400',
       glowColor: 'orange',
@@ -188,7 +194,12 @@ function ServicesSection() {
       title: 'Social Media Marketing',
       description: 'Build engaged communities and viral brand presence across Instagram, Facebook, LinkedIn, and emerging platforms. We create scroll-stopping content that drives real engagement and conversions.',
       tags: ['Content Strategy', 'Reels & Stories', 'Community Management', 'Influencer Marketing', 'Paid Social'],
-      techIcons: ['Instagram', 'Facebook', 'LinkedIn', 'Reels', 'Discord'],
+      techIcons: [
+        { name: 'Instagram', url: 'https://svgl.app/library/instagram.svg' },
+        { name: 'Facebook', url: 'https://svgl.app/library/facebook.svg' },
+        { name: 'LinkedIn', url: 'https://svgl.app/library/linkedin.svg' },
+        { name: 'Discord', url: 'https://svgl.app/library/discord.svg' }
+      ],
       bg: 'bg-gradient-to-br from-[#2e0a1a] to-[#4e1b2d]',
       iconGradient: 'from-pink-400 via-rose-400 to-red-400',
       glowColor: 'pink',
@@ -199,7 +210,13 @@ function ServicesSection() {
       title: 'Web Development',
       description: 'Build blazing-fast, conversion-optimized websites and web applications with cutting-edge technology. From landing pages to full e-commerce platforms — we code experiences that convert.',
       tags: ['React/Next.js', 'E-Commerce', 'Landing Pages', 'UI/UX Design', 'Performance'],
-      techIcons: ['Next.js', 'React', 'Node.js', 'Shopify', 'Tailwind'],
+      techIcons: [
+        { name: 'Next.js', url: 'https://svgl.app/library/nextjs_icon_dark.svg' },
+        { name: 'React', url: 'https://svgl.app/library/react.svg' },
+        { name: 'Tailwind', url: 'https://svgl.app/library/tailwindcss.svg' },
+        { name: 'Shopify', url: 'https://svgl.app/library/shopify.svg' },
+        { name: 'Vercel', url: 'https://svgl.app/library/vercel_dark.svg' }
+      ],
       bg: 'bg-gradient-to-br from-[#0a1a2e] to-[#1b2d4e]',
       iconGradient: 'from-blue-400 via-cyan-400 to-teal-400',
       glowColor: 'blue',
@@ -210,7 +227,12 @@ function ServicesSection() {
       title: 'Brand Strategy & Design',
       description: 'Define your brand DNA — from visual identity systems to positioning strategy. We craft compelling brand narratives that make your audience feel something and remember you forever.',
       tags: ['Brand Identity', 'Logo Design', 'Brand Guidelines', 'Pitch Decks', 'Graphic Design'],
-      techIcons: ['Figma', 'Adobe', 'Illustration', 'Canva', 'Motion'],
+      techIcons: [
+        { name: 'Figma', url: 'https://svgl.app/library/figma.svg' },
+        { name: 'Adobe', url: 'https://svgl.app/library/adobe.svg' },
+        { name: 'Illustrator', url: 'https://svgl.app/library/adobe-illustrator.svg' },
+        { name: 'Photoshop', url: 'https://svgl.app/library/adobe-photoshop.svg' }
+      ],
       bg: 'bg-gradient-to-br from-[#1a0a20] to-[#3d1b4e]',
       iconGradient: 'from-fuchsia-400 via-purple-400 to-violet-400',
       glowColor: 'fuchsia',
@@ -221,7 +243,11 @@ function ServicesSection() {
       title: 'SEO & Search Marketing',
       description: 'Dominate search rankings with data-driven SEO strategies. We optimize every aspect of your online presence to deliver sustainable organic growth and qualified traffic that converts.',
       tags: ['SEO Audit', 'Keyword Strategy', 'Link Building', 'Local SEO', 'Technical SEO'],
-      techIcons: ['SEMRush', 'Ahrefs', 'Search Console', 'G-Analytics', 'PageSpeed'],
+      techIcons: [
+        { name: 'SEMRush', url: 'https://www.vectorlogo.zone/logos/semrush/semrush-icon.svg' },
+        { name: 'Ahrefs', url: 'https://www.vectorlogo.zone/logos/ahrefs/ahrefs-icon.svg' },
+        { name: 'Console', url: 'https://www.vectorlogo.zone/logos/google_search_console/google_search_console-icon.svg' }
+      ],
       bg: 'bg-gradient-to-br from-[#1a0a2e] to-[#2d1b4e]',
       iconGradient: 'from-purple-400 via-fuchsia-400 to-pink-400',
       glowColor: 'purple',
