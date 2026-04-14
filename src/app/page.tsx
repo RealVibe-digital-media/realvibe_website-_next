@@ -64,12 +64,13 @@ const BackgroundDecor = () => (
     {/* Base Grid */}
     <div className="absolute inset-0 opacity-[0.03] bg-[radial-gradient(circle_at_1px_1px,rgba(255,255,255,0.15)_1px,transparent_0)]" style={{ backgroundSize: '40px 40px' }} />
 
-    {/* Animated Orbs — CSS keyframes, zero JS overhead */}
-    <div className="orb-1 gpu-layer absolute top-[-10%] right-[-10%] w-[50vw] h-[50vw] bg-purple-900/10 rounded-full blur-[120px]" />
-    <div className="orb-2 gpu-layer absolute bottom-[-10%] left-[-10%] w-[60vw] h-[60vw] bg-pink-900/10 rounded-full blur-[140px]" />
+    {/* Animated Orbs — Optimised CSS keyframes */}
+    {/* Swapped heavy custom blur-[120px] filters to standard blur-3xl with will-change to avoid compositor jitter */}
+    <div className="orb-1 gpu-layer absolute top-[-10%] right-[-10%] w-[50vw] h-[50vw] bg-purple-900/10 rounded-full blur-3xl opacity-60 will-change-transform" />
+    <div className="orb-2 gpu-layer absolute bottom-[-10%] left-[-10%] w-[60vw] h-[60vw] bg-pink-900/10 rounded-full blur-3xl opacity-60 will-change-transform" />
 
     {/* Static light wash */}
-    <div className="absolute top-[20%] left-[-5%] w-[40vw] h-[40vw] bg-blue-900/5 rounded-full blur-[150px]" />
+    <div className="absolute top-[20%] left-[-5%] w-[40vw] h-[40vw] bg-blue-900/5 rounded-full blur-3xl opacity-50" />
   </div>
 );
 
@@ -172,14 +173,18 @@ const AnimatedButton = ({
   );
 };
 
-// ════════ MOUSE FOLLOWER (PREMIUM UX) ════════
+// ════════ MOUSE FOLLOWER (PREMIUM UX) — OPTIMIZED ════════
 const MouseFollower = () => {
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
+  const mouseX = useMotionValue(-1000);
+  const mouseY = useMotionValue(-1000);
 
-  // Tighten the spring for a snappier, more 'in control' feel
-  const springX = useSpring(mouseX, { stiffness: 800, damping: 60, restDelta: 0.001 });
-  const springY = useSpring(mouseY, { stiffness: 800, damping: 60, restDelta: 0.001 });
+  // Tighten the spring but keep restDelta tight for snappiness
+  const springX = useSpring(mouseX, { stiffness: 400, damping: 40, restDelta: 0.001 });
+  const springY = useSpring(mouseY, { stiffness: 400, damping: 40, restDelta: 0.001 });
+
+  // Center the gradient perfectly to the mouse (we use 600px width/height, so offset by 300)
+  const x = useTransform(springX, v => v - 300);
+  const y = useTransform(springY, v => v - 300);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -190,17 +195,17 @@ const MouseFollower = () => {
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, [mouseX, mouseY]);
 
-  // Create the radial gradient string dynamically using useTransform
-  const background = useTransform(
-    [springX, springY],
-    ([x, y]: any[]) => `radial-gradient(600px circle at ${x}px ${y}px, rgba(236, 72, 153, 0.04), transparent 80%)`
-  );
-
   return (
-    <motion.div
-      className="fixed inset-0 z-[1] pointer-events-none hidden md:block"
-      style={{ background }}
-    />
+    <div className="fixed inset-0 z-[1] pointer-events-none overflow-hidden hidden md:block">
+      <motion.div
+        className="absolute w-[600px] h-[600px] rounded-full will-change-transform"
+        style={{ 
+          x, 
+          y,
+          background: "radial-gradient(circle, rgba(236, 72, 153, 0.04), transparent 70%)"
+        }}
+      />
+    </div>
   );
 };
 
@@ -1178,6 +1183,16 @@ function DoubleScrollMarquee() {
       const { ScrollTrigger } = await import("gsap/ScrollTrigger");
       gsap.registerPlugin(ScrollTrigger);
 
+      // Setup a ResizeObserver for bulletproof ScrollTrigger updates when async images/fonts shift DOM height
+      let resizeObserver: ResizeObserver | null = null;
+      if (typeof document !== 'undefined') {
+        resizeObserver = new ResizeObserver(() => {
+          ScrollTrigger.refresh();
+        });
+        resizeObserver.observe(document.body);
+        (window as any).__gsapResizeObserver = resizeObserver;
+      }
+
       ctx = gsap.context(() => {
         if (!sectionRef.current || !row1Ref.current || !row2Ref.current) return;
 
@@ -1216,7 +1231,13 @@ function DoubleScrollMarquee() {
     };
 
     init();
-    return () => ctx?.revert();
+    return () => {
+      ctx?.revert();
+      // Disconnect observer on unmount to prevent memory leaks and ghost updates
+      if (typeof window !== 'undefined' && (window as any).__gsapResizeObserver) {
+        (window as any).__gsapResizeObserver.disconnect();
+      }
+    };
   }, []);
 
   const Pill = ({ item }: { item: { name: string; emoji: string } }) => (

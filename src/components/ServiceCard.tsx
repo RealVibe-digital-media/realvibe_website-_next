@@ -31,7 +31,7 @@ export function ServiceCard({ index, totalCards, title, description, tags, techI
 
     return (
         <div
-            className={`sticky top-10 md:top-14 pt-2 ${isLast ? 'pb-12 md:pb-20' : 'pb-[15vh] md:pb-[20vh]'} origin-top overflow-visible`}
+            className={`sticky top-10 md:top-14 pt-2 ${isLast ? 'pb-12 md:pb-20' : 'pb-[15vh] md:pb-[20vh]'} origin-top overflow-visible transform-gpu will-change-transform`}
             style={{ zIndex: index }}
         >
             <motion.div
