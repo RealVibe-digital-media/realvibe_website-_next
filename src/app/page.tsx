@@ -2,19 +2,218 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { motion, useScroll, useTransform, useSpring, useInView } from "framer-motion";
+import { motion, useInView, AnimatePresence, useMotionValue, useSpring, useTransform } from "framer-motion";
+
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { ServiceCard } from "@/components/ServiceCard";
 // Lenis removed — causes scroll jank in Chrome
-import { MoveRight } from "lucide-react";
+import { MoveRight, Play, CheckCircle2 } from "lucide-react";
+
+// ════════ GLOBAL CSS FOR MOVING BORDER ════════
+const GlobalStyles = () => (
+  <style jsx global>{`
+    @keyframes moveBorder {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .animate-moving-border {
+      animation: moveBorder 4s linear infinite;
+    }
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    .animate-marquee {
+      animation: marquee 30s linear infinite;
+    }
+    @keyframes scroll-left {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    @keyframes scroll-right {
+      0% { transform: translateX(-50%); }
+      100% { transform: translateX(0); }
+    }
+    .marquee-left {
+      animation: scroll-left 35s linear infinite;
+      will-change: transform;
+    }
+    .marquee-right {
+      animation: scroll-right 35s linear infinite;
+      will-change: transform;
+    }
+    .marquee-track:hover .marquee-left,
+    .marquee-track:hover .marquee-right {
+      animation-play-state: paused;
+    }
+    .text-stroke {
+      -webkit-text-stroke: 1px rgba(255, 255, 255, 0.1);
+      color: transparent;
+    }
+    .bg-noise {
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    }
+  `}</style>
+);
+
+// ════════ CINEMATIC BACKGROUND — Pure CSS (no JS animation loops) ════════
+const BackgroundDecor = () => (
+  <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+    {/* Base Grid */}
+    <div className="absolute inset-0 opacity-[0.03] bg-[radial-gradient(circle_at_1px_1px,rgba(255,255,255,0.15)_1px,transparent_0)]" style={{ backgroundSize: '40px 40px' }} />
+
+    {/* Animated Orbs — CSS keyframes, zero JS overhead */}
+    <div className="orb-1 gpu-layer absolute top-[-10%] right-[-10%] w-[50vw] h-[50vw] bg-purple-900/10 rounded-full blur-[120px]" />
+    <div className="orb-2 gpu-layer absolute bottom-[-10%] left-[-10%] w-[60vw] h-[60vw] bg-pink-900/10 rounded-full blur-[140px]" />
+
+    {/* Static light wash */}
+    <div className="absolute top-[20%] left-[-5%] w-[40vw] h-[40vw] bg-blue-900/5 rounded-full blur-[150px]" />
+  </div>
+);
+
+// ════════ CINEMATIC MARQUEE ════════
+const MarqueeSection = () => (
+  <section className="py-12 md:py-24 bg-black overflow-hidden border-y border-white/5 relative z-10">
+    <div className="flex whitespace-nowrap animate-marquee">
+      {[1, 2, 3, 4].map((i) => (
+        <div key={i} className="flex items-center gap-10 md:gap-20 pr-10 md:pr-20">
+          <span className="text-[6vw] md:text-[3vw] font-bold uppercase tracking-widest text-white leading-none">
+            Digital marketing <span className="text-gradient-primary">Agency</span>
+          </span>
+          <div className="w-2 h-2 md:w-4 md:h-4 rounded-full bg-pink-500 shadow-[0_0_20px_rgba(236,72,153,0.4)]" />
+          <span className="text-[6vw] md:text-[3vw] font-bold uppercase tracking-widest text-stroke leading-none">
+            Real Vibe
+          </span>
+          <div className="w-2 h-2 md:w-4 md:h-4 rounded-full bg-purple-500 shadow-[0_0_20px_rgba(168,85,247,0.4)]" />
+        </div>
+      ))}
+    </div>
+  </section>
+);
+
+// ════════ ANIMATED BUTTON COMPONENT (REALATTE STYLE) ════════
+const AnimatedButton = ({
+  children,
+  href,
+  onClick,
+  variant = 'primary',
+  className = ""
+}: {
+  children: React.ReactNode,
+  href?: string,
+  onClick?: () => void,
+  variant?: 'primary' | 'outline',
+  className?: string
+}) => {
+  const content = (
+    <>
+      <span className="relative z-10 transition-colors duration-500 flex items-center gap-2 group-hover:text-white">
+        {children}
+        <motion.span
+          initial={{ x: 0 }}
+          whileHover={{ x: 5 }}
+          transition={{ type: "spring", stiffness: 400, damping: 10 }}
+        >
+          <MoveRight className="w-3.5 h-3.5 ml-1 opacity-70" />
+        </motion.span>
+      </span>
+      <div className="absolute inset-0 z-0 overflow-hidden rounded-full">
+        <div className="absolute inset-x-0 bottom-0 h-0 bg-pink-600 transition-all duration-500 ease-[cubic-bezier(0.19,1,0.22,1)] group-hover:h-full" />
+      </div>
+    </>
+  );
+
+  const baseStyles = `group relative inline-flex items-center justify-center px-7 py-3 rounded-full font-medium text-[11px] uppercase tracking-[0.2em] overflow-hidden transition-all duration-500 ${className}`;
+
+  // Realatte-style moving border logic
+  const borderStyles = variant === 'outline'
+    ? {
+      background: 'linear-gradient(#000, #000) padding-box, linear-gradient(90deg, #da0c89, #a7228e, #da0c89) border-box',
+      backgroundSize: '200% 200%',
+      border: '1px solid transparent',
+    }
+    : {};
+
+  const variantStyles = variant === 'primary'
+    ? "bg-white text-black border border-white"
+    : `text-white animate-moving-border`;
+
+  if (href) {
+    if (href.startsWith('http') || href.startsWith('tel:')) {
+      return (
+        <a
+          href={href}
+          target={href.startsWith('tel:') ? undefined : "_blank"}
+          rel="noopener noreferrer"
+          className={`${baseStyles} ${variantStyles}`}
+          style={borderStyles}
+        >
+          {content}
+        </a>
+      );
+    }
+    return (
+      <Link href={href} className={`${baseStyles} ${variantStyles}`} style={borderStyles}>
+        {content}
+      </Link>
+    );
+  }
+
+  return (
+    <button
+      onClick={onClick}
+      className={`${baseStyles} ${variantStyles}`}
+      style={borderStyles}
+    >
+      {content}
+    </button>
+  );
+};
+
+// ════════ MOUSE FOLLOWER (PREMIUM UX) ════════
+const MouseFollower = () => {
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  // Tighten the spring for a snappier, more 'in control' feel
+  const springX = useSpring(mouseX, { stiffness: 800, damping: 60, restDelta: 0.001 });
+  const springY = useSpring(mouseY, { stiffness: 800, damping: 60, restDelta: 0.001 });
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      mouseX.set(e.clientX);
+      mouseY.set(e.clientY);
+    };
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, [mouseX, mouseY]);
+
+  // Create the radial gradient string dynamically using useTransform
+  const background = useTransform(
+    [springX, springY],
+    ([x, y]: any[]) => `radial-gradient(600px circle at ${x}px ${y}px, rgba(236, 72, 153, 0.04), transparent 80%)`
+  );
+
+  return (
+    <motion.div
+      className="fixed inset-0 z-[1] pointer-events-none hidden md:block"
+      style={{ background }}
+    />
+  );
+};
 
 export default function Home() {
   return (
-    <main className="min-h-screen relative">
+    <main className="bg-black min-h-screen selection:bg-pink-500 selection:text-white relative">
+      <BackgroundDecor />
+      <MouseFollower />
+      <GlobalStyles />
       <Navbar />
       <HeroSection />
       <ServicesSection />
+      <DoubleScrollMarquee />
       <AboutSection />
       <PortfolioSection />
       <TestimonialsSection />
@@ -35,7 +234,7 @@ function HeroSection() {
         const res = await fetch('/api/admin/clients');
         if (res.ok) {
           const data = await res.json();
-          setClients(data);
+          setClients(data || []);
         }
       } catch (err) {
         console.error("Failed to fetch clients", err);
@@ -48,21 +247,23 @@ function HeroSection() {
 
   return (
     <section id="hero-section" className="relative h-screen flex flex-col justify-center overflow-hidden bg-black">
+
+
       {/* Top subtle light ray — responsive width to prevent overflow */}
       <div className="absolute top-[-20%] md:top-[-40%] left-1/2 -translate-x-1/2 w-full max-w-[800px] h-[400px] md:h-[800px] bg-white/[0.03] rounded-full blur-3xl pointer-events-none transform -rotate-45 will-change-transform"></div>
 
-      {/* Tiny Box Particles (Static CSS representation of the reference) */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-[20%] left-[15%] w-1 h-1 bg-white/20"></div>
-        <div className="absolute top-[30%] left-[25%] w-1.5 h-1.5 bg-white/30"></div>
-        <div className="absolute top-[15%] right-[20%] w-1 h-1 bg-white/20"></div>
-        <div className="absolute top-[40%] right-[30%] w-2 h-2 bg-white/10"></div>
-        <div className="absolute top-[60%] left-[10%] w-1.5 h-1.5 bg-white/20"></div>
-        <div className="absolute top-[70%] left-[30%] w-1 h-1 bg-white/10"></div>
-        <div className="absolute top-[50%] right-[15%] w-1 h-1 bg-white/30"></div>
-        <div className="absolute top-[80%] right-[25%] w-1.5 h-1.5 bg-white/20"></div>
-        <div className="absolute top-[45%] left-[45%] w-1 h-1 bg-white/40"></div>
-        <div className="absolute top-[25%] left-[60%] w-1.5 h-1.5 bg-white/20"></div>
+      {/* Tiny Box Particles (Drifting for lively feel) */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div className="animate-drift absolute top-[20%] left-[15%] w-1 h-1 bg-white/20"></div>
+        <div className="animate-drift absolute top-[30%] left-[25%] w-1.5 h-1.5 bg-white/30" style={{ animationDelay: '-2s' }}></div>
+        <div className="animate-drift absolute top-[15%] right-[20%] w-1 h-1 bg-white/20" style={{ animationDelay: '-5s' }}></div>
+        <div className="animate-drift absolute top-[40%] right-[30%] w-2 h-2 bg-white/10" style={{ animationDelay: '-1s' }}></div>
+        <div className="animate-drift absolute top-[60%] left-[10%] w-1.5 h-1.5 bg-white/20" style={{ animationDelay: '-7s' }}></div>
+        <div className="animate-drift absolute top-[70%] left-[30%] w-1 h-1 bg-white/10" style={{ animationDelay: '-3s' }}></div>
+        <div className="animate-drift absolute top-[50%] right-[15%] w-1 h-1 bg-white/30" style={{ animationDelay: '-9s' }}></div>
+        <div className="animate-drift absolute top-[80%] right-[25%] w-1.5 h-1.5 bg-white/20" style={{ animationDelay: '-4s' }}></div>
+        <div className="animate-drift absolute top-[45%] left-[45%] w-1 h-1 bg-white/40" style={{ animationDelay: '-6s' }}></div>
+        <div className="animate-drift absolute top-[25%] left-[60%] w-1.5 h-1.5 bg-white/20" style={{ animationDelay: '-8s' }}></div>
       </div>
 
       <motion.div
@@ -86,11 +287,11 @@ function HeroSection() {
           initial={{ y: 40, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 1, delay: 0.3, ease: "easeOut" }}
-          className="text-4xl sm:text-5xl md:text-7xl lg:text-[5.5rem] font-medium tracking-tight leading-[1.1] mb-6 md:mb-8 text-white"
+          className="text-4xl sm:text-5xl md:text-7xl lg:text-[5.5rem] font-bold tracking-tighter leading-[1.1] mb-6 md:mb-8 font-heading overflow-visible"
         >
-          We Build <span className="text-gradient-primary">Brands</span>
+          <span className="text-gradient-metallic pr-[0.1em]">We Build</span> <span className="text-gradient-primary pr-[0.1em]">Brands</span>
           <br />
-          That <span className="text-gradient-primary">Dominate</span> Digital
+          <span className="text-gradient-metallic pr-[0.1em]">That</span> <span className="text-gradient-primary pr-[0.1em]">Dominate</span> <span className="text-gradient-metallic pr-[0.1em]">Digital</span>
         </motion.h1>
 
         {/* Subtitle */}
@@ -111,17 +312,12 @@ function HeroSection() {
           transition={{ duration: 0.8, delay: 0.6, ease: "easeOut" }}
           className="flex flex-col sm:flex-row items-center justify-center gap-4"
         >
-          <Link href="/contact" className="group relative px-8 py-4 rounded-full font-bold text-white overflow-hidden transition-all duration-500 hover:scale-[1.02] active:scale-95 hover:shadow-[0_0_40px_rgba(236,72,153,0.3)] tap-bounce">
-            <span className="absolute inset-0 bg-gradient-to-r from-purple-600 via-pink-500 to-orange-500 transition-opacity duration-300"></span>
-            <span className="absolute inset-0 bg-gradient-to-r from-orange-500 via-pink-500 to-purple-600 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></span>
-            <span className="relative flex items-center gap-2">
-              Start Your Project
-              <MoveRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
-            </span>
-          </Link>
-          <Link href="#portfolio" className="px-8 py-4 rounded-full font-semibold border border-white/30 text-white hover:bg-white/10 hover:border-white/50 transition-all duration-300 hover:scale-[1.03] active:scale-95 tap-bounce">
+          <AnimatedButton href="/contact" variant="primary">
+            Start Your Project
+          </AnimatedButton>
+          <AnimatedButton href="#portfolio" variant="outline">
             View Our Work
-          </Link>
+          </AnimatedButton>
         </motion.div>
       </motion.div>
 
@@ -138,7 +334,7 @@ function HeroSection() {
                 {(!loading && clients.length > 0) ? (
                   clients.map((client, i) => (
                     <div key={`client-${loop}-${i}`} className="flex-shrink-0 w-20 md:w-32 h-10 md:h-12 flex items-center justify-center opacity-60 hover:opacity-100 transition-opacity duration-300" title={client.name}>
-                    <img src={client.logo_url} alt={client.name || "Client"} className="max-w-full max-h-full object-contain grayscale hover:grayscale-0 transition-all duration-300" loading="eager" />
+                      <img src={client.logo_url} alt={client.name || "Client"} className="max-w-full max-h-full object-contain grayscale hover:grayscale-0 transition-all duration-300" loading="eager" />
                     </div>
                   ))
                 ) : (
@@ -270,15 +466,14 @@ function ServicesSection() {
             <span className="inline-block px-4 py-1.5 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-300 text-xs font-bold uppercase tracking-widest mb-6">
               Our Solutions
             </span>
-            <h2 className="text-4xl md:text-6xl lg:text-7xl font-black text-white leading-[1.05]">
+            <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold font-heading leading-[1.05] tracking-tight">
               <span className="text-gray-500">Transforming</span><br />
-              <span className="text-white">ideas into </span><span className="text-gradient-primary">reality</span>
+              <span className="text-gradient-metallic">ideas into</span> <span className="text-gradient-primary">reality</span>
             </h2>
           </div>
-          <Link href="/contact" className="group inline-flex items-center gap-2 px-6 py-3 rounded-full border border-white/20 text-white font-semibold hover:bg-white/10 hover:border-white/30 transition-all duration-300">
+          <AnimatedButton href="/contact" variant="outline">
             Our services
-            <MoveRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-          </Link>
+          </AnimatedButton>
         </div>
       </motion.div>
 
@@ -332,11 +527,11 @@ function StatsSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1, duration: 0.8 }}
-              className={`relative p-8 rounded-[2rem] bg-white/[0.02] border border-white/5 backdrop-blur-3xl overflow-hidden group hover:bg-white/[0.04] transition-all duration-500 ${i % 2 === 1 ? 'md:translate-y-8' : ''}`}
+              className={`relative p-8 rounded-[2rem] bg-white/[0.02] border border-white/5 overflow-hidden group hover:bg-white/[0.04] transition-all duration-500 ${i % 2 === 1 ? 'md:translate-y-8' : ''}`}
             >
               {/* Inner Glow */}
               <div className={`absolute -top-24 -right-24 w-48 h-48 bg-gradient-to-br ${stat.color} blur-[60px] opacity-0 group-hover:opacity-100 transition-opacity duration-700`}></div>
-              
+
               <StatItem stat={stat} />
             </motion.div>
           ))}
@@ -354,13 +549,13 @@ function StatItem({ stat }: { stat: { value: number; suffix: string; label: stri
   useEffect(() => {
     if (isInView) {
       let startTimestamp: number | null = null;
-      const duration = 2500;
+      const duration = 1500; // Reduced from 2500ms — less concurrent rAF time
       const finalValue = stat.value;
 
       const step = (timestamp: number) => {
         if (!startTimestamp) startTimestamp = timestamp;
         const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-        const easeProgress = 1 - Math.pow(1 - progress, 5); // Brisk Quintic ease-out
+        const easeProgress = 1 - Math.pow(1 - progress, 4);
         setCount(Math.floor(easeProgress * finalValue));
         if (progress < 1) window.requestAnimationFrame(step);
       };
@@ -391,7 +586,7 @@ function AboutSection() {
     <section id="about" className="relative py-24 md:py-40 px-4 md:px-6 z-10 bg-black overflow-hidden">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-20 items-center">
-          
+
           {/* Left: Premium 3st Layer Parallax Stack */}
           <motion.div
             initial={{ x: -100, opacity: 0 }}
@@ -402,32 +597,30 @@ function AboutSection() {
           >
             {/* Base Layer */}
             <div className="absolute inset-x-12 inset-y-12 rounded-[3rem] overflow-hidden rotate-[-3deg] border border-white/10 shadow-2xl scale-95 opacity-50 z-0">
-              <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&fit=crop" alt="Agency background" className="w-full h-full object-cover blur-sm" />
+              <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&fit=crop" alt="Agency background" className="w-full h-full object-cover blur-sm" loading="lazy" />
             </div>
 
             {/* Middle Layer */}
-            <motion.div 
-               whileHover={{ scale: 1.02, rotate: 0 }}
-               transition={{ duration: 0.5 }}
-               className="absolute inset-x-6 inset-y-6 rounded-[3rem] overflow-hidden rotate-[3deg] border border-white/10 shadow-2xl z-10"
+            <motion.div
+              whileHover={{ scale: 1.02, rotate: 0 }}
+              transition={{ duration: 0.5 }}
+              className="absolute inset-x-6 inset-y-6 rounded-[3rem] overflow-hidden rotate-[3deg] border border-white/10 shadow-2xl z-10"
             >
-              <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1000&fit=crop" alt="Team meeting" className="w-full h-full object-cover grayscale opacity-60" />
+              <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1000&fit=crop" alt="Team meeting" className="w-full h-full object-cover grayscale opacity-60" loading="lazy" />
               <div className="absolute inset-0 bg-gradient-to-tr from-purple-900/40 via-transparent to-pink-900/40" />
             </motion.div>
 
-            {/* Front Floating Layer */}
-            <motion.div
-              animate={{ y: [0, -20, 0] }}
-              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute top-1/2 -right-8 -translate-y-1/2 w-2/3 aspect-square rounded-[3.5rem] overflow-hidden border-8 border-black shadow-[0_40px_100px_rgba(0,0,0,0.8)] z-20"
+            {/* Front Floating Layer — CSS animation instead of JS Infinity loop */}
+            <div
+              className="animate-float absolute top-1/2 -right-8 w-2/3 aspect-square rounded-[3.5rem] overflow-hidden border-8 border-black shadow-[0_40px_100px_rgba(0,0,0,0.8)] z-20"
             >
-              <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&fit=crop" alt="Strategy session" className="w-full h-full object-cover" />
+              <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&fit=crop" alt="Strategy session" className="w-full h-full object-cover" loading="lazy" />
               {/* Achievement Badge */}
               <div className="absolute top-8 left-8 p-4 md:p-6 bg-white rounded-3xl shadow-2xl flex flex-col items-center">
-                 <span className="text-2xl md:text-4xl font-black text-black leading-none tracking-tighter">98%</span>
-                 <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest mt-1">Growth</span>
+                <span className="text-2xl md:text-4xl font-black text-black leading-none tracking-tighter">98%</span>
+                <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest mt-1">Growth</span>
               </div>
-            </motion.div>
+            </div>
 
             {/* Decorative Elements */}
             <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-purple-500/10 blur-[100px] rounded-full" />
@@ -447,9 +640,9 @@ function AboutSection() {
               <span className="text-[10px] font-black text-pink-400 uppercase tracking-[0.4em]">Why RealVibe</span>
             </div>
 
-            <h2 className="text-4xl md:text-6xl lg:text-7xl font-black mb-8 leading-[1.05] text-white tracking-tight">
-              We Don't Just<br />
-              Market. <span className="text-gradient-primary">We Transform.</span>
+            <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold font-heading mb-8 leading-[1.05] tracking-tight">
+              <span className="text-gradient-metallic">We Don't Just</span><br />
+              <span className="text-gradient-metallic">Market.</span> <span className="text-gradient-primary">We Transform.</span>
             </h2>
 
             <p className="text-gray-400 text-lg md:text-xl leading-relaxed mb-12 max-w-2xl">
@@ -469,14 +662,14 @@ function AboutSection() {
             </div>
 
             <div className="mt-16">
-               <Link href="/about" className="group flex items-center gap-6 text-white no-underline">
-                  <div className="w-16 h-16 rounded-full border border-white/10 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all duration-500">
-                    <MoveRight className="w-6 h-6 group-hover:scale-110 transition-transform" />
-                  </div>
-                  <div className="flex flex-col">
-                    <span className="text-xs font-bold text-gray-500 uppercase tracking-widest border-b border-transparent group-hover:border-white transition-all">Learn our story</span>
-                  </div>
-               </Link>
+              <Link href="/about" className="group flex items-center gap-6 text-white no-underline">
+                <div className="w-16 h-16 rounded-full border border-white/10 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all duration-500">
+                  <MoveRight className="w-6 h-6 group-hover:scale-110 transition-transform" />
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-xs font-bold text-gray-500 uppercase tracking-widest border-b border-transparent group-hover:border-white transition-all">Learn our story</span>
+                </div>
+              </Link>
             </div>
           </motion.div>
         </div>
@@ -521,8 +714,8 @@ function TeamSection() {
           <span className="inline-block px-4 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-300 text-xs font-bold uppercase tracking-widest mb-4">
             Our People
           </span>
-          <h2 className="text-4xl md:text-5xl font-black text-white">
-            Meet the <span className="text-gradient-primary">Experts</span>
+          <h2 className="text-4xl md:text-5xl font-bold font-heading">
+            <span className="text-gradient-metallic">Meet the</span> <span className="text-gradient-primary">Experts</span>
           </h2>
         </motion.div>
 
@@ -588,131 +781,192 @@ function TeamSection() {
 
 // ════════ PORTFOLIO ════════
 function PortfolioSection() {
-  const [portfolioItems, setPortfolioItems] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const containerRef = useRef(null);
+
+  const successStories = [
+    {
+      name: "Central Park",
+      logo: "/assets/real-estate/CENTRAL-PARK-LOGO_Mother-Logo-scaled-e1762848235731-1015x1024.webp",
+      val: 37,
+      sub: "Qualified Leads for Bignonia",
+      desc: "Central Park transformed their luxury residential positioning. Our performance-led strategy delivered a surge in high-intent buyer engagement.",
+      metrics: [
+        { label: "Increase in qualified leads", value: 37 },
+        { label: "Rise in site visits", value: 25 }
+      ]
+    },
+    {
+      name: "Signature Global",
+      logo: "/assets/real-estate/imgi_1_SG-GLOBAL-NEW-LOGO-1024x373.webp",
+      val: 47,
+      sub: "Sales-ready Inquiries for Park Extension 1",
+      desc: "For Signature Global, we engineered a full-funnel lead engine that prioritized 'Ready-to-Buy' intent over volume.",
+      metrics: [
+        { label: "Sales-ready inquiries", value: 47 },
+        { label: "Reduction in CPL", value: 40 }
+      ]
+    },
+    {
+      name: "Trevoc",
+      logo: "/assets/real-estate/logo-2.webp",
+      val: 33,
+      sub: "High-intent Conversions for Royal Residences",
+      desc: "Trevoc required ultra-premium targeting. Our data-mapped approach connected them with the top 1% of the ultra-HNW demographic.",
+      metrics: [
+        { label: "High-intent conversions", value: 33 },
+        { label: "Ad recall lift", value: 28 }
+      ]
+    },
+    {
+      name: "Emaar",
+      logo: "/assets/real-estate/8571fdf7-emaar-dxb-logo-en.svg",
+      val: 31,
+      sub: "Qualified Leads for Elva",
+      desc: "Global leader Emaar partnered with us for the 'Elva' launch. Our localized intelligence mapping drove consistent sales momentum.",
+      metrics: [
+        { label: "Lower funnel efficiency", value: 31 },
+        { label: "In-target audience reach", value: 55 }
+      ]
+    },
+    {
+      name: "Omaxe",
+      logo: "/assets/real-estate/omaxe-logo-1.webp",
+      val: 33,
+      sub: "Sales-ready Inquiries for Chandni Chowk",
+      desc: "Repositioning a heritage commercial hub like Chandni Chowk required surgical precision. Our system scaled inquiries across regional markets.",
+      metrics: [
+        { label: "Inquiry volume growth", value: 33 },
+        { label: "Regional engagement", value: 42 }
+      ]
+    },
+    {
+      name: "Sobha",
+      logo: "/assets/real-estate/sobha-logo-e1762941031469.webp",
+      val: 37,
+      sub: "High-intent Conversions for Orbis",
+      desc: "Sobha's commitment to quality required a digital presence to match. We built a high-conversion pipeline that mirrored their architectural excellence.",
+      metrics: [
+        { label: "Conversion rate lift", value: 37 },
+        { label: "Direct-to-sales leads", value: 18 }
+      ]
+    }
+  ];
 
   useEffect(() => {
-    const fetchPortfolio = async () => {
-      try {
-        const res = await fetch('https://real-vibe-s-portfolio.vercel.app/api/public/portfolio');
-        if (res.ok) {
-          const data = await res.json();
-          const allowedClients = ['Central Park', 'Eldeco', 'Omaxe', 'Sehgal', 'Census'];
-          
-          const filteredData = data.filter((item: any) => {
-            if (!item.client?.name) return false;
-            const clientName = item.client.name;
-            return allowedClients.some(allowed => 
-              clientName.toLowerCase().includes(allowed.toLowerCase())
-            );
-          });
-
-          setPortfolioItems(filteredData);
-        }
-      } catch (err) {
-        console.error("Failed to load portfolio", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchPortfolio();
-  }, []);
+    const timer = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % successStories.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, [successStories.length]);
 
   return (
-    <section id="portfolio" className="relative py-24 md:py-32 px-4 md:px-6 z-10 w-full overflow-hidden bg-black">
-      <div className="max-w-7xl mx-auto relative">
-        {/* Section Header */}
-        <motion.div
-          initial={{ y: 40, opacity: 0 }}
-          whileInView={{ y: 0, opacity: 1 }}
-          viewport={{ once: true }}
-          className="mb-16"
-        >
-          <div className="flex flex-col gap-4">
-            <h2 className="text-5xl md:text-7xl font-black text-white tracking-tighter uppercase leading-none">
-              Our <span className="text-pink-500">Developers</span>
-            </h2>
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-[1px] bg-white/20"></div>
-              <p className="text-gray-400 font-medium tracking-wide">Leading developers we've collaborated with.</p>
-            </div>
-          </div>
-        </motion.div>
+    <section id="portfolio" className="relative py-24 md:py-32 px-4 md:px-6 z-10 w-full overflow-hidden bg-[#0F0F0F]">
+      {/* Background Stylistic Elements */}
+      <div className="absolute inset-0 z-0">
+        <div className="absolute top-1/2 left-[-10%] w-[500px] h-[500px] bg-purple-600/5 rounded-full blur-[120px]" />
+        <div className="absolute bottom-[-10%] right-[-5%] w-[600px] h-[600px] bg-pink-600/5 rounded-full blur-[120px]" />
+      </div>
 
-        {loading ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[...Array(4)].map((_, i) => (
-              <div key={i} className="h-[380px] rounded-3xl bg-white/[0.02] border border-white/5 animate-pulse" />
+      <div className="max-w-7xl mx-auto relative z-10">
+        <div className="text-center mb-16 md:mb-24">
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-4xl md:text-7xl font-bold font-heading tracking-tighter"
+          >
+            <span className="text-gradient-metallic">Unlocking</span> <span className="text-gradient-primary">Success Stories</span>
+          </motion.h2>
+        </div>
+
+        <div className="grid lg:grid-cols-[1fr_3fr] gap-12 lg:gap-24 items-center mb-24">
+
+          {/* Vertical Sidebar Navigation */}
+          <div className="hidden lg:flex flex-col gap-10 relative border-r border-white/5 py-8">
+            {/* Absolute moving bar */}
+            <motion.div
+              className="absolute right-0 w-[2px] bg-pink-500 shadow-[0_0_10px_rgba(236,72,153,0.5)]"
+              animate={{ top: `${(activeIndex / successStories.length) * 100}%`, height: `${100 / successStories.length}%` }}
+              transition={{ type: "spring", stiffness: 300, damping: 30 }}
+            />
+
+            {successStories.map((story, i) => (
+              <button
+                key={story.name}
+                onClick={() => setActiveIndex(i)}
+                className={`group flex items-center justify-end pr-8 transition-all duration-500 ${activeIndex === i ? "opacity-100" : "opacity-30 hover:opacity-50"}`}
+              >
+                <img
+                  src={story.logo}
+                  alt={story.name}
+                  className={`max-w-[120px] max-h-[40px] object-contain transition-transform duration-500 ${activeIndex === i ? "scale-110" : "scale-90"}`}
+                />
+              </button>
             ))}
           </div>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
-            {portfolioItems.map((item, i) => (
+
+          {/* Main Content Area */}
+          <div className="relative min-h-[500px] flex flex-col justify-center">
+            <AnimatePresence mode="wait">
               <motion.div
-                key={item.id}
-                initial={{ y: 30, opacity: 0 }}
-                whileInView={{ y: 0, opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                className="group relative flex flex-col h-full"
+                key={activeIndex}
+                initial={{ opacity: 0, y: 40 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -40 }}
+                transition={{ duration: 0.8, ease: [0.19, 1, 0.22, 1] }}
+                className="grid md:grid-cols-[1fr_1.5fr] gap-12 items-center"
               >
-                {/* Logo Box - The 'Square' Logo Container */}
-                <div className="relative aspect-square rounded-[2rem] bg-white/[0.03] border border-white/5 p-8 flex items-center justify-center overflow-hidden transition-all duration-500 group-hover:border-pink-500/30 group-hover:bg-white/[0.05] shadow-2xl">
-                    {/* Background Glow */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-pink-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity" />
-                    
-                    {/* The Logo Container (White box like reference) */}
-                    <div className="relative z-10 w-full h-full bg-white rounded-2xl p-6 shadow-xl flex items-center justify-center transform group-hover:scale-105 transition-transform duration-500">
-                        <img 
-                          src={item.client?.logo || 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=200&fit=crop'} 
-                          alt={item.client?.name} 
-                          className="w-full h-full object-contain"
-                        />
-                    </div>
+                {/* Left Side: Logo & Story */}
+                <div className="space-y-8 text-center md:text-left">
+                  <div className="h-24 md:h-32 flex items-center justify-center md:justify-start">
+                    <img
+                      src={successStories[activeIndex].logo}
+                      alt={successStories[activeIndex].name}
+                      className="max-w-[200px] max-h-full object-contain filter drop-shadow-[0_0_20px_rgba(255,255,255,0.1)]"
+                    />
+                  </div>
+                  <p className="text-gray-400 text-lg md:text-xl font-medium leading-relaxed italic max-w-xl">
+                    "{successStories[activeIndex].desc}"
+                  </p>
+
+                  <AnimatedButton
+                    href="https://real-vibe-s-portfolio.vercel.app/"
+                    variant="primary"
+                    className="mt-4"
+                  >
+                    Featured Work
+                  </AnimatedButton>
                 </div>
 
-                {/* Metadata Area */}
-                <div className="mt-6 flex justify-between items-end">
-                    <div className="flex flex-col gap-1">
-                        <span className="text-[10px] font-black text-gray-500 uppercase tracking-[0.2em]">Portfolio</span>
-                        <h3 className="text-xl font-bold text-white group-hover:text-pink-400 transition-colors">{item.name}</h3>
+                {/* Right Side: Big Bold Metrics */}
+                <div className="flex flex-col gap-16 py-8 px-4 md:px-16">
+                  {successStories[activeIndex].metrics.map((metric, idx) => (
+                    <div key={idx} className="flex flex-col items-center md:items-start group relative">
+                      <div className="animate-text-shimmer text-5xl md:text-8xl font-black bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-pink-500 transition-all">
+                        +{metric.value}%
+                      </div>
+                      <div className="text-xs md:text-sm font-bold text-gray-500 uppercase tracking-[0.4em] mt-2 group-hover:text-pink-500 transition-colors leading-none">
+                        {metric.label}
+                      </div>
                     </div>
-                    
-                    {/* Circular Pink Arrow Button (Ref style) */}
-                    <div className="w-12 h-12 rounded-full border border-pink-500/30 flex items-center justify-center text-pink-500 transition-all duration-500 group-hover:bg-pink-500 group-hover:text-white group-hover:border-pink-500">
-                        <MoveRight className="w-5 h-5" />
-                    </div>
+                  ))}
                 </div>
               </motion.div>
-            ))}
+            </AnimatePresence>
           </div>
-        )}
-
-        <div className="mt-20 flex justify-center">
-          <a 
-            href="https://real-vibe-s-portfolio.vercel.app" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="group flex flex-col items-center gap-4 text-white/40 hover:text-white transition-colors duration-500"
-          >
-            <span className="text-xs font-bold uppercase tracking-[0.3em]">Explore our curated portfolio of work.</span>
-            <div className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center group-hover:border-white group-hover:scale-110 transition-all">
-                <motion.div animate={{ y: [0, 5, 0] }} transition={{ repeat: Infinity, duration: 2 }}>
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 13.5L12 21m0 0l-7.5-7.5M12 21V3" />
-                  </svg>
-                </motion.div>
-            </div>
-          </a>
         </div>
       </div>
     </section>
   );
 }
 
+
+
+
+
 // ════════ TESTIMONIALS ════════
 function TestimonialsSection() {
-  const [activeIndex, setActiveIndex] = useState(0);
   const [testimonials, setTestimonials] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -733,89 +987,263 @@ function TestimonialsSection() {
     fetchTestimonials();
   }, []);
 
-  useEffect(() => {
-    if (testimonials.length === 0) return;
-    const timer = setInterval(() => {
-      setActiveIndex((prev: number) => (prev + 1) % testimonials.length);
-    }, 5000);
-    return () => clearInterval(timer);
-  }, [testimonials.length]);
-
   return (
-    <section id="testimonials-section" className="relative py-16 md:py-32 px-4 md:px-6 z-10 overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-purple-950/10 to-transparent"></div>
+    <section id="testimonials" className="relative py-24 md:py-40 bg-black overflow-hidden z-10">
+      {/* Large Decorative Glows — Hardware Accelerated */}
+      <div className="gpu-layer absolute top-0 left-0 w-[500px] h-[500px] bg-purple-600/10 rounded-full blur-[120px] -translate-x-1/2 -translate-y-1/2" />
+      <div className="gpu-layer absolute bottom-0 right-0 w-[500px] h-[500px] bg-pink-600/10 rounded-full blur-[120px] translate-x-1/2 translate-y-1/2" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[300px] bg-violet-900/10 rounded-full blur-[100px] pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto relative">
-        <motion.div
-          initial={{ y: 50, opacity: 0 }}
-          whileInView={{ y: 0, opacity: 1 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
-          <span className="inline-block px-4 py-1.5 rounded-full bg-pink-500/10 border border-pink-500/20 text-pink-300 text-xs font-bold uppercase tracking-widest mb-6">
-            Client Love
-          </span>
-          <h2 className="text-3xl md:text-6xl lg:text-7xl font-black text-white">
-            Words That<br />
-            <span className="text-gradient-primary">Inspire Us</span>
-          </h2>
-        </motion.div>
+      {/* Top border gradient line */}
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-purple-500/40 to-transparent" />
+      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-pink-500/30 to-transparent" />
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="max-w-7xl mx-auto px-4 md:px-6 relative z-10">
+
+        {/* Header */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 md:mb-24 gap-8">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+          >
+            {/* Label */}
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-1.5 h-1.5 rounded-full bg-pink-500 shadow-[0_0_8px_rgba(236,72,153,0.8)]" />
+              <span className="text-[11px] font-bold uppercase tracking-[0.3em] text-pink-400">Client Stories</span>
+            </div>
+            <h2 className="text-5xl md:text-7xl font-bold font-heading leading-[0.9] tracking-tight uppercase">
+              <span className="text-gray-500">Our Clients</span><br />
+              <span className="text-gradient-metallic">Love</span> <span className="text-gradient-primary">Us</span>
+            </h2>
+            <div className="h-px w-32 bg-gradient-to-r from-pink-500 via-purple-500 to-transparent mt-6" />
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2, duration: 0.7 }}
+            className="text-right"
+          >
+            <p className="text-gray-400 text-sm md:text-base max-w-xs leading-relaxed font-light mb-4 text-left md:text-right">
+              Real results, real relationships. Hear from the brands we've helped grow.
+            </p>
+            {/* Star rating display */}
+            <div className="flex items-center gap-1 justify-start md:justify-end">
+              {[...Array(5)].map((_, i) => (
+                <svg key={i} className="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                </svg>
+              ))}
+              <span className="text-xs text-gray-500 ml-2 font-medium">5.0 avg rating</span>
+            </div>
+          </motion.div>
+        </div>
+
+        {/* Cards */}
+        <div className="relative -mx-4 md:-mx-6">
           {loading ? (
-            <div className="col-span-full flex justify-center py-10 opacity-50">
-              <div className="animate-pulse flex space-x-4">
-                <div className="rounded-full bg-slate-700 h-10 w-10"></div>
-                <div className="flex-1 space-y-6 py-1">
-                  <div className="h-2 bg-slate-700 rounded"></div>
-                  <div className="space-y-3">
-                    <div className="grid grid-cols-3 gap-4">
-                      <div className="h-2 bg-slate-700 rounded col-span-2"></div>
-                      <div className="h-2 bg-slate-700 rounded col-span-1"></div>
-                    </div>
-                    <div className="h-2 bg-slate-700 rounded"></div>
-                  </div>
-                </div>
-              </div>
+            <div className="flex px-6 gap-5 overflow-hidden">
+              {[1, 2, 3].map(i => (
+                <div key={i} className="min-w-[300px] h-[360px] bg-white/[0.03] rounded-2xl animate-pulse" />
+              ))}
             </div>
-          ) : testimonials.length === 0 ? (
-            <div className="col-span-full flex flex-col items-center justify-center p-20 text-center border lg:mx-auto lg:w-3/4 border-white/5 rounded-2xl bg-white/[0.02]">
-              <h3 className="text-lg font-medium text-white mb-2">More Testimonials Coming Soon</h3>
-              <p className="text-gray-400 text-sm">Our clients are writing amazing things about us.</p>
-            </div>
-          ) : testimonials.map((t, i) => (
-            <div
-              key={i}
-              onClick={() => setActiveIndex(i)}
-              className={`group relative rounded-2xl overflow-hidden transition-all duration-500 hover:-translate-y-2 cursor-pointer ${i === activeIndex ? 'ring-1 ring-purple-500/30' : ''}`}
+          ) : (
+            <motion.div
+              drag="x"
+              dragConstraints={{ right: 0, left: -((testimonials.length * 400) - (typeof window !== 'undefined' ? window.innerWidth : 800) + 200) }}
+              dragElastic={0.05}
+              className="flex cursor-grab active:cursor-grabbing gap-4 md:gap-6 px-4 md:px-6 pb-8"
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
             >
-              <div className="relative bg-white/[0.03] backdrop-blur-sm border border-white/[0.06] rounded-2xl p-8 h-full flex flex-col group-hover:bg-white/[0.06] group-hover:border-white/[0.12] transition-all duration-500">
-                <div className="flex gap-1 mb-6">
-                  {[...Array(5)].map((_, s) => (
-                    <svg key={s} className="w-4 h-4 text-amber-400" viewBox="0 0 20 20" fill="currentColor">
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                    </svg>
-                  ))}
-                </div>
-                <p className="text-gray-200 leading-relaxed flex-1 mb-8 text-[15px]">
-                  "{t.content}"
-                </p>
-                <div className="flex items-center gap-4 pt-6 border-t border-white/[0.06]">
-                  {t.image_url ? (
-                    <img src={t.image_url} alt={t.author} className="w-12 h-12 rounded-full object-cover bg-gray-800 shadow-lg shadow-purple-500/20" />
-                  ) : (
-                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center font-bold text-white text-sm shadow-lg shadow-purple-500/20">
+              {testimonials.map((t, i) => (
+                <motion.div
+                  key={t.id || i}
+                  initial={{ opacity: 0, y: 40 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                  whileHover={{ y: -6 }}
+                  className="min-w-[85vw] md:min-w-[380px] group relative rounded-2xl border border-white/[0.08] bg-gradient-to-br from-white/[0.04] to-white/[0.01] p-7 md:p-9 flex flex-col justify-between overflow-hidden transition-all duration-500 hover:border-purple-500/30"
+                >
+                  {/* Card corner glow on hover */}
+                  <div className="absolute -top-20 -right-20 w-40 h-40 bg-purple-600/20 rounded-full blur-[60px] opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
+
+                  <div>
+                    {/* Top row: company initial + quote icon */}
+                    <div className="flex items-start justify-between mb-6">
+                      <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500/20 to-pink-500/20 border border-white/10 flex items-center justify-center">
+                        <span className="text-sm font-black text-white/70 uppercase">{t.company?.charAt(0) ?? "?"}</span>
+                      </div>
+                      {/* Vivid gradient quote mark */}
+                      <svg className="w-8 h-8 flex-shrink-0" viewBox="0 0 24 24" fill="none">
+                        <defs>
+                          <linearGradient id={`qg-${i}`} x1="0" y1="0" x2="1" y2="1">
+                            <stop offset="0%" stopColor="#a855f7" stopOpacity="0.6" />
+                            <stop offset="100%" stopColor="#ec4899" stopOpacity="0.6" />
+                          </linearGradient>
+                        </defs>
+                        <path fill={`url(#qg-${i})`} d="M14.017 21v-3c0-1.105.895-2 2-2h3c.552 0 1-.448 1-1V9c0-.552-.448-1-1-1h-3c-.552 0-1 .448-1 1v3c0 .552-.448 1-1 1h-3v9h3zm-9 0v-3c0-1.105.895-2 2-2h3c.552 0 1-.448 1-1V9c0-.552-.448-1-1-1H7c-.552 0-1 .448-1 1v3c0 .552-.448 1-1 1H2v9h3z" />
+                      </svg>
+                    </div>
+
+                    {/* Stars */}
+                    <div className="flex gap-0.5 mb-4">
+                      {[...Array(5)].map((_, si) => (
+                        <svg key={si} className="w-3.5 h-3.5 text-yellow-400/80" fill="currentColor" viewBox="0 0 20 20">
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
+                    </div>
+
+                    {/* Quote text */}
+                    <p className="text-gray-300 text-sm md:text-base leading-relaxed font-light group-hover:text-white transition-colors duration-500">
+                      &ldquo;{t.content.length > 140 ? t.content.substring(0, 140) + "..." : t.content}&rdquo;
+                    </p>
+                  </div>
+
+                  {/* Author */}
+                  <div className="flex items-center gap-3 mt-8 pt-6 border-t border-white/[0.06]">
+                    <div className="w-9 h-9 rounded-full bg-gradient-to-br from-purple-500/30 to-pink-500/30 border border-white/10 flex items-center justify-center font-bold text-white/60 text-xs flex-shrink-0">
                       {t.author.charAt(0)}
                     </div>
-                  )}
-                  <div>
-                    <div className="font-bold text-white text-sm">{t.author}</div>
-                    <div className="text-xs text-gray-400">{t.role} @ {t.company}</div>
+                    <div className="min-w-0">
+                      <div className="font-semibold text-white/90 text-sm truncate">{t.author}</div>
+                      <div className="text-[10px] font-medium uppercase tracking-widest text-gray-500 mt-0.5 truncate">{t.role} · {t.company}</div>
+                    </div>
+                    <div className="ml-auto">
+                      <div className="w-6 h-6 rounded-full bg-gradient-to-br from-purple-500/20 to-pink-500/20 flex items-center justify-center">
+                        <div className="w-1.5 h-1.5 rounded-full bg-pink-400" />
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-            </div>
-          ))}
+                </motion.div>
+              ))}
+            </motion.div>
+          )}
+        </div>
+
+        {/* Drag hint */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ delay: 0.8 }}
+          className="flex items-center justify-center mt-10 gap-3"
+        >
+          <div className="w-6 h-px bg-gradient-to-r from-transparent to-white/20" />
+          <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-white/20">Drag to explore</span>
+          <div className="w-6 h-px bg-gradient-to-l from-transparent to-white/20" />
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
+// ════════ DOUBLE SCROLL MARQUEE — GSAP ScrollTrigger ════════
+function DoubleScrollMarquee() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const row1Ref = useRef<HTMLDivElement>(null);
+  const row2Ref = useRef<HTMLDivElement>(null);
+
+  const row1 = [
+    { name: "UGC", emoji: "🎬" },
+    { name: "Video Production", emoji: "🎥" },
+    { name: "Social Media", emoji: "📱" },
+    { name: "Website Development", emoji: "💻" },
+    { name: "App Development", emoji: "🚀" },
+    { name: "Google Ads", emoji: "🎯" },
+    { name: "Meta Ads", emoji: "📢" },
+    { name: "Podcast", emoji: "🎙️" },
+  ];
+  const row2 = [
+    { name: "Brand Design", emoji: "🎨" },
+    { name: "Strategy", emoji: "🧠" },
+    { name: "SEO Optimization", emoji: "📈" },
+    { name: "Content Creation", emoji: "✍️" },
+    { name: "Analytics", emoji: "📊" },
+    { name: "Email Marketing", emoji: "✉️" },
+    { name: "Automation", emoji: "⚙️" },
+    { name: "PR & Media", emoji: "🗞️" },
+  ];
+
+  useEffect(() => {
+    let ctx: any;
+    // Dynamically import GSAP to avoid SSR issues
+    const init = async () => {
+      const { gsap } = await import("gsap");
+      const { ScrollTrigger } = await import("gsap/ScrollTrigger");
+      gsap.registerPlugin(ScrollTrigger);
+
+      ctx = gsap.context(() => {
+        if (!sectionRef.current || !row1Ref.current || !row2Ref.current) return;
+
+        // Row 1: moves LEFT on scroll (negative x)
+        gsap.fromTo(
+          row1Ref.current,
+          { x: 0 },
+          {
+            x: "-30%",
+            ease: "none",
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: "top bottom",
+              end: "bottom top",
+              scrub: 1.5, // smooth lag, like momentum
+            },
+          }
+        );
+
+        // Row 2: moves RIGHT on scroll (positive x)
+        gsap.fromTo(
+          row2Ref.current,
+          { x: "-30%" },
+          {
+            x: "0%",
+            ease: "none",
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: "top bottom",
+              end: "bottom top",
+              scrub: 1.5,
+            },
+          }
+        );
+      }, sectionRef);
+    };
+
+    init();
+    return () => ctx?.revert();
+  }, []);
+
+  const Pill = ({ item }: { item: { name: string; emoji: string } }) => (
+    <div className="flex-shrink-0 flex items-center gap-2 px-4 py-2 md:px-6 md:py-2.5 rounded-full border border-white/[0.08] bg-white/[0.03] mx-1.5 md:mx-2">
+      <span className="text-xs md:text-sm leading-none">{item.emoji}</span>
+      <span className="text-[10px] md:text-[11px] font-heading font-semibold uppercase tracking-[0.18em] text-white/55 whitespace-nowrap">{item.name}</span>
+    </div>
+  );
+
+  return (
+    <section ref={sectionRef} className="relative py-10 md:py-16 bg-black overflow-hidden z-10 border-y border-white/5">
+      {/* Side fade masks */}
+      <div className="pointer-events-none absolute inset-y-0 left-0 w-32 md:w-48 z-10 bg-gradient-to-r from-black to-transparent" />
+      <div className="pointer-events-none absolute inset-y-0 right-0 w-32 md:w-48 z-10 bg-gradient-to-l from-black to-transparent" />
+
+      <div className="space-y-3 md:space-y-5">
+        {/* Row 1 — moves left on scroll */}
+        <div className="overflow-hidden">
+          <div ref={row1Ref} className="flex will-change-transform">
+            {[...row1, ...row1, ...row1].map((item, i) => <Pill key={i} item={item} />)}
+          </div>
+        </div>
+        {/* Row 2 — moves right on scroll */}
+        <div className="overflow-hidden">
+          <div ref={row2Ref} className="flex will-change-transform">
+            {[...row2, ...row2, ...row2].map((item, i) => <Pill key={i} item={item} />)}
+          </div>
         </div>
       </div>
     </section>
@@ -844,21 +1272,20 @@ function CTASection() {
               <span className="inline-block px-4 py-1.5 rounded-full bg-white/10 border border-white/10 text-white text-xs font-bold uppercase tracking-widest mb-8">
                 Let's Work Together
               </span>
-              <h2 className="text-3xl md:text-6xl lg:text-7xl font-black mb-4 md:mb-6 text-white leading-[1.1]">
-                Ready to Go<br />
+              <h2 className="text-3xl md:text-6xl lg:text-7xl font-bold font-heading mb-4 md:mb-6 leading-[1.1]">
+                <span className="text-gradient-metallic">Ready to Go</span><br />
                 <span className="text-gradient-primary">Viral?</span>
               </h2>
               <p className="text-base md:text-xl text-gray-300 max-w-2xl mx-auto mb-8 md:mb-12 leading-relaxed">
                 Let's craft a digital strategy that puts your brand ahead of the competition. Your growth story starts here.
               </p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                <Link href="/contact" className="group px-10 py-5 rounded-full font-bold bg-white text-black hover:bg-gray-100 transition-all duration-300 hover:scale-[1.03] active:scale-95 hover:shadow-2xl hover:shadow-white/20 flex items-center gap-3 text-base md:text-lg tap-bounce">
+                <AnimatedButton href="/contact" variant="primary">
                   Get Free Consultation
-                  <MoveRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                </Link>
-                <a href="tel:+919999999999" className="px-10 py-5 rounded-full font-bold border border-white/20 text-white hover:bg-white/10 hover:border-white/30 transition-all duration-300 hover:scale-[1.03] active:scale-95 text-base md:text-lg tap-bounce">
+                </AnimatedButton>
+                <AnimatedButton href="tel:+919718428801" variant="outline">
                   Call Us Now
-                </a>
+                </AnimatedButton>
               </div>
             </div>
           </div>

@@ -57,14 +57,35 @@ export async function createTablesIfNotExist() {
     );
   `;
 
+  const portfolioTable = `
+    CREATE TABLE IF NOT EXISTS portfolio (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      title VARCHAR(255) NOT NULL,
+      description TEXT,
+      image_url VARCHAR(2048) NOT NULL,
+      metrics JSON,
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
+  `;
+
   try {
     await query(testimonialsTable);
+    console.log('Testimonials table verified.');
     await query(teamTable);
+    console.log('Team table verified.');
     await query(cultureTable);
+    console.log('Culture table verified.');
     await query(clientsTable);
+    console.log('Clients table verified.');
     await query(serviceLeadsTable);
-    console.log('Database tables verified/created successfully.');
+    console.log('Service Leads table verified.');
+    await query(portfolioTable);
+    console.log('Portfolio table verified.');
+    
+    console.log('All database tables verified/created successfully.');
   } catch (error) {
     console.error('Failed to create database tables:', error);
+    throw error; // Propagate error so API can report it
   }
 }
+

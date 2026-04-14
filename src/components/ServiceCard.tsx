@@ -1,7 +1,6 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 import Link from "next/link";
 
 interface ServiceCardProps {
@@ -19,18 +18,6 @@ interface ServiceCardProps {
 }
 
 export function ServiceCard({ index, totalCards, title, description, tags, techIcons, bg, iconGradient, glowColor, iconSvg, href }: ServiceCardProps) {
-    const cardRef = useRef<HTMLDivElement>(null);
-
-    const { scrollYProgress: stickyScroll } = useScroll({
-        target: cardRef,
-        offset: ["start start", "end start"],
-    });
-
-    // Scale down when scrolling past (gives stack effect)
-    // On mobile, we keep it subtle
-    const scale = useTransform(stickyScroll, [0, 1], [1, 0.96]);
-    const opacity = useTransform(stickyScroll, [0, 0.8, 1], [1, 1, 0.7]);
-
     const isEven = index % 2 === 1;
     const isLast = index === totalCards - 1;
 
@@ -44,17 +31,15 @@ export function ServiceCard({ index, totalCards, title, description, tags, techI
 
     return (
         <div
-            ref={cardRef}
             className={`sticky top-10 md:top-14 pt-2 ${isLast ? 'pb-12 md:pb-20' : 'pb-[15vh] md:pb-[20vh]'} origin-top overflow-visible`}
             style={{ zIndex: index }}
         >
             <motion.div
-                style={{ scale, opacity, transformOrigin: "top center" }}
-                initial={{ y: 40, opacity: 0, scale: 0.95 }}
+                initial={{ y: 40, opacity: 0, scale: 0.97 }}
                 whileInView={{ y: 0, opacity: 1, scale: 1 }}
                 viewport={{ once: true, margin: "-5%" }}
-                transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-                className={`card-inner ${bg} rounded-[2.5rem] md:rounded-[3rem] overflow-hidden ${glowColors[glowColor]} border border-white/[0.08] shadow-2xl transition-all duration-500 relative will-change-transform translate-z-0 lg:h-[490px] flex flex-col`}
+                transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                className={`card-inner ${bg} rounded-[2.5rem] md:rounded-[3rem] overflow-hidden ${glowColors[glowColor]} border border-white/[0.08] shadow-2xl transition-shadow duration-500 hover:shadow-pink-900/10 relative lg:h-[490px] flex flex-col`}
             >
                 {/* Background Shimmer Effect */}
                 <div className="absolute inset-0 bg-gradient-to-tr from-white/[0.02] to-transparent pointer-events-none" />
@@ -85,7 +70,7 @@ export function ServiceCard({ index, totalCards, title, description, tags, techI
 
                         {/* Tech Stack Upgrade with Real Logos */}
                         {techIcons && (
-                            <div className="mb-4 p-3 rounded-2xl bg-black/20 border border-white/5 backdrop-blur-sm">
+                            <div className="mb-4 p-3 rounded-2xl bg-black/30 border border-white/5">
                                 <div className="text-[9px] font-black text-gray-500 uppercase tracking-widest mb-2 flex items-center gap-2">
                                     <div className="w-1 h-1 rounded-full bg-purple-500 animate-pulse"></div>
                                     Technologies We Use
@@ -138,7 +123,7 @@ export function ServiceCard({ index, totalCards, title, description, tags, techI
                             {/* Outer Glow Ring */}
                             <div className={`absolute inset-0 bg-gradient-to-r ${iconGradient} opacity-20 blur-[100px] group-hover:opacity-40 transition-opacity duration-700`}></div>
                             
-                            <div className="relative w-64 h-64 rounded-[3rem] bg-black/60 backdrop-blur-2xl border border-white/10 flex items-center justify-center shadow-3xl transform group-hover:scale-105 group-hover:rotate-3 transition-all duration-700">
+                            <div className="relative w-64 h-64 rounded-[3rem] bg-black/80 border border-white/10 flex items-center justify-center shadow-3xl transform group-hover:scale-105 group-hover:rotate-3 transition-all duration-700">
                                 <div className="w-32 h-32 text-white opacity-80 stroke-[1] drop-shadow-[0_0_20px_rgba(255,255,255,0.3)]">
                                     {iconSvg}
                                 </div>

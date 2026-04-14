@@ -41,6 +41,13 @@ body {
     animation: gradientShift 4s ease infinite;
   }
 
+  .text-gradient-metallic {
+    background: linear-gradient(to bottom, #ffffff 0%, #e5e7eb 50%, #9ca3af 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
   .glass {
     background: rgba(255, 255, 255, 0.03);
     backdrop-filter: blur(20px);
@@ -320,4 +327,62 @@ html {
 
 .mobile-fade-in {
   animation: fadeInUp 0.5s ease-out both;
+}
+
+/* ═══ PERFORMANCE: CSS ORB ANIMATIONS (replaces Framer Motion infinite loops) ═══ */
+@keyframes orb-drift-1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33%       { transform: translate(80px, -40px) scale(1.15); }
+  66%       { transform: translate(-30px, 60px) scale(0.95); }
+}
+@keyframes orb-drift-2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33%       { transform: translate(-120px, 80px) scale(1.1); }
+  66%       { transform: translate(60px, -30px) scale(0.9); }
+}
+.orb-1 {
+  animation: orb-drift-1 25s ease-in-out infinite;
+  will-change: transform;
+}
+.orb-2 {
+  animation: orb-drift-2 20s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* Floating image animation (replaces JS animate loop) */
+@keyframes float-y {
+  0%, 100% { transform: translateY(0px) translateX(-50%) translateY(-50%); }
+  50%       { transform: translateY(-18px) translateX(-50%) translateY(-50%); }
+}
+.animate-float {
+  animation: float-y 6s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* Promote blur elements to GPU layer once, prevent per-scroll compositing */
+.gpu-layer {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* Drifting particles for Hero (replaces static dots) */
+@keyframes drift {
+  0%, 100% { transform: translate(0, 0); }
+  25%       { transform: translate(15px, -15px); }
+  50%       { transform: translate(-10px, 10px); }
+  75%       { transform: translate(10px, 20px); }
+}
+.animate-drift {
+  animation: drift 15s ease-in-out infinite;
+}
+
+/* Subtle shimmer for big metric numbers */
+@keyframes text-shimmer {
+  0% { opacity: 1; filter: brightness(1); }
+  50% { opacity: 0.8; filter: brightness(1.2); }
+  100% { opacity: 1; filter: brightness(1); }
+}
+.animate-text-shimmer {
+  animation: text-shimmer 4s ease-in-out infinite;
 }

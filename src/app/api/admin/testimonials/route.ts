@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server';
 import { query } from '@/lib/db';
 import { createTablesIfNotExist } from '@/lib/schema';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
     try {
         // Attempt to ensure tables exist before querying
