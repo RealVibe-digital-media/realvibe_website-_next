@@ -34,9 +34,8 @@ export function Navbar() {
     const links = [
         { name: "Home", href: "/" },
         { name: "Services", href: "/services" },
-        { name: "About", href: "/#about" },
+        { name: "About", href: "/about" },
         { name: "Portfolio", href: "https://real-vibe-s-portfolio.vercel.app" },
-        { name: "Our Clients", href: "/clients" },
         { name: "Work Culture", href: "/work-culture" },
         { name: "Contact", href: "/contact" },
     ];

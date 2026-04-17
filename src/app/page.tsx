@@ -204,15 +204,6 @@ function HeroSection() {
         transition={{ duration: 1 }}
         className="relative z-10 text-center max-w-4xl mx-auto px-6 mt-[-10vh]"
       >
-        {/* Badge */}
-        <motion.div
-          initial={{ y: -20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-          className="inline-block px-4 py-1.5 rounded-full border border-white/10 text-xs text-gray-400 uppercase tracking-widest mb-10 bg-white/[0.02]"
-        >
-          Digital Marketing Agency
-        </motion.div>
 
         {/* Title */}
         <motion.h1
