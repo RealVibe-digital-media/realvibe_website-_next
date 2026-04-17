@@ -7,8 +7,11 @@ import { motion, useInView, AnimatePresence, useMotionValue, useSpring, useTrans
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { ServiceCard } from "@/components/ServiceCard";
+import { TeamSection } from "@/components/TeamSection";
+import { BlogSection } from "@/components/BlogSection";
+import { AnimatedButton } from "@/components/AnimatedButton";
 // Lenis removed — causes scroll jank in Chrome
-import { MoveRight, Play, CheckCircle2 } from "lucide-react";
+import { MoveRight, Play, CheckCircle2, Clapperboard, Video, Smartphone, Monitor, Rocket, Target, Megaphone, Mic, Palette, Brain, TrendingUp, PenTool, BarChart3, Mail, Settings, Newspaper } from "lucide-react";
 
 // ════════ GLOBAL CSS FOR MOVING BORDER ════════
 const GlobalStyles = () => (
@@ -94,84 +97,6 @@ const MarqueeSection = () => (
   </section>
 );
 
-// ════════ ANIMATED BUTTON COMPONENT (REALATTE STYLE) ════════
-const AnimatedButton = ({
-  children,
-  href,
-  onClick,
-  variant = 'primary',
-  className = ""
-}: {
-  children: React.ReactNode,
-  href?: string,
-  onClick?: () => void,
-  variant?: 'primary' | 'outline',
-  className?: string
-}) => {
-  const content = (
-    <>
-      <span className="relative z-10 transition-colors duration-500 flex items-center gap-2 group-hover:text-white">
-        {children}
-        <motion.span
-          initial={{ x: 0 }}
-          whileHover={{ x: 5 }}
-          transition={{ type: "spring", stiffness: 400, damping: 10 }}
-        >
-          <MoveRight className="w-3.5 h-3.5 ml-1 opacity-70" />
-        </motion.span>
-      </span>
-      <div className="absolute inset-0 z-0 overflow-hidden rounded-full">
-        <div className="absolute inset-x-0 bottom-0 h-0 bg-pink-600 transition-all duration-500 ease-[cubic-bezier(0.19,1,0.22,1)] group-hover:h-full" />
-      </div>
-    </>
-  );
-
-  const baseStyles = `group relative inline-flex items-center justify-center px-7 py-3 rounded-full font-medium text-[11px] uppercase tracking-[0.2em] overflow-hidden transition-all duration-500 ${className}`;
-
-  // Realatte-style moving border logic
-  const borderStyles = variant === 'outline'
-    ? {
-      background: 'linear-gradient(#000, #000) padding-box, linear-gradient(90deg, #da0c89, #a7228e, #da0c89) border-box',
-      backgroundSize: '200% 200%',
-      border: '1px solid transparent',
-    }
-    : {};
-
-  const variantStyles = variant === 'primary'
-    ? "bg-white text-black border border-white"
-    : `text-white animate-moving-border`;
-
-  if (href) {
-    if (href.startsWith('http') || href.startsWith('tel:')) {
-      return (
-        <a
-          href={href}
-          target={href.startsWith('tel:') ? undefined : "_blank"}
-          rel="noopener noreferrer"
-          className={`${baseStyles} ${variantStyles}`}
-          style={borderStyles}
-        >
-          {content}
-        </a>
-      );
-    }
-    return (
-      <Link href={href} className={`${baseStyles} ${variantStyles}`} style={borderStyles}>
-        {content}
-      </Link>
-    );
-  }
-
-  return (
-    <button
-      onClick={onClick}
-      className={`${baseStyles} ${variantStyles}`}
-      style={borderStyles}
-    >
-      {content}
-    </button>
-  );
-};
 
 // ════════ MOUSE FOLLOWER (PREMIUM UX) — OPTIMIZED ════════
 const MouseFollower = () => {
@@ -222,6 +147,8 @@ export default function Home() {
       <AboutSection />
       <PortfolioSection />
       <TestimonialsSection />
+      <TeamSection />
+      <BlogSection />
       <CTASection />
       <Footer />
     </main>
@@ -378,12 +305,7 @@ function ServicesSection() {
       title: 'PPC & Performance Ads',
       description: 'Maximize ROI with precision-targeted campaigns across Google Ads, Meta Ads, and programmatic networks. Every rupee spent is optimized for maximum impact and measurable results.',
       tags: ['Google Ads', 'Meta Ads', 'Display Ads', 'Retargeting', 'Analytics'],
-      techIcons: [
-        { name: 'Google Ads', url: 'https://www.vectorlogo.zone/logos/google_ads/google_ads-icon.svg' },
-        { name: 'Meta', url: 'https://www.vectorlogo.zone/logos/facebook/facebook-icon.svg' },
-        { name: 'LinkedIn', url: 'https://www.vectorlogo.zone/logos/linkedin/linkedin-icon.svg' },
-        { name: 'Analytics', url: 'https://www.vectorlogo.zone/logos/google_analytics/google_analytics-icon.svg' }
-      ],
+
       bg: 'bg-gradient-to-br from-[#2e1a0a] to-[#4e2d1b]',
       iconGradient: 'from-orange-400 via-amber-400 to-yellow-400',
       glowColor: 'orange',
@@ -394,12 +316,7 @@ function ServicesSection() {
       title: 'Social Media Marketing',
       description: 'Build engaged communities and viral brand presence across Instagram, Facebook, LinkedIn, and emerging platforms. We create scroll-stopping content that drives real engagement and conversions.',
       tags: ['Content Strategy', 'Reels & Stories', 'Community Management', 'Influencer Marketing', 'Paid Social'],
-      techIcons: [
-        { name: 'Instagram', url: 'https://www.vectorlogo.zone/logos/instagram/instagram-icon.svg' },
-        { name: 'Facebook', url: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/facebook/facebook-original.svg' },
-        { name: 'LinkedIn', url: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linkedin/linkedin-original.svg' },
-        { name: 'Discord', url: 'https://www.vectorlogo.zone/logos/discordapp/discordapp-tile.svg' }
-      ],
+
       bg: 'bg-gradient-to-br from-[#2e0a1a] to-[#4e1b2d]',
       iconGradient: 'from-pink-400 via-rose-400 to-red-400',
       glowColor: 'pink',
@@ -410,13 +327,7 @@ function ServicesSection() {
       title: 'Web Development',
       description: 'Build blazing-fast, conversion-optimized websites and web applications with cutting-edge technology. From landing pages to full e-commerce platforms — we code experiences that convert.',
       tags: ['React/Next.js', 'E-Commerce', 'Landing Pages', 'UI/UX Design', 'Performance'],
-      techIcons: [
-        { name: 'Next.js', url: 'https://www.vectorlogo.zone/logos/nextjs/nextjs-icon.svg' },
-        { name: 'React', url: 'https://www.vectorlogo.zone/logos/reactjs/reactjs-icon.svg' },
-        { name: 'Tailwind', url: 'https://www.vectorlogo.zone/logos/tailwindcss/tailwindcss-icon.svg' },
-        { name: 'Shopify', url: 'https://www.vectorlogo.zone/logos/shopify/shopify-icon.svg' },
-        { name: 'TypeScript', url: 'https://www.vectorlogo.zone/logos/typescriptlang/typescriptlang-icon.svg' }
-      ],
+
       bg: 'bg-gradient-to-br from-[#0a1a2e] to-[#1b2d4e]',
       iconGradient: 'from-blue-400 via-cyan-400 to-teal-400',
       glowColor: 'blue',
@@ -427,12 +338,7 @@ function ServicesSection() {
       title: 'Brand Strategy & Design',
       description: 'Define your brand DNA — from visual identity systems to positioning strategy. We craft compelling brand narratives that make your audience feel something and remember you forever.',
       tags: ['Brand Identity', 'Logo Design', 'Brand Guidelines', 'Pitch Decks', 'Graphic Design'],
-      techIcons: [
-        { name: 'Figma', url: 'https://www.vectorlogo.zone/logos/figma/figma-icon.svg' },
-        { name: 'Adobe', url: 'https://www.vectorlogo.zone/logos/adobe/adobe-icon.svg' },
-        { name: 'Illustrator', url: 'https://www.vectorlogo.zone/logos/adobe_illustrator/adobe_illustrator-icon.svg' },
-        { name: 'Photoshop', url: 'https://raw.githubusercontent.com/devicons/devicon/master/icons/photoshop/photoshop-line.svg' }
-      ],
+
       bg: 'bg-gradient-to-br from-[#1a0a20] to-[#3d1b4e]',
       iconGradient: 'from-fuchsia-400 via-purple-400 to-violet-400',
       glowColor: 'fuchsia',
@@ -443,11 +349,7 @@ function ServicesSection() {
       title: 'SEO & Search Marketing',
       description: 'Dominate search rankings with data-driven SEO strategies. We optimize every aspect of your online presence to deliver sustainable organic growth and qualified traffic that converts.',
       tags: ['SEO Audit', 'Keyword Strategy', 'Link Building', 'Local SEO', 'Technical SEO'],
-      techIcons: [
-        { name: 'SEMRush', url: 'https://cdn.worldvectorlogo.com/logos/semrush-1.svg' },
-        { name: 'Ahrefs', url: 'https://upload.wikimedia.org/wikipedia/commons/e/e0/Ahrefs_logo.svg' },
-        { name: 'Console', url: 'https://www.vectorlogo.zone/logos/google_search_console/google_search_console-icon.svg' }
-      ],
+
       bg: 'bg-gradient-to-br from-[#1a0a2e] to-[#2d1b4e]',
       iconGradient: 'from-purple-400 via-fuchsia-400 to-pink-400',
       glowColor: 'purple',
@@ -578,211 +480,94 @@ function StatItem({ stat }: { stat: { value: number; suffix: string; label: stri
   );
 }
 
-// ════════ ABOUT ════════
+// ════════ ABOUT (EDITORIAL REDESIGN) ════════
 function AboutSection() {
   const features = [
-    { title: 'Data-Driven Strategy', desc: 'Real-time analytics and behavioral market insights.' },
-    { title: 'Creative Excellence', desc: 'Award-winning visual identities that demand attention.' },
-    { title: 'Transparent Performance', desc: 'Live dashboards so you see every rupee of growth.' },
-    { title: 'Dedicated Experts', desc: 'Direct access to senior strategists, not junior interns.' },
+    { title: 'Data-Driven Precision', desc: 'Decisions powered by real-time analytics, not guesswork.' },
+    { title: 'Creative Authority', desc: 'Visual identities and narratives that command absolute market presence.' },
+    { title: 'Absolute Transparency', desc: 'Open dashboards and honest communication. You see every rupee move.' },
+    { title: 'Senior Partnership', desc: 'Direct collaboration with seasoned strategists invested in your growth.' },
   ];
 
   return (
-    <section id="about" className="relative py-24 md:py-40 px-4 md:px-6 z-10 bg-black overflow-hidden">
-      <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-20 items-center">
+    <section id="about" className="relative py-28 md:py-40 px-6 z-10 bg-black overflow-hidden border-t border-white/5">
+      {/* Theme Background Gradients */}
+      <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-pink-500/10 blur-[120px] rounded-full mix-blend-screen pointer-events-none opacity-60" />
+      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-purple-700/10 blur-[120px] rounded-full mix-blend-screen pointer-events-none opacity-60" />
 
-          {/* Left: Premium 3st Layer Parallax Stack */}
+      <div className="max-w-7xl mx-auto relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-center">
+          
+          {/* Left Content - Editorial Vibe */}
           <motion.div
-            initial={{ x: -100, opacity: 0 }}
-            whileInView={{ x: 0, opacity: 1 }}
+            initial={{ y: 40, opacity: 0 }}
+            whileInView={{ y: 0, opacity: 1 }}
             viewport={{ once: true, margin: "-10%" }}
-            transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-            className="lg:col-span-6 relative aspect-[4/5] lg:aspect-auto h-[400px] md:h-[600px] lg:h-[700px]"
+            transition={{ duration: 0.9, ease: "easeOut" }}
+            className="order-2 lg:order-1 col-span-1 lg:col-span-6"
           >
-            {/* Base Layer */}
-            <div className="absolute inset-x-12 inset-y-12 rounded-[3rem] overflow-hidden rotate-[-3deg] border border-white/10 shadow-2xl scale-95 opacity-50 z-0">
-              <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&fit=crop" alt="Agency background" className="w-full h-full object-cover blur-sm" loading="lazy" />
+            <div className="flex items-center gap-4 mb-4">
+              <span className="w-12 h-px bg-pink-500/50"></span>
+              <span className="text-[10px] sm:text-[11px] font-black text-pink-400 uppercase tracking-[0.4em]">The RealVibe Standard</span>
             </div>
 
-            {/* Middle Layer */}
-            <motion.div
-              whileHover={{ scale: 1.02, rotate: 0 }}
-              transition={{ duration: 0.5 }}
-              className="absolute inset-x-6 inset-y-6 rounded-[3rem] overflow-hidden rotate-[3deg] border border-white/10 shadow-2xl z-10"
-            >
-              <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1000&fit=crop" alt="Team meeting" className="w-full h-full object-cover grayscale opacity-60" loading="lazy" />
-              <div className="absolute inset-0 bg-gradient-to-tr from-purple-900/40 via-transparent to-pink-900/40" />
-            </motion.div>
-
-            {/* Front Floating Layer — CSS animation instead of JS Infinity loop */}
-            <div
-              className="animate-float absolute top-1/2 -right-8 w-2/3 aspect-square rounded-[3.5rem] overflow-hidden border-8 border-black shadow-[0_40px_100px_rgba(0,0,0,0.8)] z-20"
-            >
-              <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&fit=crop" alt="Strategy session" className="w-full h-full object-cover" loading="lazy" />
-              {/* Achievement Badge */}
-              <div className="absolute top-8 left-8 p-4 md:p-6 bg-white rounded-3xl shadow-2xl flex flex-col items-center">
-                <span className="text-2xl md:text-4xl font-black text-black leading-none tracking-tighter">98%</span>
-                <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest mt-1">Growth</span>
-              </div>
-            </div>
-
-            {/* Decorative Elements */}
-            <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-purple-500/10 blur-[100px] rounded-full" />
-            <div className="absolute top-0 right-0 w-60 h-60 bg-pink-500/10 blur-[120px] rounded-full" />
-          </motion.div>
-
-          {/* Right Content */}
-          <motion.div
-            initial={{ x: 100, opacity: 0 }}
-            whileInView={{ x: 0, opacity: 1 }}
-            viewport={{ once: true, margin: "-10%" }}
-            transition={{ duration: 0.9, delay: 0.2, ease: "easeOut" }}
-            className="lg:col-span-6"
-          >
-            <div className="flex items-center gap-4 mb-8">
-              <span className="w-12 h-px bg-pink-500/30"></span>
-              <span className="text-[10px] font-black text-pink-400 uppercase tracking-[0.4em]">Why RealVibe</span>
-            </div>
-
-            <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold font-heading mb-8 leading-[1.05] tracking-tight">
-              <span className="text-gradient-metallic">We Don't Just</span><br />
-              <span className="text-gradient-metallic">Market.</span> <span className="text-gradient-primary">We Transform.</span>
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold font-heading mb-6 leading-[1.1] tracking-tight py-2">
+              <span className="text-gradient-metallic inline-block pb-1">We Craft</span> <span className="text-gradient-primary italic inline-block pb-1 pr-2">Clarity</span><br />
+              <span className="text-gradient-metallic inline-block pb-1 mt-2">in a World of Noise.</span>
             </h2>
 
-            <p className="text-gray-400 text-lg md:text-xl leading-relaxed mb-12 max-w-2xl">
-              In a world crowded with noise, <span className="text-white font-bold">we create clarity.</span> We've spent a decade refining the science of lead generation for the premium sector, combining absolute data-precision with creative storytelling that commands attention.
+            <div className="w-full h-px bg-white/5 mb-6" />
+
+            <p className="text-gray-400 text-base md:text-lg leading-relaxed mb-8 max-w-xl font-normal">
+              For over a decade, we have refined the science of luxury brand positioning. We blend rigorous data analysis with deeply human storytelling—building campaigns that don't just generate leads, but command market authority.
             </p>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 md:gap-10">
+            <div className="space-y-8">
               {features.map((item, i) => (
-                <div key={i} className="group">
-                  <div className="flex items-center gap-4 mb-4">
-                    <div className="w-1 h-8 bg-gradient-to-b from-purple-500 items-center justify-center rounded-full" />
-                    <h4 className="font-black text-white text-base md:text-lg tracking-tight">{item.title}</h4>
-                  </div>
-                  <p className="text-gray-500 text-sm md:text-base leading-snug pl-5 group-hover:text-gray-300 transition-colors duration-300 border-l border-white/5">{item.desc}</p>
+                <div key={i} className="group relative pl-6 border-l-[2px] border-white/5 hover:border-transparent transition-colors duration-500">
+                  <div className="absolute -left-[2px] top-0 bottom-0 w-[2px] bg-gradient-to-b from-purple-500 to-pink-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  <h4 className="font-bold text-white text-base md:text-lg tracking-tight mb-1.5 transition-colors">
+                    {item.title}
+                  </h4>
+                  <p className="text-gray-400 text-sm md:text-base leading-relaxed font-normal">{item.desc}</p>
                 </div>
               ))}
             </div>
 
-            <div className="mt-16">
-              <Link href="/about" className="group flex items-center gap-6 text-white no-underline">
-                <div className="w-16 h-16 rounded-full border border-white/10 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all duration-500">
-                  <MoveRight className="w-6 h-6 group-hover:scale-110 transition-transform" />
-                </div>
-                <div className="flex flex-col">
-                  <span className="text-xs font-bold text-gray-500 uppercase tracking-widest border-b border-transparent group-hover:border-white transition-all">Learn our story</span>
-                </div>
+            <div className="mt-10">
+              <Link href="/about" className="inline-flex items-center gap-3 text-[10px] font-bold text-pink-400 uppercase tracking-[0.2em] hover:text-pink-300 transition-colors group">
+                Discover Our Approach
+                <MoveRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform duration-300" />
               </Link>
             </div>
           </motion.div>
+
+          {/* Right Image - Authentic Focus */}
+          <motion.div
+            initial={{ scale: 0.95, opacity: 0 }}
+            whileInView={{ scale: 1, opacity: 1 }}
+            viewport={{ once: true, margin: "-10%" }}
+            transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+            className="order-1 lg:order-2 col-span-1 lg:col-span-6 relative aspect-[3/4] md:aspect-[4/5] w-full rounded-[2.5rem] overflow-hidden shadow-2xl border border-white/5"
+          >
+            <img 
+              src="https://res.cloudinary.com/dd4dl6cu9/image/upload/WhatsApp_Image_2026-04-16_at_2.42.04_PM_1_r1iugs.jpg" 
+              alt="RealVibe Production" 
+              className="w-full h-full object-cover grayscale transition-all duration-1000 hover:grayscale-0 scale-105 hover:scale-100"
+              loading="lazy" 
+            />
+            
+            {/* Theme light leak for warmth */}
+            <div className="absolute top-0 right-0 w-64 h-64 bg-pink-500/10 blur-[80px] pointer-events-none mix-blend-screen" />
+            <div className="absolute bottom-0 left-0 w-64 h-64 bg-purple-500/10 blur-[80px] pointer-events-none mix-blend-screen" />
+          </motion.div>
+          
         </div>
       </div>
     </section>
   );
 }
 
-// ════════ TEAM ════════
-function TeamSection() {
-  const [team, setTeam] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchTeam = async () => {
-      try {
-        const res = await fetch('/api/admin/team');
-        if (res.ok) {
-          const data = await res.json();
-          setTeam(data);
-        }
-      } catch (err) {
-        console.error("Failed to load team", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchTeam();
-  }, []);
-
-  if (!loading && team.length === 0) return null; // Don't show section if no team
-
-  return (
-    <section id="team" className="relative py-20 px-6 z-10 w-full overflow-hidden bg-black">
-      <div className="max-w-7xl mx-auto relative">
-        <motion.div
-          initial={{ y: 50, opacity: 0 }}
-          whileInView={{ y: 0, opacity: 1 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
-          <span className="inline-block px-4 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-300 text-xs font-bold uppercase tracking-widest mb-4">
-            Our People
-          </span>
-          <h2 className="text-4xl md:text-5xl font-bold font-heading">
-            <span className="text-gradient-metallic">Meet the</span> <span className="text-gradient-primary">Experts</span>
-          </h2>
-        </motion.div>
-
-        {loading ? (
-          <div className="flex justify-center py-10 opacity-50">
-            <div className="animate-pulse flex space-x-4">
-              <div className="rounded-full bg-slate-700 h-20 w-20"></div>
-              <div className="rounded-full bg-slate-700 h-20 w-20"></div>
-              <div className="rounded-full bg-slate-700 h-20 w-20"></div>
-            </div>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-            {team.map((member, i) => {
-              const socials = member.social_links ? JSON.parse(member.social_links) : {};
-              return (
-                <motion.div
-                  key={member.id}
-                  initial={{ y: 30, opacity: 0 }}
-                  whileInView={{ y: 0, opacity: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.1 }}
-                  className="group relative rounded-2xl overflow-hidden bg-white/[0.02] border border-white/5 p-6 hover:bg-white/[0.05] transition-colors duration-500 flex flex-col items-center text-center"
-                >
-                  <div className="w-32 h-32 mb-6 rounded-full overflow-hidden border-2 border-white/10 group-hover:border-purple-500/50 transition-colors duration-500">
-                    {member.image_url ? (
-                      <img src={member.image_url} alt={member.name} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" />
-                    ) : (
-                      <div className="w-full h-full bg-gradient-to-br from-purple-500/20 to-blue-500/20 flex items-center justify-center text-3xl font-bold text-white/50">
-                        {member.name.charAt(0)}
-                      </div>
-                    )}
-                  </div>
-
-                  <h3 className="text-xl font-bold text-white mb-1 group-hover:text-purple-300 transition-colors">{member.name}</h3>
-                  <p className="text-sm font-medium text-pink-400 mb-4">{member.role}</p>
-
-                  {member.bio && (
-                    <p className="text-gray-400 text-sm leading-relaxed mb-6 line-clamp-3">{member.bio}</p>
-                  )}
-
-                  <div className="flex items-center gap-4 mt-auto opacity-50 group-hover:opacity-100 transition-opacity">
-                    {socials.linkedin && (
-                      <a href={socials.linkedin} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-400 transition-colors">
-                        <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" /></svg>
-                      </a>
-                    )}
-                    {socials.twitter && (
-                      <a href={socials.twitter} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-cyan-400 transition-colors">
-                        <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z" /></svg>
-                      </a>
-                    )}
-                  </div>
-                </motion.div>
-              );
-            })}
-          </div>
-        )}
-      </div>
-    </section>
-  );
-}
 
 // ════════ PORTFOLIO ════════
 function PortfolioSection() {
@@ -993,7 +778,7 @@ function TestimonialsSection() {
   }, []);
 
   return (
-    <section id="testimonials" className="relative py-24 md:py-40 bg-black overflow-hidden z-10">
+    <section id="testimonials" className="relative pt-24 pb-12 md:pt-40 md:pb-16 bg-black overflow-hidden z-10">
       {/* Large Decorative Glows — Hardware Accelerated */}
       <div className="gpu-layer absolute top-0 left-0 w-[500px] h-[500px] bg-purple-600/10 rounded-full blur-[120px] -translate-x-1/2 -translate-y-1/2" />
       <div className="gpu-layer absolute bottom-0 right-0 w-[500px] h-[500px] bg-pink-600/10 rounded-full blur-[120px] translate-x-1/2 translate-y-1/2" />
@@ -1155,24 +940,24 @@ function DoubleScrollMarquee() {
   const row2Ref = useRef<HTMLDivElement>(null);
 
   const row1 = [
-    { name: "UGC", emoji: "🎬" },
-    { name: "Video Production", emoji: "🎥" },
-    { name: "Social Media", emoji: "📱" },
-    { name: "Website Development", emoji: "💻" },
-    { name: "App Development", emoji: "🚀" },
-    { name: "Google Ads", emoji: "🎯" },
-    { name: "Meta Ads", emoji: "📢" },
-    { name: "Podcast", emoji: "🎙️" },
+    { name: "UGC", icon: <Clapperboard className="w-3.5 h-3.5 md:w-4 md:h-4 text-purple-400" /> },
+    { name: "Video Production", icon: <Video className="w-3.5 h-3.5 md:w-4 md:h-4 text-pink-400" /> },
+    { name: "Social Media", icon: <Smartphone className="w-3.5 h-3.5 md:w-4 md:h-4 text-blue-400" /> },
+    { name: "Website Development", icon: <Monitor className="w-3.5 h-3.5 md:w-4 md:h-4 text-cyan-400" /> },
+    { name: "App Development", icon: <Rocket className="w-3.5 h-3.5 md:w-4 md:h-4 text-orange-400" /> },
+    { name: "Google Ads", icon: <Target className="w-3.5 h-3.5 md:w-4 md:h-4 text-red-500" /> },
+    { name: "Meta Ads", icon: <Megaphone className="w-3.5 h-3.5 md:w-4 md:h-4 text-blue-500" /> },
+    { name: "Podcast", icon: <Mic className="w-3.5 h-3.5 md:w-4 md:h-4 text-emerald-400" /> },
   ];
   const row2 = [
-    { name: "Brand Design", emoji: "🎨" },
-    { name: "Strategy", emoji: "🧠" },
-    { name: "SEO Optimization", emoji: "📈" },
-    { name: "Content Creation", emoji: "✍️" },
-    { name: "Analytics", emoji: "📊" },
-    { name: "Email Marketing", emoji: "✉️" },
-    { name: "Automation", emoji: "⚙️" },
-    { name: "PR & Media", emoji: "🗞️" },
+    { name: "Brand Design", icon: <Palette className="w-3.5 h-3.5 md:w-4 md:h-4 text-fuchsia-400" /> },
+    { name: "Strategy", icon: <Brain className="w-3.5 h-3.5 md:w-4 md:h-4 text-yellow-400" /> },
+    { name: "SEO Optimization", icon: <TrendingUp className="w-3.5 h-3.5 md:w-4 md:h-4 text-green-400" /> },
+    { name: "Content Creation", icon: <PenTool className="w-3.5 h-3.5 md:w-4 md:h-4 text-pink-300" /> },
+    { name: "Analytics", icon: <BarChart3 className="w-3.5 h-3.5 md:w-4 md:h-4 text-indigo-400" /> },
+    { name: "Email Marketing", icon: <Mail className="w-3.5 h-3.5 md:w-4 md:h-4 text-amber-400" /> },
+    { name: "Automation", icon: <Settings className="w-3.5 h-3.5 md:w-4 md:h-4 text-gray-300" /> },
+    { name: "PR & Media", icon: <Newspaper className="w-3.5 h-3.5 md:w-4 md:h-4 text-teal-400" /> },
   ];
 
   useEffect(() => {
@@ -1240,10 +1025,12 @@ function DoubleScrollMarquee() {
     };
   }, []);
 
-  const Pill = ({ item }: { item: { name: string; emoji: string } }) => (
-    <div className="flex-shrink-0 flex items-center gap-2 px-4 py-2 md:px-6 md:py-2.5 rounded-full border border-white/[0.08] bg-white/[0.03] mx-1.5 md:mx-2">
-      <span className="text-xs md:text-sm leading-none">{item.emoji}</span>
-      <span className="text-[10px] md:text-[11px] font-heading font-semibold uppercase tracking-[0.18em] text-white/55 whitespace-nowrap">{item.name}</span>
+  const Pill = ({ item }: { item: { name: string; icon: React.ReactNode } }) => (
+    <div className="flex-shrink-0 flex items-center gap-2.5 px-4 py-2.5 md:px-6 md:py-3 rounded-full border border-white/[0.08] bg-white/[0.03] mx-1.5 md:mx-2 hover:bg-white/[0.06] hover:border-white/[0.15] hover:scale-105 transition-all duration-300 cursor-default shadow-lg shadow-black/20">
+      <div className="flex items-center justify-center bg-black/40 p-1.5 rounded-full border border-white/5">
+        {item.icon}
+      </div>
+      <span className="text-[10px] md:text-sm font-heading font-semibold uppercase tracking-[0.18em] text-white/70 whitespace-nowrap pt-0.5">{item.name}</span>
     </div>
   );
 
@@ -1274,30 +1061,30 @@ function DoubleScrollMarquee() {
 // ════════ CTA ════════
 function CTASection() {
   return (
-    <section id="cta-section" className="relative py-16 md:py-32 px-4 md:px-6 z-10 w-full overflow-hidden">
+    <section id="cta-section" className="relative py-12 md:py-20 px-4 md:px-6 z-10 w-full overflow-hidden">
       <div className="max-w-5xl mx-auto">
         <motion.div
-          initial={{ scale: 0.92, y: 40, opacity: 0 }}
+          initial={{ scale: 0.95, y: 30, opacity: 0 }}
           whileInView={{ scale: 1, y: 0, opacity: 1 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="relative rounded-[2rem] overflow-hidden"
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          className="relative rounded-[1.5rem] md:rounded-[2rem] overflow-hidden"
         >
-          <div className="absolute -inset-[1px] rounded-[2rem] bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500 opacity-30"></div>
+          <div className="absolute -inset-[1px] rounded-[1.5rem] md:rounded-[2rem] bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500 opacity-40"></div>
 
-          <div className="relative rounded-[2rem] bg-black">
-            <div className="absolute inset-0 bg-gradient-to-br from-purple-900/30 via-pink-900/20 to-orange-900/30 rounded-[2rem]"></div>
-            <div className="absolute inset-0 opacity-20 rounded-[2rem]" style={{ backgroundImage: "radial-gradient(circle at 1px 1px, rgba(255,255,255,0.07) 1px, transparent 0)", backgroundSize: "32px 32px" }}></div>
+          <div className="relative rounded-[1.5rem] md:rounded-[2rem] bg-black">
+            <div className="absolute inset-0 bg-gradient-to-br from-purple-900/30 via-pink-900/20 to-orange-900/30 rounded-[1.5rem] md:rounded-[2rem]"></div>
+            <div className="absolute inset-0 opacity-20 rounded-[1.5rem] md:rounded-[2rem]" style={{ backgroundImage: "radial-gradient(circle at 1px 1px, rgba(255,255,255,0.07) 1px, transparent 0)", backgroundSize: "32px 32px" }}></div>
 
-            <div className="relative px-6 py-14 md:px-16 md:py-28 text-center">
-              <span className="inline-block px-4 py-1.5 rounded-full bg-white/10 border border-white/10 text-white text-xs font-bold uppercase tracking-widest mb-8">
+            <div className="relative px-6 py-10 md:px-12 md:py-16 text-center">
+              <span className="inline-block px-4 py-1.5 rounded-full bg-white/10 border border-white/10 text-white text-[10px] md:text-xs font-bold uppercase tracking-widest mb-6">
                 Let's Work Together
               </span>
-              <h2 className="text-3xl md:text-6xl lg:text-7xl font-bold font-heading mb-4 md:mb-6 leading-[1.1]">
+              <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold font-heading mb-4 md:mb-5 leading-[1.1]">
                 <span className="text-gradient-metallic">Ready to Go</span><br />
                 <span className="text-gradient-primary">Viral?</span>
               </h2>
-              <p className="text-base md:text-xl text-gray-300 max-w-2xl mx-auto mb-8 md:mb-12 leading-relaxed">
+              <p className="text-sm md:text-lg text-gray-300 max-w-2xl mx-auto mb-8 md:mb-10 leading-relaxed">
                 Let's craft a digital strategy that puts your brand ahead of the competition. Your growth story starts here.
               </p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">

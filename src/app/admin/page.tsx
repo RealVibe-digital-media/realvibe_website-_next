@@ -1,21 +1,43 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Users, MessageSquareQuote, MousePointerClick, TrendingUp } from "lucide-react";
+import { Users, MessageSquareQuote, MousePointerClick, TrendingUp, BookOpen, Loader2, ArrowRight } from "lucide-react";
 import Link from "next/link";
 
 export default function AdminDashboardPage() {
+    const [data, setData] = useState<any>(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        fetch("/api/admin/stats")
+            .then(res => res.json())
+            .then(json => {
+                setData(json);
+                setLoading(false);
+            })
+            .catch(() => setLoading(false));
+    }, []);
+
     const stats = [
-        { label: "Total Testimonials", value: "0", icon: MessageSquareQuote, color: "text-blue-400", bg: "bg-blue-500/10" },
-        { label: "Team Members", value: "0", icon: Users, color: "text-purple-400", bg: "bg-purple-500/10" },
-        { label: "Active Campaigns", value: "3", icon: MousePointerClick, color: "text-pink-400", bg: "bg-pink-500/10" },
-        { label: "Site Visitors (30d)", value: "12,450", icon: TrendingUp, color: "text-orange-400", bg: "bg-orange-500/10" },
+        { label: "Service Leads", value: data?.leads || "0", icon: MousePointerClick, color: "text-blue-400", bg: "bg-blue-500/10" },
+        { label: "Team Members", value: data?.team || "0", icon: Users, color: "text-purple-400", bg: "bg-purple-500/10" },
+        { label: "Blog Articles", value: data?.blogs || "0", icon: BookOpen, color: "text-orange-400", bg: "bg-orange-500/10" },
+        { label: "Total Testimonials", value: data?.testimonials || "0", icon: MessageSquareQuote, color: "text-cyan-400", bg: "bg-cyan-500/10" },
     ];
+
+    if (loading) {
+        return (
+            <div className="flex items-center justify-center min-h-[400px]">
+                <Loader2 className="w-8 h-8 animate-spin text-purple-500" />
+            </div>
+        );
+    }
 
     return (
         <div className="space-y-8">
             <header>
-                <h1 className="text-3xl font-bold tracking-tight">Dashboard Overview</h1>
+                <h1 className="text-3xl font-bold tracking-tight text-white">Dashboard Overview</h1>
                 <p className="text-gray-400 mt-2">Welcome back to the RealVibe control panel.</p>
             </header>
 
@@ -47,27 +69,53 @@ export default function AdminDashboardPage() {
             </div>
 
             {/* Quick Actions */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
-                <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-8">
-                    <h2 className="text-xl font-bold mb-4">Manage Testimonials</h2>
-                    <p className="text-gray-400 text-sm mb-6 max-w-sm">
-                        Add new client quotes, update existing reviews, or manage images displayed in the Testimonial slider on the homepage.
-                    </p>
-                    <Link href="/admin/testimonials" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white bg-white/10 hover:bg-white/20 transition-all border border-white/10">
-                        Go to Testimonials
-                        <MessageSquareQuote size={16} />
-                    </Link>
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-12">
+                <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-8 group relative overflow-hidden">
+                    <div className="relative z-10">
+                        <h2 className="text-xl font-bold mb-3 text-white">Manage Blog</h2>
+                        <p className="text-gray-400 text-sm mb-6 leading-relaxed">
+                            Create SEO-optimized articles, update industry insights, and share company news.
+                        </p>
+                        <Link href="/admin/blog" className="inline-flex items-center gap-2 text-orange-400 font-bold text-xs uppercase tracking-widest hover:text-orange-300 transition-colors">
+                            Launch Articles
+                            <ArrowRight size={14} />
+                        </Link>
+                    </div>
+                    <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:scale-110 transition-transform">
+                        <BookOpen size={64} className="text-orange-500" />
+                    </div>
                 </div>
 
-                <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-8">
-                    <h2 className="text-xl font-bold mb-4">Manage Team</h2>
-                    <p className="text-gray-400 text-sm mb-6 max-w-sm">
-                        Create, update, or remove profiles for RealVibe team members. Manage their roles, bios, and profile images.
-                    </p>
-                    <Link href="/admin/team" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white bg-white/10 hover:bg-white/20 transition-all border border-white/10">
-                        Go to Team
-                        <Users size={16} />
-                    </Link>
+                <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-8 group relative overflow-hidden">
+                    <div className="relative z-10">
+                        <h2 className="text-xl font-bold mb-3 text-white">Manage Team</h2>
+                        <p className="text-gray-400 text-sm mb-6 leading-relaxed">
+                            Update profile images, roles, and descriptions for all team members.
+                        </p>
+                        <Link href="/admin/team" className="inline-flex items-center gap-2 text-purple-400 font-bold text-xs uppercase tracking-widest hover:text-purple-300 transition-colors">
+                            Manage Profiles
+                            <ArrowRight size={14} />
+                        </Link>
+                    </div>
+                    <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:scale-110 transition-transform">
+                        <Users size={64} className="text-purple-500" />
+                    </div>
+                </div>
+
+                <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-8 group relative overflow-hidden">
+                    <div className="relative z-10">
+                        <h2 className="text-xl font-bold mb-3 text-white">Testimonials</h2>
+                        <p className="text-gray-400 text-sm mb-6 leading-relaxed">
+                            Showcase success stories and feedback from your satisfied clients.
+                        </p>
+                        <Link href="/admin/testimonials" className="inline-flex items-center gap-2 text-cyan-400 font-bold text-xs uppercase tracking-widest hover:text-cyan-300 transition-colors">
+                            View Feedback
+                            <ArrowRight size={14} />
+                        </Link>
+                    </div>
+                    <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:scale-110 transition-transform">
+                        <MessageSquareQuote size={64} className="text-cyan-500" />
+                    </div>
                 </div>
             </div>
         </div>

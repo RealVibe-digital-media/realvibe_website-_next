@@ -9,7 +9,6 @@ interface ServiceCardProps {
     title: string;
     description: string;
     tags: string[];
-    techIcons?: { name: string; url: string }[];
     bg: string;
     iconGradient: string;
     glowColor: string;
@@ -17,7 +16,7 @@ interface ServiceCardProps {
     href: string;
 }
 
-export function ServiceCard({ index, totalCards, title, description, tags, techIcons, bg, iconGradient, glowColor, iconSvg, href }: ServiceCardProps) {
+export function ServiceCard({ index, totalCards, title, description, tags, bg, iconGradient, glowColor, iconSvg, href }: ServiceCardProps) {
     const isEven = index % 2 === 1;
     const isLast = index === totalCards - 1;
 
@@ -68,39 +67,6 @@ export function ServiceCard({ index, totalCards, title, description, tags, techI
                             {description}
                         </p>
 
-                        {/* Tech Stack Upgrade with Real Logos */}
-                        {techIcons && (
-                            <div className="mb-4 p-3 rounded-2xl bg-black/30 border border-white/5">
-                                <div className="text-[9px] font-black text-gray-500 uppercase tracking-widest mb-2 flex items-center gap-2">
-                                    <div className="w-1 h-1 rounded-full bg-purple-500 animate-pulse"></div>
-                                    Technologies We Use
-                                </div>
-                                <div className="flex flex-wrap gap-3 md:gap-5">
-                                    {techIcons.map((tech) => (
-                                        <div key={tech.name} className="flex flex-col items-center gap-1.5 group/icon">
-                                            <div className="w-7 h-7 md:w-9 md:h-9 rounded-xl bg-white/[0.03] border border-white/10 flex items-center justify-center p-1.5 group-hover/icon:bg-white/10 group-hover/icon:border-purple-500/50 transition-all duration-300">
-                                                <img 
-                                                    src={tech.url} 
-                                                    alt={tech.name} 
-                                                    className="w-full h-full object-contain grayscale opacity-60 group-hover/icon:grayscale-0 group-hover/icon:opacity-100 transition-all duration-300"
-                                                    onError={(e) => {
-                                                        const target = e.currentTarget;
-                                                        target.style.display = 'none';
-                                                        if (target.parentElement) {
-                                                            const span = document.createElement('span');
-                                                            span.className = "text-[9px] font-black text-white/40";
-                                                            span.textContent = tech.name.substring(0, 2).toUpperCase();
-                                                            target.parentElement.appendChild(span);
-                                                        }
-                                                    }}
-                                                />
-                                            </div>
-                                            <span className="text-[8px] font-bold text-gray-500 group-hover/icon:text-gray-300 transition-colors uppercase tracking-widest">{tech.name}</span>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                        )}
 
                         <div className="mt-auto">
                             <Link href={href} className="group/btn relative inline-flex items-center gap-4 px-8 py-3 rounded-full bg-white text-black font-black text-xs overflow-hidden transition-all duration-500 hover:scale-[1.05] active:scale-95 hover:shadow-[0_0_30px_rgba(255,255,255,0.2)] tap-bounce">
@@ -129,25 +95,6 @@ export function ServiceCard({ index, totalCards, title, description, tags, techI
                                 </div>
                             </div>
 
-                            {/* Floating decorative tech labels for desktop only */}
-                            {techIcons?.slice(0, 3).map((tech, i) => (
-                                <motion.div
-                                    key={tech.name}
-                                    animate={{ 
-                                        y: [0, -10, 0],
-                                        rotate: [0, i % 2 === 0 ? 5 : -5, 0]
-                                    }}
-                                    transition={{ 
-                                        duration: 4, 
-                                        repeat: Infinity, 
-                                        delay: i * 0.5,
-                                        ease: "easeInOut"
-                                    }}
-                                    className={`absolute ${i === 0 ? '-top-10 -right-4' : i === 1 ? '-bottom-8 -left-6' : 'top-10 -left-12'} px-4 py-2 rounded-xl bg-white/[0.03] border border-white/10 backdrop-blur-md hidden xl:block`}
-                                >
-                                    <span className="text-[10px] font-black text-white/50 uppercase tracking-widest">{tech.name}</span>
-                                </motion.div>
-                            ))}
                         </div>
                     </div>
                 </div>

@@ -386,3 +386,17 @@ html {
 .animate-text-shimmer {
   animation: text-shimmer 4s ease-in-out infinite;
 }
+
+/* ════════ INFINITE MARQUEE ════════ */
+@keyframes marquee-slow {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee-slow {
+  animation: marquee-slow 80s linear infinite;
+}
+
+.animate-marquee-slow:hover {
+  animation-play-state: paused;
+}
