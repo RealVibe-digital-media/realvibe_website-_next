@@ -42,14 +42,16 @@ export default function RootLayout({
           className="fixed bottom-6 right-6 md:bottom-10 md:right-10 z-[100] group"
           aria-label="Let's Talk"
         >
-          <div className="relative w-16 h-16 md:w-20 md:h-20 flex items-center justify-center">
-            {/* Pulsing Ripple Effect */}
-            <div className="absolute inset-0 bg-gradient-to-tr from-pink-500 to-orange-500 rounded-full blur-xl opacity-40 group-hover:opacity-70 animate-pulse transition-opacity" />
+          <div className="relative w-14 h-14 md:w-16 md:h-16 flex items-center justify-center">
+            {/* Subtle border ring */}
+            <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-purple-500/60 to-pink-500/60 p-[1.5px]">
+              <div className="w-full h-full rounded-full bg-black/90" />
+            </div>
             
             {/* Main Button */}
-            <div className="relative w-full h-full bg-gradient-to-tr from-pink-500 to-orange-500 rounded-full shadow-[0_0_30px_rgba(236,72,153,0.5)] flex flex-col items-center justify-center text-white transition-transform duration-500 group-hover:scale-110 group-active:scale-95">
-              <span className="text-[10px] md:text-[11px] font-black uppercase tracking-widest leading-none">Let's</span>
-              <span className="text-[12px] md:text-[14px] font-black uppercase tracking-tighter leading-none">Talk</span>
+            <div className="relative w-full h-full rounded-full bg-white/[0.05] backdrop-blur-md border border-white/10 flex flex-col items-center justify-center text-white transition-all duration-500 group-hover:bg-white/[0.1] group-hover:border-white/20 group-active:scale-95">
+              <span className="text-[9px] md:text-[10px] font-bold uppercase tracking-widest leading-none text-gray-300 group-hover:text-white transition-colors">Let's</span>
+              <span className="text-[11px] md:text-[13px] font-black uppercase tracking-tight leading-none text-gradient-primary">Talk</span>
             </div>
           </div>
         </Link>

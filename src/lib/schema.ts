@@ -61,7 +61,14 @@ export async function createTablesIfNotExist() {
     CREATE TABLE IF NOT EXISTS portfolio (
       id INT AUTO_INCREMENT PRIMARY KEY,
       title VARCHAR(255) NOT NULL,
+      slug VARCHAR(255) NOT NULL UNIQUE,
+      client_name VARCHAR(255),
+      client_logo VARCHAR(2048),
       description TEXT,
+      challenge TEXT,
+      solution TEXT,
+      results TEXT,
+      content LONGTEXT,
       image_url VARCHAR(2048) NOT NULL,
       metrics JSON,
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -81,6 +88,14 @@ export async function createTablesIfNotExist() {
     );
   `;
 
+  const portfolioWallTable = `
+    CREATE TABLE IF NOT EXISTS portfolio_wall (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      image_url VARCHAR(2048) NOT NULL,
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
+  `;
+
   try {
     await query(testimonialsTable);
     console.log('Testimonials table verified.');
@@ -96,6 +111,8 @@ export async function createTablesIfNotExist() {
     console.log('Portfolio table verified.');
     await query(blogsTable);
     console.log('Blogs table verified.');
+    await query(portfolioWallTable);
+    console.log('Portfolio Wall table verified.');
 
     // Seed 3 SEO-friendly blogs if the table is empty
     const existingBlogs = await query('SELECT id FROM blogs LIMIT 1');

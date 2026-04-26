@@ -51,13 +51,13 @@ export function ServiceCard({ index, totalCards, title, description, tags, bg, i
                             <span className="text-xs font-black tracking-[0.3em] text-white/40 uppercase">Service 0{index + 1}</span>
                         </div>
 
-                        <h3 className="text-2xl md:text-3xl lg:text-3xl font-black text-white leading-[1.1] mb-2 tracking-tight">
+                        <h3 className="text-2xl md:text-3xl lg:text-3xl font-semibold text-white leading-[1.1] mb-2 tracking-tight">
                             {title}
                         </h3>
 
                         <div className="flex flex-wrap gap-2 mb-4">
                             {tags.map((tag) => (
-                                <span key={tag} className="px-3 py-1 rounded-full bg-white/[0.05] border border-white/10 text-[10px] md:text-[12px] text-gray-300 font-bold uppercase tracking-wider cursor-default hover:bg-white/10 transition-colors">
+                                <span key={tag} className="px-3 py-1 rounded-full bg-white/[0.05] border border-white/10 text-[10px] md:text-[12px] text-gray-400 font-medium uppercase tracking-wider cursor-default hover:bg-white/10 hover:text-gray-200 transition-colors">
                                     {tag}
                                 </span>
                             ))}

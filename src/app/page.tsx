@@ -11,7 +11,7 @@ import { TeamSection } from "@/components/TeamSection";
 import { BlogSection } from "@/components/BlogSection";
 import { AnimatedButton } from "@/components/AnimatedButton";
 // Lenis removed — causes scroll jank in Chrome
-import { MoveRight, Play, CheckCircle2, Clapperboard, Video, Smartphone, Monitor, Rocket, Target, Megaphone, Mic, Palette, Brain, TrendingUp, PenTool, BarChart3, Mail, Settings, Newspaper } from "lucide-react";
+import { MoveRight, ArrowRight, Play, CheckCircle2, Clapperboard, Video, Smartphone, Monitor, Rocket, Target, Megaphone, Mic, Palette, Brain, TrendingUp, PenTool, BarChart3, Mail, Settings, Newspaper, Search, Map, Zap, LineChart } from "lucide-react";
 
 // ════════ GLOBAL CSS FOR MOVING BORDER ════════
 const GlobalStyles = () => (
@@ -84,7 +84,7 @@ const MarqueeSection = () => (
       {[1, 2, 3, 4].map((i) => (
         <div key={i} className="flex items-center gap-10 md:gap-20 pr-10 md:pr-20">
           <span className="text-[6vw] md:text-[3vw] font-bold uppercase tracking-widest text-white leading-none">
-            Digital marketing <span className="text-gradient-primary">Agency</span>
+            Real Estate <span className="text-gradient-primary">Marketing</span>
           </span>
           <div className="w-2 h-2 md:w-4 md:h-4 rounded-full bg-pink-500 shadow-[0_0_20px_rgba(236,72,153,0.4)]" />
           <span className="text-[6vw] md:text-[3vw] font-bold uppercase tracking-widest text-stroke leading-none">
@@ -145,6 +145,7 @@ export default function Home() {
       <ServicesSection />
       <DoubleScrollMarquee />
       <AboutSection />
+      <OurApproachSection />
       <PortfolioSection />
       <TestimonialsSection />
       <TeamSection />
@@ -212,9 +213,9 @@ function HeroSection() {
           transition={{ duration: 1, delay: 0.3, ease: "easeOut" }}
           className="text-4xl sm:text-5xl md:text-7xl lg:text-[5.5rem] font-bold tracking-tighter leading-[1.1] mb-6 md:mb-8 font-heading overflow-visible"
         >
-          <span className="text-gradient-metallic pr-[0.1em]">We Build</span> <span className="text-gradient-primary pr-[0.1em]">Brands</span>
+          <span className="text-gradient-metallic pr-[0.1em]">We Deliver</span> <span className="text-gradient-primary pr-[0.1em]">Leads</span>
           <br />
-          <span className="text-gradient-metallic pr-[0.1em]">That</span> <span className="text-gradient-primary pr-[0.1em]">Dominate</span> <span className="text-gradient-metallic pr-[0.1em]">Digital</span>
+          <span className="text-gradient-metallic pr-[0.1em]">That</span> <span className="text-gradient-primary pr-[0.1em]">Sell</span>
         </motion.h1>
 
         {/* Subtitle */}
@@ -224,8 +225,8 @@ function HeroSection() {
           transition={{ duration: 0.8, delay: 0.5, ease: "easeOut" }}
           className="text-[15px] md:text-[17px] text-gray-400 max-w-xl mx-auto leading-relaxed mb-8 md:mb-12 px-2"
         >
-          Transform ideas into impactful digital experiences that
-          captivate your audience and fuel business growth.
+          India's #1 real estate digital marketing agency. We generate
+          high-intent buyer leads that convert into site visits and sales.
         </motion.p>
 
         {/* CTA Buttons */}
@@ -247,7 +248,7 @@ function HeroSection() {
       {/* ═══ THEY TRUSTED US — Infinite Marquee (CSS-based for performance) ═══ */}
       <div className="absolute bottom-6 md:bottom-10 left-0 right-0 z-10">
         <div className="flex justify-center mb-4 md:mb-8">
-          <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-500">They trusted us</span>
+          <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-500">Builders who trust us</span>
         </div>
         <div className="trusted-marquee-wrapper relative overflow-hidden">
           <div className="trusted-marquee flex items-center gap-8 md:gap-12 whitespace-nowrap w-max">
@@ -256,8 +257,8 @@ function HeroSection() {
               <div key={loop} className="flex gap-8 md:gap-12">
                 {(!loading && clients.length > 0) ? (
                   clients.map((client, i) => (
-                    <div key={`client-${loop}-${i}`} className="flex-shrink-0 w-20 md:w-32 h-10 md:h-12 flex items-center justify-center opacity-60 hover:opacity-100 transition-opacity duration-300" title={client.name}>
-                      <img src={client.logo_url} alt={client.name || "Client"} className="max-w-full max-h-full object-contain grayscale hover:grayscale-0 transition-all duration-300" loading="eager" />
+                    <div key={`client-${loop}-${i}`} className="flex-shrink-0 w-20 md:w-32 h-10 md:h-12 flex items-center justify-center opacity-80 hover:opacity-100 transition-opacity duration-300" title={client.name}>
+                      <img src={client.logo_url} alt={client.name || "Client"} className="max-w-full max-h-full object-contain transition-all duration-300" loading="eager" />
                     </div>
                   ))
                 ) : (
@@ -293,10 +294,9 @@ function HeroSection() {
 function ServicesSection() {
   const servicesData = [
     {
-      title: 'PPC & Performance Ads',
-      description: 'Maximize ROI with precision-targeted campaigns across Google Ads, Meta Ads, and programmatic networks. Every rupee spent is optimized for maximum impact and measurable results.',
-      tags: ['Google Ads', 'Meta Ads', 'Display Ads', 'Retargeting', 'Analytics'],
-
+      title: 'Performance Ads',
+      description: 'Generate high-intent leads through precision-targeted Google Ads, Meta Ads, and programmatic campaigns. Every budget optimized for maximum conversions and measurable ROI.',
+      tags: ['Google Ads', 'Meta Ads', 'Lead Gen', 'Retargeting', 'CPL Optimization'],
       bg: 'bg-gradient-to-br from-[#2e1a0a] to-[#4e2d1b]',
       iconGradient: 'from-orange-400 via-amber-400 to-yellow-400',
       glowColor: 'orange',
@@ -304,10 +304,9 @@ function ServicesSection() {
       href: '/services/ppc',
     },
     {
-      title: 'Social Media Marketing',
-      description: 'Build engaged communities and viral brand presence across Instagram, Facebook, LinkedIn, and emerging platforms. We create scroll-stopping content that drives real engagement and conversions.',
-      tags: ['Content Strategy', 'Reels & Stories', 'Community Management', 'Influencer Marketing', 'Paid Social'],
-
+      title: 'Social Media',
+      description: 'Build brand trust and audience engagement on Instagram, Facebook, and YouTube. We create scroll-stopping content — reels, stories, and campaigns that drive real enquiries.',
+      tags: ['Reels & Content', 'Community Building', 'Influencer Tie-ups', 'Paid Social', 'Brand Storytelling'],
       bg: 'bg-gradient-to-br from-[#2e0a1a] to-[#4e1b2d]',
       iconGradient: 'from-pink-400 via-rose-400 to-red-400',
       glowColor: 'pink',
@@ -315,10 +314,9 @@ function ServicesSection() {
       href: '/services/social-media',
     },
     {
-      title: 'Web Development',
-      description: 'Build blazing-fast, conversion-optimized websites and web applications with cutting-edge technology. From landing pages to full e-commerce platforms — we code experiences that convert.',
-      tags: ['React/Next.js', 'E-Commerce', 'Landing Pages', 'UI/UX Design', 'Performance'],
-
+      title: 'Websites & Landing Pages',
+      description: 'High-converting websites and lead-capture landing pages built for speed and results. From interactive showcases to integrated CRM forms — designed to turn visitors into customers.',
+      tags: ['Custom Websites', 'Landing Pages', 'CRM Integration', 'Speed Optimized', 'Conversion Design'],
       bg: 'bg-gradient-to-br from-[#0a1a2e] to-[#1b2d4e]',
       iconGradient: 'from-blue-400 via-cyan-400 to-teal-400',
       glowColor: 'blue',
@@ -326,10 +324,9 @@ function ServicesSection() {
       href: '/services/web-development',
     },
     {
-      title: 'Brand Strategy & Design',
-      description: 'Define your brand DNA — from visual identity systems to positioning strategy. We craft compelling brand narratives that make your audience feel something and remember you forever.',
-      tags: ['Brand Identity', 'Logo Design', 'Brand Guidelines', 'Pitch Decks', 'Graphic Design'],
-
+      title: 'Branding & Positioning',
+      description: 'Craft a brand identity that commands premium perception. From logo systems and naming to launch collaterals — we position you as the undisputed leader in your market.',
+      tags: ['Brand Identity', 'Visual Systems', 'Launch Collaterals', 'Pitch Decks', 'Naming Strategy'],
       bg: 'bg-gradient-to-br from-[#1a0a20] to-[#3d1b4e]',
       iconGradient: 'from-fuchsia-400 via-purple-400 to-violet-400',
       glowColor: 'fuchsia',
@@ -337,10 +334,9 @@ function ServicesSection() {
       href: '/services/branding',
     },
     {
-      title: 'SEO & Search Marketing',
-      description: 'Dominate search rankings with data-driven SEO strategies. We optimize every aspect of your online presence to deliver sustainable organic growth and qualified traffic that converts.',
-      tags: ['SEO Audit', 'Keyword Strategy', 'Link Building', 'Local SEO', 'Technical SEO'],
-
+      title: 'Search Engine Optimisation',
+      description: 'Dominate search results with hyper-targeted SEO. We build organic pipelines that deliver consistent, high-intent traffic to your pages — month after month, without paying per click.',
+      tags: ['Local SEO', 'Keyword Strategy', 'Google My Business', 'Technical SEO', 'Content Strategy'],
       bg: 'bg-gradient-to-br from-[#1a0a2e] to-[#2d1b4e]',
       iconGradient: 'from-purple-400 via-fuchsia-400 to-pink-400',
       glowColor: 'purple',
@@ -362,11 +358,11 @@ function ServicesSection() {
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
           <div>
             <span className="inline-block px-4 py-1.5 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-300 text-xs font-bold uppercase tracking-widest mb-6">
-              Our Solutions
+              What We Do
             </span>
             <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold font-heading leading-[1.05] tracking-tight">
-              <span className="text-gray-500">Transforming</span><br />
-              <span className="text-gradient-metallic">ideas into</span> <span className="text-gradient-primary">reality</span>
+              <span className="text-gray-500">Turning</span><br />
+              <span className="text-gradient-metallic">projects into</span> <span className="text-gradient-primary">sold-out</span>
             </h2>
           </div>
           <AnimatedButton href="/contact" variant="outline">
@@ -404,10 +400,10 @@ function ShapeDivider() {
 // ════════ STATS ════════
 function StatsSection() {
   const stats = [
-    { value: 500, suffix: '+', label: 'Projects Delivered', color: 'from-purple-500/20 to-transparent' },
-    { value: 150, suffix: '+', label: 'Happy Clients', color: 'from-pink-500/20 to-transparent' },
-    { value: 10, suffix: '+', label: 'Years Experience', color: 'from-orange-500/20 to-transparent' },
-    { value: 98, suffix: '%', label: 'Satisfaction Rate', color: 'from-blue-500/20 to-transparent' },
+    { value: 500, suffix: '+', label: 'Projects Marketed', color: 'from-purple-500/20 to-transparent' },
+    { value: 150, suffix: '+', label: 'Builder Partners', color: 'from-pink-500/20 to-transparent' },
+    { value: 10, suffix: '+', label: 'Years in Real Estate', color: 'from-orange-500/20 to-transparent' },
+    { value: 98, suffix: '%', label: 'Client Retention', color: 'from-blue-500/20 to-transparent' },
   ];
 
   return (
@@ -474,10 +470,10 @@ function StatItem({ stat }: { stat: { value: number; suffix: string; label: stri
 // ════════ ABOUT (EDITORIAL REDESIGN) ════════
 function AboutSection() {
   const features = [
-    { title: 'Data-Driven Precision', desc: 'Decisions powered by real-time analytics, not guesswork.' },
-    { title: 'Creative Authority', desc: 'Visual identities and narratives that command absolute market presence.' },
-    { title: 'Absolute Transparency', desc: 'Open dashboards and honest communication. You see every rupee move.' },
-    { title: 'Senior Partnership', desc: 'Direct collaboration with seasoned strategists invested in your growth.' },
+    { title: 'Lead Quality Over Volume', desc: 'We deliver sales-ready, high-intent buyer leads — not junk enquiries.' },
+    { title: 'Real Estate DNA', desc: 'We understand launch cycles, inventory pressure, and buyer psychology.' },
+    { title: 'Absolute Transparency', desc: 'Live dashboards, daily lead reports, and honest CPL metrics. You see everything.' },
+    { title: 'Builder-Level Partnership', desc: 'Direct access to senior strategists who have marketed 500+ projects.' },
   ];
 
   return (
@@ -503,14 +499,14 @@ function AboutSection() {
             </div>
 
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold font-heading mb-6 leading-[1.1] tracking-tight py-2">
-              <span className="text-gradient-metallic inline-block pb-1">We Craft</span> <span className="text-gradient-primary italic inline-block pb-1 pr-2">Clarity</span><br />
-              <span className="text-gradient-metallic inline-block pb-1 mt-2">in a World of Noise.</span>
+              <span className="text-gradient-metallic inline-block pb-1">We Sell</span> <span className="text-gradient-primary italic inline-block pb-1 pr-2">Properties</span><br />
+              <span className="text-gradient-metallic inline-block pb-1 mt-2">Not Just Clicks.</span>
             </h2>
 
             <div className="w-full h-px bg-white/5 mb-6" />
 
             <p className="text-gray-400 text-base md:text-lg leading-relaxed mb-8 max-w-xl font-normal">
-              For over a decade, we have refined the science of luxury brand positioning. We blend rigorous data analysis with deeply human storytelling—building campaigns that don't just generate leads, but command market authority.
+              For over a decade, we've been the growth engine behind India's top builders. We blend performance marketing with deep real estate insight — generating qualified leads that convert into site visits, bookings, and closed sales.
             </p>
 
             <div className="space-y-8">
@@ -559,87 +555,243 @@ function AboutSection() {
   );
 }
 
+// ════════ OUR APPROACH — 4-Step Process ════════
+function OurApproachSection() {
+  const steps = [
+    {
+      title: 'Market Intelligence',
+      description: 'We analyze micro-market trends, competitor inventory, and buyer behavior to identify your project\'s winning edge.',
+      icon: <Search className="w-8 h-8" />,
+      iconColor: 'text-amber-400',
+      gradient: 'from-amber-500 to-orange-500',
+      glowColor: 'rgba(245,158,11,0.25)',
+      bgGradient: 'from-amber-900/30 to-orange-900/20',
+      borderColor: 'border-amber-500/30',
+    },
+    {
+      title: 'Lead Engine Blueprint',
+      description: 'We design high-converting project microsites and targeted sales funnels mapped to the buyer\'s journey.',
+      icon: <Map className="w-8 h-8" />,
+      iconColor: 'text-pink-400',
+      gradient: 'from-pink-500 to-rose-500',
+      glowColor: 'rgba(236,72,153,0.25)',
+      bgGradient: 'from-pink-900/30 to-rose-900/20',
+      borderColor: 'border-pink-500/30',
+    },
+    {
+      title: 'Performance Launch',
+      description: 'Aggressive multi-channel campaigns go live across Google & Meta, optimized daily for site-visit intent.',
+      icon: <Zap className="w-8 h-8" />,
+      iconColor: 'text-purple-400',
+      gradient: 'from-purple-500 to-violet-500',
+      glowColor: 'rgba(168,85,247,0.25)',
+      bgGradient: 'from-purple-900/30 to-violet-900/20',
+      borderColor: 'border-purple-500/30',
+    },
+    {
+      title: 'Sales ROI Nurturing',
+      description: 'We track every lead from enquiry to booking, refining the engine for the lowest cost-per-sale (CPS).',
+      icon: <LineChart className="w-8 h-8" />,
+      iconColor: 'text-blue-400',
+      gradient: 'from-blue-500 to-indigo-500',
+      glowColor: 'rgba(59,130,246,0.25)',
+      bgGradient: 'from-blue-900/30 to-indigo-900/20',
+      borderColor: 'border-blue-500/30',
+    },
+  ];
+
+  return (
+    <section id="our-approach" className="relative py-24 md:py-36 px-4 md:px-6 z-10 bg-black overflow-hidden">
+      {/* Background Accents */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-purple-600/5 rounded-full blur-[160px] pointer-events-none" />
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/[0.06] to-transparent" />
+      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/[0.06] to-transparent" />
+
+      <div className="max-w-7xl mx-auto relative z-10">
+        {/* Section Header */}
+        <motion.div
+          initial={{ y: 40, opacity: 0 }}
+          whileInView={{ y: 0, opacity: 1 }}
+          viewport={{ once: true, margin: "-15%" }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="text-center mb-16 md:mb-24"
+        >
+          <div className="flex items-center justify-center gap-3 mb-6">
+            <div className="w-1.5 h-1.5 rounded-full bg-pink-500 shadow-[0_0_8px_rgba(236,72,153,0.8)]" />
+            <span className="text-[10px] md:text-[11px] font-bold uppercase tracking-[0.3em] text-pink-400">How We Work</span>
+            <div className="w-1.5 h-1.5 rounded-full bg-pink-500 shadow-[0_0_8px_rgba(236,72,153,0.8)]" />
+          </div>
+          <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold font-heading tracking-tight leading-[1.05]">
+            <span className="text-gradient-metallic">Our</span>{' '}
+            <span className="text-gradient-primary">Approach</span>
+          </h2>
+
+        </motion.div>
+
+        {/* Steps Grid */}
+        <div className="relative">
+
+          {/* Desktop Connector Line with Animated Arrows */}
+          <div className="hidden lg:block absolute top-[72px] left-[10%] right-[10%] z-0">
+            <div className="relative w-full h-[2px]">
+
+
+              {/* Continuous Glowing Base Line */}
+              <div className="absolute inset-0 h-[2px] bg-gradient-to-r from-transparent via-white/10 to-transparent shadow-[0_0_8px_rgba(255,255,255,0.05)]" />
+
+              {/* Traveling "Bullet-Arrow" Glow */}
+              <motion.div
+                animate={{ 
+                  left: ['0%', '100%'],
+                  opacity: [0, 1, 1, 0]
+                }}
+                transition={{ 
+                  duration: 4, 
+                  repeat: Infinity, 
+                  ease: "linear" 
+                }}
+                className="absolute top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center -ml-4 z-10"
+              >
+                {/* The Arrow Head */}
+                <div className="relative">
+                  <div className="absolute inset-0 bg-pink-500 blur-md opacity-60 scale-150 animate-pulse" />
+                  <MoveRight className="w-5 h-5 text-white drop-shadow-[0_0_8px_rgba(236,72,153,1)]" />
+                </div>
+              </motion.div>
+
+
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 relative z-10">
+            {steps.map((step, i) => (
+              <motion.div
+                key={step.title}
+                initial={{ y: 50, opacity: 0 }}
+                whileInView={{ y: 0, opacity: 1 }}
+                viewport={{ once: true, margin: "-10%" }}
+                transition={{ delay: i * 0.12, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+                className="group relative flex flex-col items-center text-center"
+              >
+                {/* Step Number Circle */}
+                <div className="relative mb-6">
+
+                  {/* White ring */}
+                  <div className="relative w-[88px] h-[88px] rounded-full bg-black border-2 border-white/10 flex items-center justify-center group-hover:border-white/20 transition-colors duration-500">
+                    {/* Inner gradient circle with Icon */}
+                    <div className={`w-[68px] h-[68px] rounded-full bg-gradient-to-br ${step.gradient} flex items-center justify-center shadow-lg text-white`}>
+                      {step.icon}
+                    </div>
+                  </div>
+                  {/* Small connecting triangle arrow (below circle) */}
+                  <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 w-0 h-0 border-l-[8px] border-r-[8px] border-t-[10px] border-transparent border-t-white/20" />
+                </div>
+
+                {/* Card - Vertically Rectangular */}
+                <div className={`relative w-full flex-1 min-h-[340px] md:min-h-[380px] rounded-[2rem] border ${step.borderColor} bg-gradient-to-b ${step.bgGradient} p-8 md:p-10 transition-all duration-500 group-hover:scale-[1.03] group-hover:shadow-2xl overflow-hidden flex flex-col items-center justify-center`}>
+
+
+
+
+                  <h3 className="text-lg md:text-xl font-bold text-white mb-3 font-heading tracking-tight">
+                    {step.title}
+                  </h3>
+                  <p className="text-gray-400 text-sm leading-relaxed">
+                    {step.description}
+                  </p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
 
 // ════════ PORTFOLIO ════════
 function PortfolioSection() {
+  const [successStories, setSuccessStories] = useState<any[]>([]);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [loading, setLoading] = useState(true);
   const containerRef = useRef(null);
 
-  const successStories = [
-    {
-      name: "Central Park",
-      logo: "/assets/real-estate/CENTRAL-PARK-LOGO_Mother-Logo-scaled-e1762848235731-1015x1024.webp",
-      val: 37,
-      sub: "Qualified Leads for Bignonia",
-      desc: "Central Park transformed their luxury residential positioning. Our performance-led strategy delivered a surge in high-intent buyer engagement.",
-      metrics: [
-        { label: "Increase in qualified leads", value: 37 },
-        { label: "Rise in site visits", value: 25 }
-      ]
-    },
-    {
-      name: "Signature Global",
-      logo: "/assets/real-estate/imgi_1_SG-GLOBAL-NEW-LOGO-1024x373.webp",
-      val: 47,
-      sub: "Sales-ready Inquiries for Park Extension 1",
-      desc: "For Signature Global, we engineered a full-funnel lead engine that prioritized 'Ready-to-Buy' intent over volume.",
-      metrics: [
-        { label: "Sales-ready inquiries", value: 47 },
-        { label: "Reduction in CPL", value: 40 }
-      ]
-    },
-    {
-      name: "Trevoc",
-      logo: "/assets/real-estate/logo-2.webp",
-      val: 33,
-      sub: "High-intent Conversions for Royal Residences",
-      desc: "Trevoc required ultra-premium targeting. Our data-mapped approach connected them with the top 1% of the ultra-HNW demographic.",
-      metrics: [
-        { label: "High-intent conversions", value: 33 },
-        { label: "Ad recall lift", value: 28 }
-      ]
-    },
-    {
-      name: "Emaar",
-      logo: "/assets/real-estate/8571fdf7-emaar-dxb-logo-en.svg",
-      val: 31,
-      sub: "Qualified Leads for Elva",
-      desc: "Global leader Emaar partnered with us for the 'Elva' launch. Our localized intelligence mapping drove consistent sales momentum.",
-      metrics: [
-        { label: "Lower funnel efficiency", value: 31 },
-        { label: "In-target audience reach", value: 55 }
-      ]
-    },
-    {
-      name: "Omaxe",
-      logo: "/assets/real-estate/omaxe-logo-1.webp",
-      val: 33,
-      sub: "Sales-ready Inquiries for Chandni Chowk",
-      desc: "Repositioning a heritage commercial hub like Chandni Chowk required surgical precision. Our system scaled inquiries across regional markets.",
-      metrics: [
-        { label: "Inquiry volume growth", value: 33 },
-        { label: "Regional engagement", value: 42 }
-      ]
-    },
-    {
-      name: "Sobha",
-      logo: "/assets/real-estate/sobha-logo-e1762941031469.webp",
-      val: 37,
-      sub: "High-intent Conversions for Orbis",
-      desc: "Sobha's commitment to quality required a digital presence to match. We built a high-conversion pipeline that mirrored their architectural excellence.",
-      metrics: [
-        { label: "Conversion rate lift", value: 37 },
-        { label: "Direct-to-sales leads", value: 18 }
-      ]
-    }
-  ];
+  useEffect(() => {
+    const fetchStories = async () => {
+      try {
+        const res = await fetch('/api/admin/portfolio');
+        if (res.ok) {
+          const data = await res.json();
+          if (Array.isArray(data) && data.length > 0) setSuccessStories(data);
+        }
+      } catch (err) {
+        console.error("Failed to load success stories", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchStories();
+  }, []);
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setActiveIndex((prev) => (prev + 1) % successStories.length);
-    }, 5000);
+      const length = successStories.length > 0 ? successStories.length : 1;
+      setActiveIndex((prev) => (prev + 1) % length);
+    }, 6000);
     return () => clearInterval(timer);
   }, [successStories.length]);
+
+  const fallbackStories = [
+    {
+      client_name: "Central Park",
+      client_logo: "/assets/real-estate/CENTRAL-PARK-LOGO_Mother-Logo-scaled-e1762848235731-1015x1024.webp",
+      title: "Qualified Leads for Bignonia",
+      description: "Central Park transformed their luxury residential positioning. Our performance-led strategy delivered a surge in high-intent buyer engagement.",
+      slug: "central-park",
+      metrics: JSON.stringify([
+        { label: "Increase in qualified leads", value: 37 },
+        { label: "Rise in site visits", value: 25 }
+      ])
+    }
+  ];
+
+  const currentStories = successStories.length > 0 ? successStories : fallbackStories;
+  const activeStory = currentStories[activeIndex];
+
+  const [wallImages, setWallImages] = useState<any[]>([]);
+
+  useEffect(() => {
+    fetch('/api/admin/portfolio-wall')
+      .then(res => res.json())
+      .then(data => {
+        if (Array.isArray(data)) setWallImages(data);
+      })
+      .catch(err => console.error("Failed to load wall images", err));
+  }, []);
+
+  const placeholderImages = [
+    '/assets/real-estate/portfolio-1.webp',
+    '/assets/real-estate/portfolio-2.webp',
+    '/assets/real-estate/portfolio-3.webp',
+    '/assets/real-estate/portfolio-1.webp',
+    '/assets/real-estate/portfolio-2.webp',
+    '/assets/real-estate/portfolio-3.webp',
+  ];
+
+  const displayImages = wallImages.length > 0 ? wallImages.map(img => img.image_url) : placeholderImages;
+  
+  // Helper to ensure column has enough items for a dense look
+  const fillColumn = (arr: string[], min: number) => {
+    if (arr.length === 0) return [];
+    let result = [...arr];
+    while (result.length < min) result = [...result, ...arr];
+    return result;
+  };
+
+  // Split and Fill
+  const col1 = fillColumn(displayImages.filter((_, i) => i % 3 === 0), 6);
+  const col2 = fillColumn(displayImages.filter((_, i) => i % 3 === 1), 6);
+  const col3 = fillColumn(displayImages.filter((_, i) => i % 3 === 2), 6);
 
   return (
     <section id="portfolio" className="relative py-24 md:py-32 px-4 md:px-6 z-10 w-full overflow-hidden bg-[#0F0F0F]">
@@ -650,7 +802,7 @@ function PortfolioSection() {
       </div>
 
       <div className="max-w-7xl mx-auto relative z-10">
-        <div className="text-center mb-16 md:mb-24">
+        <div className="text-center mb-16 md:mb-20">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -661,80 +813,160 @@ function PortfolioSection() {
           </motion.h2>
         </div>
 
-        <div className="grid lg:grid-cols-[1fr_3fr] gap-12 lg:gap-24 items-center mb-24">
-
-          {/* Vertical Sidebar Navigation */}
-          <div className="hidden lg:flex flex-col gap-10 relative border-r border-white/5 py-8">
-            {/* Absolute moving bar */}
-            <motion.div
-              className="absolute right-0 w-[2px] bg-pink-500 shadow-[0_0_10px_rgba(236,72,153,0.5)]"
-              animate={{ top: `${(activeIndex / successStories.length) * 100}%`, height: `${100 / successStories.length}%` }}
-              transition={{ type: "spring", stiffness: 300, damping: 30 }}
-            />
-
-            {successStories.map((story, i) => (
-              <button
-                key={story.name}
-                onClick={() => setActiveIndex(i)}
-                className={`group flex items-center justify-end pr-8 transition-all duration-500 ${activeIndex === i ? "opacity-100" : "opacity-30 hover:opacity-50"}`}
-              >
-                <img
-                  src={story.logo}
-                  alt={story.name}
-                  className={`max-w-[120px] max-h-[40px] object-contain transition-transform duration-500 ${activeIndex === i ? "scale-110" : "scale-90"}`}
-                />
-              </button>
-            ))}
-          </div>
-
-          {/* Main Content Area */}
-          <div className="relative min-h-[500px] flex flex-col justify-center">
+        <div className="grid lg:grid-cols-[1fr_1.1fr] gap-12 lg:gap-16 items-center">
+          {/* Left Side: Active Story & Metrics */}
+          <div className="relative z-20 space-y-12">
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeIndex}
-                initial={{ opacity: 0, y: 40 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -40 }}
-                transition={{ duration: 0.8, ease: [0.19, 1, 0.22, 1] }}
-                className="grid md:grid-cols-[1fr_1.5fr] gap-12 items-center"
+                initial={{ opacity: 0, x: -30 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 20 }}
+                transition={{ duration: 0.6, ease: "easeOut" }}
+                className="space-y-8"
               >
-                {/* Left Side: Logo & Story */}
-                <div className="space-y-8 text-center md:text-left">
-                  <div className="h-24 md:h-32 flex items-center justify-center md:justify-start">
+                {/* Active Client Logo Container */}
+                <div className="flex items-center justify-between gap-6 flex-wrap md:flex-nowrap">
+                  <div className="h-16 md:h-20 px-8 py-4 bg-zinc-900/40 backdrop-blur-xl rounded-2xl flex items-center justify-center group/logo relative overflow-hidden border border-white/10 shadow-2xl">
+                    <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover/logo:opacity-100 transition-opacity" />
                     <img
-                      src={successStories[activeIndex].logo}
-                      alt={successStories[activeIndex].name}
-                      className="max-w-[200px] max-h-full object-contain filter drop-shadow-[0_0_20px_rgba(255,255,255,0.1)]"
+                      src={activeStory.client_logo}
+                      alt={activeStory.client_name}
+                      className="max-w-[140px] max-h-full object-contain transition-transform duration-500 group-hover/logo:scale-105 filter drop-shadow-[0_0_10px_rgba(255,255,255,0.1)]"
                     />
                   </div>
-                  <p className="text-gray-400 text-lg md:text-xl font-medium leading-relaxed italic max-w-xl">
-                    "{successStories[activeIndex].desc}"
-                  </p>
-
-                  <AnimatedButton
-                    href="https://real-vibe-s-portfolio.vercel.app/"
-                    variant="primary"
-                    className="mt-4"
+                  <Link 
+                    href={`/case-studies/${activeStory.slug}`}
+                    className="px-6 py-3 bg-pink-500 text-white text-[10px] font-black uppercase tracking-[0.2em] rounded-xl hover:bg-white hover:text-black transition-all duration-300 shadow-xl shadow-pink-500/20 flex items-center gap-3 group"
                   >
-                    Featured Work
-                  </AnimatedButton>
+                    View Case Study
+                    <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                  </Link>
                 </div>
 
-                {/* Right Side: Big Bold Metrics */}
-                <div className="flex flex-col gap-16 py-8 px-4 md:px-16">
-                  {successStories[activeIndex].metrics.map((metric, idx) => (
-                    <div key={idx} className="flex flex-col items-center md:items-start group relative">
-                      <div className="animate-text-shimmer text-5xl md:text-8xl font-black bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-pink-500 transition-all">
-                        +{metric.value}%
+                <div className="space-y-4">
+                  <h3 className="text-2xl md:text-3xl font-bold text-white leading-tight">
+                    {activeStory.title}
+                  </h3>
+                  <p className="text-gray-400 text-base md:text-lg leading-relaxed italic border-l-2 border-pink-500/30 pl-6">
+                    "{activeStory.description}"
+                  </p>
+                </div>
+
+                {/* Big Metrics */}
+                <div className="grid grid-cols-2 gap-8 pt-4">
+                  {(() => {
+                    let parsedMetrics = [];
+                    try {
+                      parsedMetrics = typeof activeStory.metrics === 'string' 
+                        ? JSON.parse(activeStory.metrics) 
+                        : (activeStory.metrics || []);
+                    } catch (e) {
+                      console.error("Failed to parse metrics", e);
+                    }
+                    return Array.isArray(parsedMetrics) ? parsedMetrics.map((metric: any, idx: number) => (
+                      <div key={idx} className="group">
+                        <div className="text-4xl md:text-5xl font-black text-white group-hover:text-pink-500 transition-colors duration-300">
+                          +{metric.value}%
+                        </div>
+                        <div className="text-[10px] md:text-xs font-bold text-gray-500 uppercase tracking-[0.2em] mt-2 group-hover:text-gray-400 transition-colors leading-tight">
+                          {metric.label}
+                        </div>
                       </div>
-                      <div className="text-xs md:text-sm font-bold text-gray-500 uppercase tracking-[0.4em] mt-2 group-hover:text-pink-500 transition-colors leading-none">
-                        {metric.label}
+                    )) : null;
+                  })()}
+                </div>
+
+                {/* Client Logo Strip (Highlights) */}
+                <div className="pt-8 border-t border-white/5">
+                  <p className="text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-4">Trusted By Industry Leaders</p>
+                  <div className="flex flex-wrap gap-4 opacity-70 hover:opacity-100 transition-opacity">
+                    {currentStories.map((s, i) => (
+                      <div key={i} className={`h-10 px-4 py-2 bg-zinc-900/60 backdrop-blur-md rounded-xl flex items-center justify-center transition-all duration-300 border border-white/5 ${i === activeIndex ? 'ring-2 ring-pink-500 opacity-100 scale-110 bg-zinc-800/80' : 'grayscale opacity-40 hover:opacity-100 hover:grayscale-0'}`}>
+                        <img src={s.client_logo} className="h-full object-contain" alt={s.client_name} />
                       </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
               </motion.div>
             </AnimatePresence>
+          </div>
+
+          {/* Right Side: The Wall of Fame Vertical Scrolling Masonry */}
+          <div className="relative h-[450px] md:h-[750px] w-full perspective-[1200px] mt-12 lg:mt-0 overflow-hidden rounded-[2rem]">
+            {/* Expanded Transparency Gradient Overlay */}
+            <div className="absolute inset-0 z-10 pointer-events-none bg-gradient-to-b from-[#0F0F0F] via-transparent via-transparent to-[#0F0F0F] [gradient-stops:0%,15%,85%,100%] opacity-100" 
+                 style={{ background: 'linear-gradient(to bottom, #0F0F0F 0%, transparent 15%, transparent 85%, #0F0F0F 100%)' }} />
+            <div className="absolute inset-0 z-10 pointer-events-none bg-gradient-to-r from-[#0F0F0F] via-transparent via-transparent to-[#0F0F0F] lg:hidden"
+                 style={{ background: 'linear-gradient(to right, #0F0F0F 0%, transparent 10%, transparent 90%, #0F0F0F 100%)' }} />
+            
+            <motion.div 
+              style={{ rotateY: -8, rotateX: 2 }}
+              className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4 h-full w-full origin-center"
+            >
+              {/* Column 1 - Down */}
+              <div className="relative h-full overflow-hidden">
+                <motion.div 
+                  animate={{ y: ["0%", "-50%"] }}
+                  transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+                  className="flex flex-col gap-4"
+                >
+                  {col1.map((url, i) => (
+                    <div key={i} className={`w-full rounded-2xl overflow-hidden bg-zinc-900 border border-white/5 shadow-2xl ${i % 2 === 0 ? 'h-64' : 'h-48'}`}>
+                      <img src={url} className="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-opacity" alt="Portfolio" />
+                    </div>
+                  ))}
+                  {/* Duplicate for seamless loop */}
+                  {col1.map((url, i) => (
+                    <div key={`d1-${i}`} className={`w-full rounded-2xl overflow-hidden bg-zinc-900 border border-white/5 shadow-2xl ${i % 2 === 0 ? 'h-64' : 'h-48'}`}>
+                      <img src={url} className="w-full h-full object-cover opacity-60" alt="Portfolio" />
+                    </div>
+                  ))}
+                </motion.div>
+              </div>
+
+              {/* Column 2 - Up */}
+              <div className="relative h-full overflow-hidden pt-12">
+                <motion.div 
+                  animate={{ y: ["-50%", "0%"] }}
+                  transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+                  className="flex flex-col gap-4"
+                >
+                  {col2.map((url, i) => (
+                    <div key={i} className={`w-full rounded-2xl overflow-hidden bg-zinc-900 border border-white/5 shadow-2xl ${i % 3 === 0 ? 'h-80' : 'h-56'}`}>
+                      <img src={url} className="w-full h-full object-cover opacity-60" alt="Portfolio" />
+                    </div>
+                  ))}
+                  {/* Duplicate */}
+                  {col2.map((url, i) => (
+                    <div key={`d2-${i}`} className={`w-full rounded-2xl overflow-hidden bg-zinc-900 border border-white/5 shadow-2xl ${i % 3 === 0 ? 'h-80' : 'h-56'}`}>
+                      <img src={url} className="w-full h-full object-cover opacity-60" alt="Portfolio" />
+                    </div>
+                  ))}
+                </motion.div>
+              </div>
+
+              {/* Column 3 - Down (Hidden on mobile for better performance) */}
+              <div className="relative h-full overflow-hidden hidden md:block">
+                <motion.div 
+                  animate={{ y: ["0%", "-50%"] }}
+                  transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                  className="flex flex-col gap-4"
+                >
+                  {col3.map((url, i) => (
+                    <div key={i} className={`w-full rounded-2xl overflow-hidden bg-zinc-900 border border-white/5 shadow-2xl ${i % 2 !== 0 ? 'h-72' : 'h-44'}`}>
+                      <img src={url} className="w-full h-full object-cover opacity-60" alt="Portfolio" />
+                    </div>
+                  ))}
+                  {/* Duplicate */}
+                  {col3.map((url, i) => (
+                    <div key={`d3-${i}`} className={`w-full rounded-2xl overflow-hidden bg-zinc-900 border border-white/5 shadow-2xl ${i % 2 !== 0 ? 'h-72' : 'h-44'}`}>
+                      <img src={url} className="w-full h-full object-cover opacity-60" alt="Portfolio" />
+                    </div>
+                  ))}
+                </motion.div>
+              </div>
+            </motion.div>
           </div>
         </div>
       </div>
@@ -1065,6 +1297,47 @@ function CTASection() {
 
           <div className="relative rounded-[1.5rem] md:rounded-[2rem] bg-black">
             <div className="absolute inset-0 bg-gradient-to-br from-purple-900/30 via-pink-900/20 to-orange-900/30 rounded-[1.5rem] md:rounded-[2rem]"></div>
+            
+            {/* Animated Real Estate Skyline SVG */}
+            <div className="absolute inset-0 opacity-20 pointer-events-none">
+              <svg 
+                viewBox="0 0 1000 200" 
+                className="absolute bottom-0 w-full h-full text-white/20"
+                preserveAspectRatio="none"
+              >
+                <motion.path
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  whileInView={{ pathLength: 1, opacity: 1 }}
+                  transition={{ 
+                    duration: 4, 
+                    ease: "easeInOut",
+                    repeat: Infinity,
+                    repeatType: "reverse"
+                  }}
+                  d="M0,200 L50,200 L50,120 L80,120 L80,160 L120,160 L120,80 L160,80 L160,140 L200,140 L200,40 L250,40 L250,110 L300,110 L300,70 L350,70 L350,150 L400,150 L400,20 L460,20 L460,130 L520,130 L520,90 L580,90 L580,160 L640,160 L640,50 L700,50 L700,120 L760,120 L760,80 L820,80 L820,150 L880,150 L880,30 L940,30 L940,140 L1000,140 L1000,200"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1"
+                />
+                {/* Second layer with different timing and color */}
+                <motion.path
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  whileInView={{ pathLength: 1, opacity: 0.5 }}
+                  transition={{ 
+                    duration: 5, 
+                    ease: "easeInOut",
+                    repeat: Infinity,
+                    repeatType: "reverse",
+                    delay: 1
+                  }}
+                  d="M0,200 L30,200 L30,150 L70,150 L70,100 L110,100 L110,130 L150,130 L150,60 L190,60 L190,170 L240,170 L240,90 L290,90 L290,140 L340,140 L340,40 L400,40 L400,120 L460,120 L460,70 L530,70 L530,150 L600,150 L600,20 L680,20 L680,100 L750,100 L750,160 L830,160 L830,50 L910,50 L910,130 L1000,130"
+                  fill="none"
+                  stroke="rgba(236, 72, 153, 0.4)"
+                  strokeWidth="0.5"
+                />
+              </svg>
+            </div>
+
             <div className="absolute inset-0 opacity-20 rounded-[1.5rem] md:rounded-[2rem]" style={{ backgroundImage: "radial-gradient(circle at 1px 1px, rgba(255,255,255,0.07) 1px, transparent 0)", backgroundSize: "32px 32px" }}></div>
 
             <div className="relative px-6 py-10 md:px-12 md:py-16 text-center">
@@ -1072,11 +1345,11 @@ function CTASection() {
                 Let's Work Together
               </span>
               <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold font-heading mb-4 md:mb-5 leading-[1.1]">
-                <span className="text-gradient-metallic">Ready to Go</span><br />
-                <span className="text-gradient-primary">Viral?</span>
+                <span className="text-gradient-metallic">Ready to Sell</span><br />
+                <span className="text-gradient-primary">Faster?</span>
               </h2>
               <p className="text-sm md:text-lg text-gray-300 max-w-2xl mx-auto mb-8 md:mb-10 leading-relaxed">
-                Let's craft a digital strategy that puts your brand ahead of the competition. Your growth story starts here.
+                Let's build a lead engine for your next project launch. From awareness to site visits — your sales pipeline starts here.
               </p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                 <AnimatedButton href="/contact" variant="primary">

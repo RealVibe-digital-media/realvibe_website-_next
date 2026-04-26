@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Users, MessageSquareQuote, MousePointerClick, TrendingUp, BookOpen, Loader2, ArrowRight } from "lucide-react";
+import { Users, MessageSquareQuote, MousePointerClick, TrendingUp, BookOpen, Loader2, ArrowRight, Image as ImageIcon, ScrollText } from "lucide-react";
 import Link from "next/link";
 
 export default function AdminDashboardPage() {
@@ -104,17 +104,33 @@ export default function AdminDashboardPage() {
 
                 <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-8 group relative overflow-hidden">
                     <div className="relative z-10">
-                        <h2 className="text-xl font-bold mb-3 text-white">Testimonials</h2>
+                        <h2 className="text-xl font-bold mb-3 text-white">Success Wall</h2>
                         <p className="text-gray-400 text-sm mb-6 leading-relaxed">
-                            Showcase success stories and feedback from your satisfied clients.
+                            Manage the vertical scrolling portfolio grid and architectural assets.
                         </p>
-                        <Link href="/admin/testimonials" className="inline-flex items-center gap-2 text-cyan-400 font-bold text-xs uppercase tracking-widest hover:text-cyan-300 transition-colors">
-                            View Feedback
+                        <Link href="/admin/portfolio-wall" className="inline-flex items-center gap-2 text-pink-400 font-bold text-xs uppercase tracking-widest hover:text-pink-300 transition-colors">
+                            Update Gallery
                             <ArrowRight size={14} />
                         </Link>
                     </div>
                     <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:scale-110 transition-transform">
-                        <MessageSquareQuote size={64} className="text-cyan-500" />
+                        <ImageIcon size={64} className="text-pink-500" />
+                    </div>
+                </div>
+
+                <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-8 group relative overflow-hidden">
+                    <div className="relative z-10">
+                        <h2 className="text-xl font-bold mb-3 text-white">Case Studies</h2>
+                        <p className="text-gray-400 text-sm mb-6 leading-relaxed">
+                            Publish detailed success stories with ROI metrics and client narratives.
+                        </p>
+                        <Link href="/admin/portfolio" className="inline-flex items-center gap-2 text-cyan-400 font-bold text-xs uppercase tracking-widest hover:text-cyan-300 transition-colors">
+                            Manage Cases
+                            <ArrowRight size={14} />
+                        </Link>
+                    </div>
+                    <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:scale-110 transition-transform">
+                        <ScrollText size={64} className="text-cyan-500" />
                     </div>
                 </div>
             </div>

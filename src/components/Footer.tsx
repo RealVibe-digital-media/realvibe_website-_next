@@ -72,13 +72,13 @@ export function Footer() {
 
                 {/* Contact Chips */}
                 <div className="flex flex-wrap gap-2 mb-6">
-                    <a href="mailto:hello@realvibe.in" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.08] text-xs text-gray-400 hover:text-white hover:border-white/20 transition-all active:scale-95">
+                    <a href="mailto:care@realvibe.in" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.08] text-xs text-gray-400 hover:text-white hover:border-white/20 transition-all active:scale-95">
                         <Mail className="w-3 h-3 text-pink-400" />
-                        hello@realvibe.in
+                        care@realvibe.in
                     </a>
-                    <a href="tel:+919999999999" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.08] text-xs text-gray-400 hover:text-white hover:border-white/20 transition-all active:scale-95">
+                    <a href="tel:+919811238092" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.08] text-xs text-gray-400 hover:text-white hover:border-white/20 transition-all active:scale-95">
                         <Phone className="w-3 h-3 text-orange-400" />
-                        +91 99999 99999
+                        +91 98112 38092
                     </a>
                     <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.08] text-xs text-gray-400">
                         <MapPin className="w-3 h-3 text-purple-400" />
@@ -178,14 +178,14 @@ export function Footer() {
                             </div>
                             <div className="flex gap-3">
                                 <Mail className="w-5 h-5 text-pink-400 flex-shrink-0" />
-                                <a href="mailto:hello@realvibe.in" className="text-gray-400 hover:text-white transition-colors text-sm">
-                                    hello@realvibe.in
+                                <a href="mailto:care@realvibe.in" className="text-gray-400 hover:text-white transition-colors text-sm">
+                                    care@realvibe.in
                                 </a>
                             </div>
                             <div className="flex gap-3">
                                 <Phone className="w-5 h-5 text-orange-400 flex-shrink-0" />
-                                <a href="tel:+919999999999" className="text-gray-400 hover:text-white transition-colors text-sm">
-                                    +91 99999 99999
+                                <a href="tel:+919811238092" className="text-gray-400 hover:text-white transition-colors text-sm">
+                                    +91 98112 38092
                                 </a>
                             </div>
                         </div>

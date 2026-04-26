@@ -158,7 +158,7 @@ export function ServicePageLayout({
                                 </div>
                                 <div className="space-y-1.5 flex flex-col">
                                     <label className="text-[11px] font-bold text-gray-400 uppercase tracking-widest pl-1">Phone</label>
-                                    <input required type="tel" name="phone" className="w-full bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-purple-500 focus:bg-white/[0.05] transition-colors" placeholder="+91 99999 99999" />
+                                    <input required type="tel" name="phone" className="w-full bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-purple-500 focus:bg-white/[0.05] transition-colors" placeholder="+91 98112 38092" />
                                 </div>
                                 <div className="space-y-1.5 flex flex-col">
                                     <label className="text-[11px] font-bold text-gray-400 uppercase tracking-widest pl-1">Company / Website</label>
