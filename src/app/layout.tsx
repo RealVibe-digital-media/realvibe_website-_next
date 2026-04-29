@@ -20,6 +20,17 @@ const outfit = Outfit({
 export const metadata: Metadata = {
   title: "RealVibe Digital Media | #1 Digital Marketing Agency",
   description: "We build brands that dominate digital. From SEO & social media to PPC & branding — RealVibe delivers data-driven digital marketing.",
+  icons: {
+    icon: [
+      { url: "/favicon-32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon-16.png", sizes: "16x16", type: "image/png" },
+    ],
+    apple: "/apple-touch-icon.png",
+    other: [
+      { rel: "icon", url: "/icon-192.png", sizes: "192x192", type: "image/png" },
+      { rel: "icon", url: "/icon-512.png", sizes: "512x512", type: "image/png" },
+    ],
+  },
 };
 
 export default function RootLayout({
