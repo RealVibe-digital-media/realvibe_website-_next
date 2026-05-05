@@ -113,50 +113,50 @@ export default function LeadsAdminPage() {
             ) : (
                 <div className="grid gap-4">
                     {filteredLeads.map((lead) => (
-                        <div key={lead.id} className="bg-white/5 border border-white/10 rounded-2xl p-6 hover:bg-white/[0.07] transition-colors group relative overflow-hidden">
-                            {/* Service Badge */}
-                            <div className="absolute top-6 right-6 flex items-center gap-3">
-                                <span className="px-3 py-1 rounded-full bg-purple-500/20 text-purple-300 text-xs font-bold uppercase tracking-wider capitalize border border-purple-500/20">
-                                    {lead.service.replace('-', ' ')}
-                                </span>
-                                {lead.source_page && (
-                                    <span className="px-3 py-1 rounded-full bg-blue-500/20 text-blue-300 text-[10px] font-bold uppercase tracking-wider border border-blue-500/20">
-                                        Source: {lead.source_page}
+                        <div key={lead.id} className="bg-white/5 border border-white/10 rounded-2xl p-6 hover:bg-white/[0.07] transition-colors group overflow-hidden">
+                            {/* Header: Name + Badges + Delete */}
+                            <div className="flex flex-wrap items-start justify-between gap-3 mb-5">
+                                <h3 className="text-xl font-bold text-white">{lead.name}</h3>
+                                <div className="flex flex-wrap items-center gap-2">
+                                    <span className="px-3 py-1 rounded-full bg-purple-500/20 text-purple-300 text-xs font-bold uppercase tracking-wider capitalize border border-purple-500/20">
+                                        {lead.service.replace('-', ' ')}
                                     </span>
-                                )}
-                                <button
-                                    onClick={() => handleDelete(lead.id)}
-                                    disabled={deletingId === lead.id}
-                                    className="p-2 text-gray-500 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-colors opacity-0 group-hover:opacity-100"
-                                    title="Delete Lead"
-                                >
-                                    {deletingId === lead.id ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
-                                </button>
+                                    {lead.source_page && (
+                                        <span className="px-3 py-1 rounded-full bg-blue-500/20 text-blue-300 text-[10px] font-bold uppercase tracking-wider border border-blue-500/20">
+                                            Source: {lead.source_page}
+                                        </span>
+                                    )}
+                                    <button
+                                        onClick={() => handleDelete(lead.id)}
+                                        disabled={deletingId === lead.id}
+                                        className="p-2 text-gray-500 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-colors opacity-0 group-hover:opacity-100"
+                                        title="Delete Lead"
+                                    >
+                                        {deletingId === lead.id ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
+                                    </button>
+                                </div>
                             </div>
 
-                            <div className="grid md:grid-cols-2 gap-8">
+                            <div className="grid md:grid-cols-2 gap-6">
                                 {/* Left Col: Contact Info */}
-                                <div>
-                                    <h3 className="text-xl font-bold text-white mb-4">{lead.name}</h3>
-                                    <div className="space-y-3">
+                                <div className="space-y-3">
+                                    <div className="flex items-center gap-3 text-gray-300 text-sm">
+                                        <Mail className="w-4 h-4 text-gray-500 shrink-0" />
+                                        <a href={`mailto:${lead.email}`} className="hover:text-white transition-colors truncate">{lead.email}</a>
+                                    </div>
+                                    <div className="flex items-center gap-3 text-gray-300 text-sm">
+                                        <Phone className="w-4 h-4 text-gray-500 shrink-0" />
+                                        <a href={`tel:${lead.phone}`} className="hover:text-white transition-colors">{lead.phone}</a>
+                                    </div>
+                                    {lead.company && (
                                         <div className="flex items-center gap-3 text-gray-300 text-sm">
-                                            <Mail className="w-4 h-4 text-gray-500" />
-                                            <a href={`mailto:${lead.email}`} className="hover:text-white transition-colors">{lead.email}</a>
+                                            <Building className="w-4 h-4 text-gray-500 shrink-0" />
+                                            <span>{lead.company}</span>
                                         </div>
-                                        <div className="flex items-center gap-3 text-gray-300 text-sm">
-                                            <Phone className="w-4 h-4 text-gray-500" />
-                                            <a href={`tel:${lead.phone}`} className="hover:text-white transition-colors">{lead.phone}</a>
-                                        </div>
-                                        {lead.company && (
-                                            <div className="flex items-center gap-3 text-gray-300 text-sm">
-                                                <Building className="w-4 h-4 text-gray-500" />
-                                                <span>{lead.company}</span>
-                                            </div>
-                                        )}
-                                        <div className="flex items-center gap-3 text-gray-500 text-sm">
-                                            <Calendar className="w-4 h-4" />
-                                            <time>{format(new Date(lead.created_at), 'PPP ')}</time>
-                                        </div>
+                                    )}
+                                    <div className="flex items-center gap-3 text-gray-500 text-sm">
+                                        <Calendar className="w-4 h-4 shrink-0" />
+                                        <time>{format(new Date(lead.created_at), 'PPP ')}</time>
                                     </div>
                                 </div>
 
@@ -165,7 +165,7 @@ export default function LeadsAdminPage() {
                                     <h4 className="text-sm font-bold text-gray-500 uppercase tracking-widest mb-3 flex items-center gap-2">
                                         <FileText className="w-4 h-4" /> Message
                                     </h4>
-                                    <div className="bg-black/30 rounded-xl p-4 text-gray-300 text-sm leading-relaxed border border-white/5 min-h[100px]">
+                                    <div className="bg-black/30 rounded-xl p-4 text-gray-300 text-sm leading-relaxed border border-white/5 min-h-[100px]">
                                         {lead.message || <span className="text-gray-600 italic">No additional message provided.</span>}
                                     </div>
                                 </div>
