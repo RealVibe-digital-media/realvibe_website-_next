@@ -19,6 +19,8 @@ export function RealEstateLeadForm({
 
     const isLight = variant === "light";
 
+    const PABBLY_WEBHOOK_URL = "https://connect.pabbly.com/webhook-listener/webhook/IjU3NjAwNTZjMDYzMzA0MzE1MjZiNTUzMCI_3D_pc/IjU3NjcwNTZlMDYzNTA0M2Q1MjZmNTUzNzUxMzci_pc";
+
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setStatus('loading');
@@ -34,12 +36,30 @@ export function RealEstateLeadForm({
         };
 
         try {
-            const res = await fetch('/api/leads', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data),
-            });
-            if (res.ok) {
+            // Send to both internal API and Pabbly webhook in parallel
+            const [apiRes, _webhookRes] = await Promise.allSettled([
+                fetch('/api/leads', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data),
+                }),
+                fetch(PABBLY_WEBHOOK_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        name: data.name,
+                        email: data.email,
+                        phone: data.phone,
+                        service: data.service,
+                        source: data.sourcePage,
+                        submitted_at: new Date().toISOString(),
+                    }),
+                }),
+            ]);
+
+            // Consider success if internal API succeeds (webhook is fire-and-forget)
+            const apiOk = apiRes.status === 'fulfilled' && apiRes.value.ok;
+            if (apiOk) {
                 setStatus('success');
                 // Auto-redirect to thank you page after 1.5 seconds
                 setTimeout(() => {
