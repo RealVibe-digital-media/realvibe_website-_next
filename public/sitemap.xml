@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+
+  <url>
+    <loc>https://www.realvibe.in/</loc>
+    <lastmod>2026-05-05T08:35:27+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.00</priority>
+  </url>
+
+  <url>
+    <loc>https://www.realvibe.in/services</loc>
+    <lastmod>2026-05-05T08:35:27+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.90</priority>
+  </url>
+
+  <url>
+    <loc>https://www.realvibe.in/services/seo</loc>
+    <lastmod>2026-05-05T08:35:27+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://www.realvibe.in/services/social-media</loc>
+    <lastmod>2026-05-05T08:35:27+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://www.realvibe.in/services/ppc</loc>
+    <lastmod>2026-05-05T08:35:27+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://www.realvibe.in/services/web-development</loc>
+    <lastmod>2026-05-05T08:35:27+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://www.realvibe.in/services/branding</loc>
+    <lastmod>2026-05-05T08:35:27+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://www.realvibe.in/about</loc>
+    <lastmod>2026-05-05T08:35:27+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://www.realvibe.in/work-culture</loc>
+    <lastmod>2026-05-05T08:35:27+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://www.realvibe.in/contact</loc>
+    <lastmod>2026-05-05T08:35:27+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://www.realvibe.in/clients</loc>
+    <lastmod>2026-05-05T08:35:27+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+  </url>
+
+  <url>
+    <loc>https://www.realvibe.in/blog</loc>
+    <lastmod>2026-05-05T08:35:27+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://www.realvibe.in/team</loc>
+    <lastmod>2026-05-05T08:35:27+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.60</priority>
+  </url>
+
+  <url>
+    <loc>https://www.realvibe.in/real-estate-marketing</loc>
+    <lastmod>2026-05-05T08:35:27+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.90</priority>
+  </url>
+
+  <url>
+    <loc>https://www.realvibe.in/case-studies/central-park</loc>
+    <lastmod>2026-05-05T08:35:27+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+  </url>
+
+</urlset>

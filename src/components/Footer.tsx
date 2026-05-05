@@ -103,7 +103,7 @@ export function Footer() {
                     <div className="flex gap-4 text-[11px]">
                         <Link href="#" className="text-gray-500 hover:text-white transition-colors">Privacy</Link>
                         <Link href="#" className="text-gray-500 hover:text-white transition-colors">Terms</Link>
-                        <Link href="#" className="text-gray-500 hover:text-white transition-colors">Sitemap</Link>
+                        <Link href="/sitemap.xml" className="text-gray-500 hover:text-white transition-colors">Sitemap</Link>
                     </div>
                 </div>
             </div>
@@ -210,7 +210,7 @@ export function Footer() {
                     <div className="flex flex-wrap justify-center gap-6 text-sm">
                         <Link href="#" className="text-gray-500 hover:text-white transition-colors">Privacy Policy</Link>
                         <Link href="#" className="text-gray-500 hover:text-white transition-colors">Terms of Service</Link>
-                        <Link href="#" className="text-gray-500 hover:text-white transition-colors">Sitemap</Link>
+                        <Link href="/sitemap.xml" className="text-gray-500 hover:text-white transition-colors">Sitemap</Link>
                     </div>
                 </div>
             </div>
