@@ -20,6 +20,9 @@ const outfit = Outfit({
 export const metadata: Metadata = {
   title: "RealVibe Digital Media | #1 Digital Marketing Agency",
   description: "We build brands that dominate digital. From SEO & social media to PPC & branding — RealVibe delivers data-driven digital marketing.",
+  verification: {
+    google: "qRr6OPuX0WDRUby3BuUSOu4WRPj2zWPdEu5W4pTSVSQ",
+  },
   icons: {
     icon: [
       { url: "/favicon-32.png", sizes: "32x32", type: "image/png" },
