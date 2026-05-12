@@ -151,18 +151,7 @@ body {
   pointer-events: none;
 }
 
-/* Custom Cursor Hide */
-@media (pointer: fine) {
-  body.cursor-none {
-    cursor: none;
-  }
 
-  body.cursor-none a,
-  body.cursor-none button,
-  body.cursor-none [role="button"] {
-    cursor: none;
-  }
-}
 
 ::-webkit-scrollbar {
   width: 8px;

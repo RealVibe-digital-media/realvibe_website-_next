@@ -343,6 +343,16 @@ function ServicesSection() {
       iconSvg: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" /></svg>,
       href: '/services/seo',
     },
+    {
+      title: 'Video Production',
+      description: 'Cinematic video content that tells your brand story — real estate walkthroughs, corporate brand films, social media reels, drone aerials, and post-production excellence.',
+      tags: ['Brand Films', 'Property Walkthroughs', 'Drone Shoots', 'Reels & Shorts', 'Motion Graphics'],
+      bg: 'bg-gradient-to-br from-[#2e0a0a] to-[#4e1b1b]',
+      iconGradient: 'from-red-400 via-orange-400 to-amber-400',
+      glowColor: 'orange',
+      iconSvg: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="m15.75 10.5 4.72-4.72a.75.75 0 0 1 1.28.53v11.38a.75.75 0 0 1-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25h-9A2.25 2.25 0 0 0 2.25 7.5v9a2.25 2.25 0 0 0 2.25 2.25Z" /></svg>,
+      href: '/services/video-production',
+    },
   ];
 
   return (

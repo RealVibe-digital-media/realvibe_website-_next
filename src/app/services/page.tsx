@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
-import { MoveRight, TrendingUp, MonitorSmartphone, Target, Search, Palette } from "lucide-react";
+import { MoveRight, TrendingUp, MonitorSmartphone, Target, Search, Palette, Video } from "lucide-react";
 
 export default function ServicesIndexPage() {
     // Requirements: PPC must appear first.
@@ -58,6 +58,16 @@ export default function ServicesIndexPage() {
             bg: "bg-violet-500/10",
             border: "group-hover:border-violet-500/30",
             delay: 0.5
+        },
+        {
+            title: "Video Production",
+            slug: "video-production",
+            desc: "Cinematic video content — walkthroughs, brand films, reels, and drone shoots that captivate and convert.",
+            icon: Video,
+            color: "from-red-500 to-orange-500",
+            bg: "bg-red-500/10",
+            border: "group-hover:border-red-500/30",
+            delay: 0.6
         }
     ];
 
