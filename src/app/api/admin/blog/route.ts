@@ -29,7 +29,7 @@ export async function GET() {
 export async function POST(request: Request) {
     try {
         const data = await request.json();
-        const { title, excerpt, content, image_url, author } = data;
+        const { title, excerpt, content, image_url, author, meta_title, meta_description, schema_markup } = data;
         
         let slug = data.slug || generateSlug(title);
         
@@ -40,8 +40,8 @@ export async function POST(request: Request) {
         }
 
         const result = await query(
-            'INSERT INTO blogs (title, slug, excerpt, content, image_url, author) VALUES (?, ?, ?, ?, ?, ?)',
-            [title, slug, excerpt || null, content, image_url || null, author || 'RealVibe Team']
+            'INSERT INTO blogs (title, slug, excerpt, content, image_url, author, meta_title, meta_description, schema_markup) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
+            [title, slug, excerpt || null, content, image_url || null, author || 'RealVibe Team', meta_title || null, meta_description || null, schema_markup || null]
         );
 
         return NextResponse.json({ success: true, id: (result as any).insertId });

@@ -6,13 +6,13 @@ export async function PUT(
     { params }: { params: { id: string } }
 ) {
     try {
-        const id = params.id;
+        const { id } = await params;
         const data = await request.json();
-        const { title, slug, excerpt, content, image_url, author } = data;
+        const { title, slug, excerpt, content, image_url, author, meta_title, meta_description, schema_markup } = data;
 
         await query(
-            'UPDATE blogs SET title = ?, slug = ?, excerpt = ?, content = ?, image_url = ?, author = ? WHERE id = ?',
-            [title, slug, excerpt || null, content, image_url || null, author || 'RealVibe Team', id]
+            'UPDATE blogs SET title = ?, slug = ?, excerpt = ?, content = ?, image_url = ?, author = ?, meta_title = ?, meta_description = ?, schema_markup = ? WHERE id = ?',
+            [title, slug, excerpt || null, content, image_url || null, author || 'RealVibe Team', meta_title || null, meta_description || null, schema_markup || null, id]
         );
 
         return NextResponse.json({ success: true });
@@ -27,7 +27,7 @@ export async function DELETE(
     { params }: { params: { id: string } }
 ) {
     try {
-        const id = params.id;
+        const { id } = await params;
         await query('DELETE FROM blogs WHERE id = ?', [id]);
         return NextResponse.json({ success: true });
     } catch (error: any) {

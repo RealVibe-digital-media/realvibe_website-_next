@@ -84,6 +84,9 @@ export async function createTablesIfNotExist() {
       content LONGTEXT NOT NULL,
       image_url VARCHAR(2048),
       author VARCHAR(255) DEFAULT 'RealVibe Team',
+      meta_title VARCHAR(255),
+      meta_description TEXT,
+      schema_markup TEXT,
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
   `;
@@ -113,6 +116,20 @@ export async function createTablesIfNotExist() {
     console.log('Blogs table verified.');
     await query(portfolioWallTable);
     console.log('Portfolio Wall table verified.');
+
+    // Add SEO columns if they don't exist
+    try {
+      await query('ALTER TABLE blogs ADD COLUMN meta_title VARCHAR(255)');
+      console.log('Added meta_title to blogs');
+    } catch (e) { /* Ignore if exists */ }
+    try {
+      await query('ALTER TABLE blogs ADD COLUMN meta_description TEXT');
+      console.log('Added meta_description to blogs');
+    } catch (e) { /* Ignore if exists */ }
+    try {
+      await query('ALTER TABLE blogs ADD COLUMN schema_markup TEXT');
+      console.log('Added schema_markup to blogs');
+    } catch (e) { /* Ignore if exists */ }
 
     // Seed 3 SEO-friendly blogs if the table is empty
     const existingBlogs = await query('SELECT id FROM blogs LIMIT 1');

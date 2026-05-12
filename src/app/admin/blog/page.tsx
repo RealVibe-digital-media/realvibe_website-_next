@@ -12,6 +12,9 @@ type BlogPost = {
     content: string;
     image_url: string;
     author: string;
+    meta_title: string;
+    meta_description: string;
+    schema_markup: string;
     created_at: string;
 };
 
@@ -31,6 +34,11 @@ export default function BlogAdminPage() {
     const [content, setContent] = useState("");
     const [imageUrl, setImageUrl] = useState("");
     const [author, setAuthor] = useState("RealVibe Team");
+
+    // SEO State
+    const [metaTitle, setMetaTitle] = useState("");
+    const [metaDescription, setMetaDescription] = useState("");
+    const [schemaMarkup, setSchemaMarkup] = useState("");
 
     useEffect(() => {
         fetchBlogs();
@@ -58,6 +66,9 @@ export default function BlogAdminPage() {
             setContent(blog.content);
             setImageUrl(blog.image_url || "");
             setAuthor(blog.author || "RealVibe Team");
+            setMetaTitle(blog.meta_title || "");
+            setMetaDescription(blog.meta_description || "");
+            setSchemaMarkup(blog.schema_markup || "");
         } else {
             setId(null);
             setTitle("");
@@ -66,6 +77,9 @@ export default function BlogAdminPage() {
             setContent("");
             setImageUrl("");
             setAuthor("RealVibe Team");
+            setMetaTitle("");
+            setMetaDescription("");
+            setSchemaMarkup("");
         }
         setIsModalOpen(true);
     };
@@ -74,7 +88,7 @@ export default function BlogAdminPage() {
         e.preventDefault();
         setSaving(true);
 
-        const payload = { title, slug, excerpt, content, image_url: imageUrl, author };
+        const payload = { title, slug, excerpt, content, image_url: imageUrl, author, meta_title: metaTitle, meta_description: metaDescription, schema_markup: schemaMarkup };
 
         try {
             const method = id ? "PUT" : "POST";
@@ -219,6 +233,27 @@ export default function BlogAdminPage() {
                                 <div>
                                     <label className="block text-sm font-medium text-gray-400 mb-1">Full Content (Markdown/HTML supported)</label>
                                     <textarea rows={8} required value={content} onChange={(e) => setContent(e.target.value)} className="w-full px-4 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-orange-500 font-sans resize-y min-h-[200px]" />
+                                </div>
+
+                                {/* SEO Section */}
+                                <div className="mt-8 pt-6 border-t border-white/10 space-y-4">
+                                    <h3 className="text-lg font-bold text-white mb-4">SEO Options</h3>
+                                    
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-400 mb-1">Meta Title</label>
+                                        <input type="text" value={metaTitle} onChange={(e) => setMetaTitle(e.target.value)} className="w-full px-4 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-orange-500 font-sans" placeholder="SEO Title (Optional, defaults to article title)" />
+                                    </div>
+                                    
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-400 mb-1">Meta Description</label>
+                                        <textarea rows={2} value={metaDescription} onChange={(e) => setMetaDescription(e.target.value)} className="w-full px-4 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-orange-500 font-sans resize-none" placeholder="SEO Description (Optional, defaults to excerpt)" />
+                                    </div>
+
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-400 mb-1">Schema Markup (JSON-LD)</label>
+                                        <textarea rows={4} value={schemaMarkup} onChange={(e) => setSchemaMarkup(e.target.value)} className="w-full px-4 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-orange-500 font-sans resize-y font-mono text-sm" placeholder='<script type="application/ld+json">{...}</script>' />
+                                        <p className="text-xs text-gray-500 mt-1">Paste your complete JSON-LD schema markup including the &lt;script&gt; tags, or just the JSON object.</p>
+                                    </div>
                                 </div>
 
                                 <div className="flex justify-end gap-3 mt-8 pt-6 border-t border-white/10">
