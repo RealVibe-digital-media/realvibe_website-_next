@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
-import { Loader2, Camera, Heart, Users, Sparkles } from "lucide-react";
+import { Loader2, Camera, Heart, Users, Sparkles, ChevronLeft, ChevronRight } from "lucide-react";
 
 type CultureImage = {
     id: number;
@@ -30,6 +30,20 @@ export default function WorkCulturePage() {
         };
         fetchImages();
     }, []);
+
+    const sliderRef = useRef<HTMLDivElement>(null);
+
+    const scrollLeft = () => {
+        if (sliderRef.current) {
+            sliderRef.current.scrollBy({ left: -600, behavior: "smooth" });
+        }
+    };
+
+    const scrollRight = () => {
+        if (sliderRef.current) {
+            sliderRef.current.scrollBy({ left: 600, behavior: "smooth" });
+        }
+    };
 
     const containerVariants = {
         hidden: { opacity: 0 },
@@ -107,52 +121,77 @@ export default function WorkCulturePage() {
                             <p className="text-gray-500">We're busy making memories. Check back soon!</p>
                         </div>
                     ) : (
-                        <motion.div 
-                            variants={containerVariants}
-                            initial="hidden"
-                            animate="visible"
-                            className="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6"
-                        >
-                            {images.map((img) => (
-                                <motion.div 
-                                    key={img.id}
-                                    variants={itemVariants}
-                                    className="relative group rounded-2xl overflow-hidden bg-white/5 border border-white/10 break-inside-avoid shadow-2xl"
-                                >
-                                    <img 
-                                        src={img.image_url} 
-                                        alt={img.title || "RealVibe Culture"} 
-                                        className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-110"
-                                    />
-                                    
-                                    {/* Overlay */}
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-end p-6">
-                                        <motion.div
-                                            initial={{ y: 20, opacity: 0 }}
-                                            whileInView={{ y: 0, opacity: 1 }}
-                                            className="space-y-4"
+                        <div className="relative group/slider mt-12">
+                            {/* Navigation Controls */}
+                            {images.length > 2 && (
+                                <div className="absolute top-1/2 -translate-y-1/2 left-4 right-4 flex justify-between z-20 pointer-events-none opacity-0 group-hover/slider:opacity-100 transition-opacity duration-300">
+                                    <button 
+                                        onClick={scrollLeft}
+                                        className="w-12 h-12 rounded-full bg-black/50 backdrop-blur-md border border-white/20 flex items-center justify-center text-white pointer-events-auto hover:bg-white/10 hover:scale-110 transition-all"
+                                    >
+                                        <ChevronLeft className="w-6 h-6" />
+                                    </button>
+                                    <button 
+                                        onClick={scrollRight}
+                                        className="w-12 h-12 rounded-full bg-black/50 backdrop-blur-md border border-white/20 flex items-center justify-center text-white pointer-events-auto hover:bg-white/10 hover:scale-110 transition-all"
+                                    >
+                                        <ChevronRight className="w-6 h-6" />
+                                    </button>
+                                </div>
+                            )}
+
+                            <motion.div 
+                                ref={sliderRef}
+                                variants={containerVariants}
+                                initial="hidden"
+                                animate="visible"
+                                className="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-8 hide-scrollbar scroll-smooth"
+                                style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+                            >
+                                {images.map((img) => {
+                                    const displayTitle = img.title && img.title.toLowerCase().includes('whatsapp') ? 'RealVibe Moments' : img.title;
+                                    return (
+                                        <motion.div 
+                                            key={img.id}
+                                            variants={itemVariants}
+                                            className="relative group rounded-2xl overflow-hidden bg-white/5 border border-white/10 shrink-0 w-[85vw] md:w-[45vw] lg:w-[30vw] snap-center shadow-2xl aspect-[4/5]"
                                         >
-                                            {img.title && (
-                                                <h3 className="text-xl font-bold text-white drop-shadow-lg">{img.title}</h3>
-                                            )}
-                                            <div className="flex items-center gap-4 text-white/60">
-                                                <div className="flex items-center gap-1.5 backdrop-blur-md bg-white/10 px-3 py-1 rounded-full">
-                                                    <Heart size={14} className="text-pink-400" />
-                                                    <span className="text-[10px] uppercase font-bold tracking-tighter">Community</span>
-                                                </div>
-                                                <div className="flex items-center gap-1.5 backdrop-blur-md bg-white/10 px-3 py-1 rounded-full">
-                                                    <Users size={14} className="text-purple-400" />
-                                                    <span className="text-[10px] uppercase font-bold tracking-tighter">Teamwork</span>
-                                                </div>
+                                            <img 
+                                                src={img.image_url} 
+                                                alt={displayTitle || "RealVibe Culture"} 
+                                                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                            />
+                                            
+                                            {/* Overlay */}
+                                            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-end p-6">
+                                                <motion.div
+                                                    initial={{ y: 20, opacity: 0 }}
+                                                    whileInView={{ y: 0, opacity: 1 }}
+                                                    className="space-y-4"
+                                                >
+                                                    {displayTitle && (
+                                                        <h3 className="text-xl font-bold text-white drop-shadow-lg">{displayTitle}</h3>
+                                                    )}
+                                                    <div className="flex items-center gap-4 text-white/60">
+                                                        <div className="flex items-center gap-1.5 backdrop-blur-md bg-white/10 px-3 py-1 rounded-full">
+                                                            <Heart size={14} className="text-pink-400" />
+                                                            <span className="text-[10px] uppercase font-bold tracking-tighter">Community</span>
+                                                        </div>
+                                                        <div className="flex items-center gap-1.5 backdrop-blur-md bg-white/10 px-3 py-1 rounded-full">
+                                                            <Users size={14} className="text-purple-400" />
+                                                            <span className="text-[10px] uppercase font-bold tracking-tighter">Teamwork</span>
+                                                        </div>
+                                                    </div>
+                                                </motion.div>
                                             </div>
+                                            
+                                            {/* Glass Frame Shine */}
+                                            <div className="absolute inset-0 bg-gradient-to-tr from-white/10 to-transparent opacity-0 group-hover:opacity-30 pointer-events-none transition-opacity" />
                                         </motion.div>
-                                    </div>
-                                    
-                                    {/* Glass Frame Shine */}
-                                    <div className="absolute inset-0 bg-gradient-to-tr from-white/10 to-transparent opacity-0 group-hover:opacity-30 pointer-events-none transition-opacity" />
-                                </motion.div>
-                            ))}
-                        </motion.div>
+                                    );
+                                })}
+                            </motion.div>
+                        </div>
                     )}
                 </div>
             </section>

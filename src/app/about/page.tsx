@@ -88,17 +88,33 @@ function LeadershipSection() {
                     </h2>
                 </motion.div>
 
-                <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
+                <div className="flex flex-col lg:flex-row items-stretch gap-12 lg:gap-20">
                     <motion.div
                         initial={{ x: -50, opacity: 0 }}
                         whileInView={{ x: 0, opacity: 1 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.8 }}
-                        className="flex-1"
+                        className="w-full max-w-md lg:w-1/3 flex flex-col items-center"
                     >
-                        <h3 className="text-3xl md:text-4xl font-black text-white mb-2">Ashutosh Tiwari</h3>
-                        <p className="text-xl md:text-2xl font-bold text-pink-400 mb-8">(Chief Executive Officer)</p>
+                        <div className="relative rounded-3xl overflow-hidden aspect-[4/5] border border-white/10 shadow-2xl shadow-purple-900/20 bg-white/[0.02] w-full">
+                            <img
+                                src={ceoImage}
+                                alt="Ashutosh Tiwari - CEO"
+                                className="w-full h-full object-cover object-top filter contrast-125 saturate-110"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+                        </div>
+                        <h3 className="text-xl md:text-2xl font-bold text-white mt-4 text-center">Ashutosh Tiwari</h3>
+                        <p className="text-sm md:text-base font-semibold text-pink-400 mt-1 text-center">(Chief Executive Officer)</p>
+                    </motion.div>
 
+                    <motion.div
+                        initial={{ x: 50, opacity: 0 }}
+                        whileInView={{ x: 0, opacity: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.8 }}
+                        className="flex-1 flex flex-col lg:justify-center"
+                    >
                         <div className="text-gray-300 text-lg leading-relaxed space-y-6">
                             <p>
                                 With over <span className="font-bold text-white">20 years of experience</span> in strategic marketing and brand growth, Ashutosh Tiwari is a seasoned marketing leader and the visionary CEO of a dynamic Digital Marketing Agency specializing in Real Estate.
@@ -134,23 +150,6 @@ function LeadershipSection() {
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
                                 </svg>
                             </button>
-                        </div>
-                    </motion.div>
-
-                    <motion.div
-                        initial={{ scale: 0.9, opacity: 0 }}
-                        whileInView={{ scale: 1, opacity: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.8 }}
-                        className="w-full max-w-md lg:w-1/3"
-                    >
-                        <div className="relative rounded-3xl overflow-hidden aspect-[4/5] border border-white/10 shadow-2xl shadow-purple-900/20 bg-white/[0.02]">
-                            <img
-                                src={ceoImage}
-                                alt="Ashutosh Tiwari - CEO"
-                                className="w-full h-full object-cover object-top filter contrast-125 saturate-110"
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
                         </div>
                     </motion.div>
                 </div>

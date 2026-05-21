@@ -8,8 +8,11 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
 
   useEffect(() => {
+    // Disable Lenis on mobile devices for native smooth scrolling and better performance
+    if (window.innerWidth < 768) return;
+
     const lenis = new Lenis({
-      lerp: 0.08,
+      lerp: 0.1,
       duration: 1.2,
       smoothWheel: true,
       wheelMultiplier: 1,
