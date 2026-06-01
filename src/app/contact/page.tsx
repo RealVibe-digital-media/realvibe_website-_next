@@ -20,22 +20,33 @@ export default function ContactPage() {
         const formData = new FormData(e.currentTarget);
         const data = {
             name: formData.get("name"),
-            mobile: formData.get("mobile"),
+            email: formData.get("email"),
+            phone: formData.get("phone"),
+            company: formData.get("company"),
             service: formData.get("service"),
             message: formData.get("message"),
+            sourcePage: "Contact Page",
         };
 
         try {
-            // In a real Next.js app, this would hit an API route (e.g., /api/contact)
-            // which would use an SMTP provider to send the email.
-            // For now, we simulate a successful API request.
-            console.log("Form data exactly as would be sent to API:", data);
+            const res = await fetch("/api/leads", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data),
+            });
 
-            await new Promise((resolve) => setTimeout(resolve, 1500));
+            if (!res.ok) {
+                const errorData = await res.json();
+                throw new Error(errorData.error || "Failed to submit lead");
+            }
+
             setSuccessMessage("Message sent successfully! We'll be in touch.");
             (e.target as HTMLFormElement).reset();
-        } catch (err) {
-            setErrorMessage("Failed to send message. Please try again.");
+        } catch (err: any) {
+            console.error("Failed to submit contact form:", err);
+            setErrorMessage(err.message || "Failed to send message. Please try again.");
         } finally {
             setLoading(false);
         }
@@ -81,10 +92,22 @@ export default function ContactPage() {
                                     placeholder="John Doe" />
                             </div>
                             <div className="space-y-2">
-                                <label htmlFor="mobile" className="text-sm font-medium text-gray-400 ml-1">Mobile Number</label>
-                                <input type="tel" id="mobile" name="mobile" required
+                                <label htmlFor="email" className="text-sm font-medium text-gray-400 ml-1">Email Address</label>
+                                <input type="email" id="email" name="email" required
+                                    className="w-full bg-black/20 border border-white/10 rounded-xl px-6 py-4 text-white placeholder-gray-600 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all"
+                                    placeholder="john@company.com" />
+                            </div>
+                            <div className="space-y-2">
+                                <label htmlFor="phone" className="text-sm font-medium text-gray-400 ml-1">Mobile Number</label>
+                                <input type="tel" id="phone" name="phone" required
                                     className="w-full bg-black/20 border border-white/10 rounded-xl px-6 py-4 text-white placeholder-gray-600 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all"
                                     placeholder="+91 98765 43210" />
+                            </div>
+                            <div className="space-y-2">
+                                <label htmlFor="company" className="text-sm font-medium text-gray-400 ml-1">Company / Website (Optional)</label>
+                                <input type="text" id="company" name="company"
+                                    className="w-full bg-black/20 border border-white/10 rounded-xl px-6 py-4 text-white placeholder-gray-600 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all"
+                                    placeholder="yourcompany.com" />
                             </div>
                         </div>
 
