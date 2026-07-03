@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { motion, useInView, AnimatePresence, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { motion, useInView, AnimatePresence } from "framer-motion";
 
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
@@ -10,6 +10,7 @@ import { ServiceCard } from "@/components/ServiceCard";
 import { TeamSection } from "@/components/TeamSection";
 import { BlogSection } from "@/components/BlogSection";
 import { AnimatedButton } from "@/components/AnimatedButton";
+import { useLowPower } from "@/lib/useLowPower";
 // Lenis removed — causes scroll jank in Chrome
 import { MoveRight, ArrowRight, Play, CheckCircle2, Clapperboard, Video, Smartphone, Monitor, Rocket, Target, Megaphone, Mic, Palette, Brain, TrendingUp, PenTool, BarChart3, Mail, Settings, Newspaper, Search, Map, Zap, LineChart } from "lucide-react";
 
@@ -73,7 +74,7 @@ const BackgroundDecor = () => (
     <div className="orb-2 gpu-layer absolute bottom-[-10%] left-[-10%] w-[60vw] h-[60vw] bg-pink-900/10 rounded-full blur-3xl opacity-60 will-change-transform" />
 
     {/* Static light wash */}
-    <div className="absolute top-[20%] left-[-5%] w-[40vw] h-[40vw] bg-blue-900/5 rounded-full blur-3xl opacity-50" />
+    <div className="absolute top-[20%] left-[-5%] w-[40vw] h-[40vw] bg-purple-900/5 rounded-full blur-3xl opacity-50" />
   </div>
 );
 
@@ -97,48 +98,10 @@ const MarqueeSection = () => (
   </section>
 );
 
-
-// ════════ MOUSE FOLLOWER (PREMIUM UX) — OPTIMIZED ════════
-const MouseFollower = () => {
-  const mouseX = useMotionValue(-1000);
-  const mouseY = useMotionValue(-1000);
-
-  // Tighten the spring but keep restDelta tight for snappiness
-  const springX = useSpring(mouseX, { stiffness: 400, damping: 40, restDelta: 0.001 });
-  const springY = useSpring(mouseY, { stiffness: 400, damping: 40, restDelta: 0.001 });
-
-  // Center the gradient perfectly to the mouse (we use 600px width/height, so offset by 300)
-  const x = useTransform(springX, v => v - 300);
-  const y = useTransform(springY, v => v - 300);
-
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      mouseX.set(e.clientX);
-      mouseY.set(e.clientY);
-    };
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, [mouseX, mouseY]);
-
-  return (
-    <div className="fixed inset-0 z-[1] pointer-events-none overflow-hidden hidden md:block">
-      <motion.div
-        className="absolute w-[600px] h-[600px] rounded-full will-change-transform"
-        style={{ 
-          x, 
-          y,
-          background: "radial-gradient(circle, rgba(236, 72, 153, 0.04), transparent 70%)"
-        }}
-      />
-    </div>
-  );
-};
-
 export default function HomePageClient() {
   return (
     <main className="bg-black min-h-screen selection:bg-pink-500 selection:text-white relative">
       <BackgroundDecor />
-      <MouseFollower />
       <GlobalStyles />
       <Navbar />
       <HeroSection />
@@ -297,9 +260,9 @@ function ServicesSection() {
       title: 'Performance Ads',
       description: 'Generate high-intent leads through precision-targeted Google Ads, Meta Ads, and programmatic campaigns. Every budget optimized for maximum conversions and measurable ROI.',
       tags: ['Google Ads', 'Meta Ads', 'Lead Gen', 'Retargeting', 'CPL Optimization'],
-      bg: 'bg-gradient-to-br from-[#2e1a0a] to-[#4e2d1b]',
-      iconGradient: 'from-orange-400 via-amber-400 to-yellow-400',
-      glowColor: 'orange',
+      bg: 'bg-gradient-to-br from-[#1a0a20] to-[#3d1b4e]',
+      iconGradient: 'from-purple-400 via-violet-400 to-pink-400',
+      glowColor: 'purple',
       iconSvg: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M15.042 21.672L13.684 16.6m0 0l-2.51 2.225.569-9.47 5.227 7.917-3.286-.672zM12 2.25V4.5m5.834.166l-1.591 1.591M20.25 10.5H18M7.757 14.743l-1.59 1.59M6 10.5H3.75m4.007-4.243l-1.59-1.59" /></svg>,
       href: '/services/ppc',
     },
@@ -308,7 +271,7 @@ function ServicesSection() {
       description: 'Build brand trust and audience engagement on Instagram, Facebook, and YouTube. We create scroll-stopping content — reels, stories, and campaigns that drive real enquiries.',
       tags: ['Reels & Content', 'Community Building', 'Influencer Tie-ups', 'Paid Social', 'Brand Storytelling'],
       bg: 'bg-gradient-to-br from-[#2e0a1a] to-[#4e1b2d]',
-      iconGradient: 'from-pink-400 via-rose-400 to-red-400',
+      iconGradient: 'from-pink-400 via-pink-300 to-purple-400',
       glowColor: 'pink',
       iconSvg: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z" /></svg>,
       href: '/services/social-media',
@@ -317,9 +280,9 @@ function ServicesSection() {
       title: 'Websites & Landing Pages',
       description: 'High-converting websites and lead-capture landing pages built for speed and results. From interactive showcases to integrated CRM forms — designed to turn visitors into customers.',
       tags: ['Custom Websites', 'Landing Pages', 'CRM Integration', 'Speed Optimized', 'Conversion Design'],
-      bg: 'bg-gradient-to-br from-[#0a1a2e] to-[#1b2d4e]',
-      iconGradient: 'from-blue-400 via-cyan-400 to-teal-400',
-      glowColor: 'blue',
+      bg: 'bg-gradient-to-br from-[#1a0a2e] to-[#2d1b4e]',
+      iconGradient: 'from-purple-400 via-pink-400 to-violet-400',
+      glowColor: 'purple',
       iconSvg: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5" /></svg>,
       href: '/services/web-development',
     },
@@ -328,8 +291,8 @@ function ServicesSection() {
       description: 'Craft a brand identity that commands premium perception. From logo systems and naming to launch collaterals — we position you as the undisputed leader in your market.',
       tags: ['Brand Identity', 'Visual Systems', 'Launch Collaterals', 'Pitch Decks', 'Naming Strategy'],
       bg: 'bg-gradient-to-br from-[#1a0a20] to-[#3d1b4e]',
-      iconGradient: 'from-fuchsia-400 via-purple-400 to-violet-400',
-      glowColor: 'fuchsia',
+      iconGradient: 'from-violet-400 via-purple-400 to-pink-400',
+      glowColor: 'purple',
       iconSvg: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M9.53 16.122a3 3 0 00-5.78 1.128 2.25 2.25 0 01-2.4 2.245 4.5 4.5 0 008.4-2.245c0-.399-.078-.78-.22-1.128zm0 0a15.998 15.998 0 003.388-1.62m-5.043-.025a15.994 15.994 0 011.622-3.395m3.42 3.42a15.995 15.995 0 004.764-4.648l3.876-5.814a1.151 1.151 0 00-1.597-1.597L14.146 6.32a15.996 15.996 0 00-4.649 4.763m3.42 3.42a6.776 6.776 0 00-3.42-3.42" /></svg>,
       href: '/services/branding',
     },
@@ -338,7 +301,7 @@ function ServicesSection() {
       description: 'Dominate search results with hyper-targeted SEO. We build organic pipelines that deliver consistent, high-intent traffic to your pages — month after month, without paying per click.',
       tags: ['Local SEO', 'Keyword Strategy', 'Google My Business', 'Technical SEO', 'Content Strategy'],
       bg: 'bg-gradient-to-br from-[#1a0a2e] to-[#2d1b4e]',
-      iconGradient: 'from-purple-400 via-fuchsia-400 to-pink-400',
+      iconGradient: 'from-purple-400 via-violet-400 to-pink-400',
       glowColor: 'purple',
       iconSvg: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" /></svg>,
       href: '/services/seo',
@@ -347,9 +310,9 @@ function ServicesSection() {
       title: 'Video Production',
       description: 'Cinematic video content that tells your brand story — real estate walkthroughs, corporate brand films, social media reels, drone aerials, and post-production excellence.',
       tags: ['Brand Films', 'Property Walkthroughs', 'Drone Shoots', 'Reels & Shorts', 'Motion Graphics'],
-      bg: 'bg-gradient-to-br from-[#2e0a0a] to-[#4e1b1b]',
-      iconGradient: 'from-red-400 via-orange-400 to-amber-400',
-      glowColor: 'orange',
+      bg: 'bg-gradient-to-br from-[#2e0a1a] to-[#4e1b2d]',
+      iconGradient: 'from-pink-400 via-purple-400 to-violet-400',
+      glowColor: 'pink',
       iconSvg: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="m15.75 10.5 4.72-4.72a.75.75 0 0 1 1.28.53v11.38a.75.75 0 0 1-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25h-9A2.25 2.25 0 0 0 2.25 7.5v9a2.25 2.25 0 0 0 2.25 2.25Z" /></svg>,
       href: '/services/video-production',
     },
@@ -412,8 +375,8 @@ function StatsSection() {
   const stats = [
     { value: 500, suffix: '+', label: 'Projects Marketed', color: 'from-purple-500/20 to-transparent' },
     { value: 150, suffix: '+', label: 'Builder Partners', color: 'from-pink-500/20 to-transparent' },
-    { value: 10, suffix: '+', label: 'Years in Real Estate', color: 'from-orange-500/20 to-transparent' },
-    { value: 98, suffix: '%', label: 'Client Retention', color: 'from-blue-500/20 to-transparent' },
+    { value: 10, suffix: '+', label: 'Years in Real Estate', color: 'from-violet-500/20 to-transparent' },
+    { value: 98, suffix: '%', label: 'Client Retention', color: 'from-pink-500/20 to-transparent' },
   ];
 
   return (
@@ -489,8 +452,8 @@ function AboutSection() {
   return (
     <section id="about" className="relative py-28 md:py-40 px-6 z-10 bg-black overflow-hidden border-t border-white/5">
       {/* Theme Background Gradients */}
-      <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-pink-500/10 blur-[120px] rounded-full mix-blend-screen pointer-events-none opacity-60" />
-      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-purple-700/10 blur-[120px] rounded-full mix-blend-screen pointer-events-none opacity-60" />
+      <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-pink-500/10 blur-[90px] rounded-full mix-blend-screen pointer-events-none opacity-60" />
+      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-purple-700/10 blur-[90px] rounded-full mix-blend-screen pointer-events-none opacity-60" />
 
       <div className="max-w-7xl mx-auto relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-center">
@@ -572,20 +535,20 @@ function OurApproachSection() {
       title: 'Market Intelligence',
       description: 'We analyze micro-market trends, competitor inventory, and buyer behavior to identify your project\'s winning edge.',
       icon: <Search className="w-8 h-8" />,
-      iconColor: 'text-amber-400',
-      gradient: 'from-amber-500 to-orange-500',
-      glowColor: 'rgba(245,158,11,0.25)',
-      bgGradient: 'from-amber-900/30 to-orange-900/20',
-      borderColor: 'border-amber-500/30',
+      iconColor: 'text-violet-400',
+      gradient: 'from-violet-500 to-purple-500',
+      glowColor: 'rgba(139,92,246,0.25)',
+      bgGradient: 'from-violet-900/30 to-purple-900/20',
+      borderColor: 'border-violet-500/30',
     },
     {
       title: 'Lead Engine Blueprint',
       description: 'We design high-converting project microsites and targeted sales funnels mapped to the buyer\'s journey.',
       icon: <Map className="w-8 h-8" />,
       iconColor: 'text-pink-400',
-      gradient: 'from-pink-500 to-rose-500',
+      gradient: 'from-pink-500 to-purple-500',
       glowColor: 'rgba(236,72,153,0.25)',
-      bgGradient: 'from-pink-900/30 to-rose-900/20',
+      bgGradient: 'from-pink-900/30 to-purple-900/20',
       borderColor: 'border-pink-500/30',
     },
     {
@@ -602,18 +565,18 @@ function OurApproachSection() {
       title: 'Sales ROI Nurturing',
       description: 'We track every lead from enquiry to booking, refining the engine for the lowest cost-per-sale (CPS).',
       icon: <LineChart className="w-8 h-8" />,
-      iconColor: 'text-blue-400',
-      gradient: 'from-blue-500 to-indigo-500',
-      glowColor: 'rgba(59,130,246,0.25)',
-      bgGradient: 'from-blue-900/30 to-indigo-900/20',
-      borderColor: 'border-blue-500/30',
+      iconColor: 'text-pink-400',
+      gradient: 'from-pink-500 to-purple-500',
+      glowColor: 'rgba(236,72,153,0.25)',
+      bgGradient: 'from-pink-900/30 to-purple-900/20',
+      borderColor: 'border-pink-500/30',
     },
   ];
 
   return (
     <section id="our-approach" className="relative py-24 md:py-36 px-4 md:px-6 z-10 bg-black overflow-hidden">
       {/* Background Accents */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-purple-600/5 rounded-full blur-[160px] pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-purple-600/5 rounded-full blur-[110px] pointer-events-none" />
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/[0.06] to-transparent" />
       <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/[0.06] to-transparent" />
 
@@ -721,6 +684,7 @@ function OurApproachSection() {
 
 // ════════ PORTFOLIO ════════
 function PortfolioSection() {
+  const lowPower = useLowPower();
   const [successStories, setSuccessStories] = useState<any[]>([]);
   const [activeIndex, setActiveIndex] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -807,8 +771,8 @@ function PortfolioSection() {
     <section id="portfolio" className="relative py-24 md:py-32 px-4 md:px-6 z-10 w-full overflow-hidden bg-[#0F0F0F]">
       {/* Background Stylistic Elements */}
       <div className="absolute inset-0 z-0">
-        <div className="absolute top-1/2 left-[-10%] w-[500px] h-[500px] bg-purple-600/5 rounded-full blur-[120px]" />
-        <div className="absolute bottom-[-10%] right-[-5%] w-[600px] h-[600px] bg-pink-600/5 rounded-full blur-[120px]" />
+        <div className="absolute top-1/2 left-[-10%] w-[500px] h-[500px] bg-purple-600/5 rounded-full blur-[90px]" />
+        <div className="absolute bottom-[-10%] right-[-5%] w-[600px] h-[600px] bg-pink-600/5 rounded-full blur-[90px]" />
       </div>
 
       <div className="max-w-7xl mx-auto relative z-10">
@@ -910,73 +874,61 @@ function PortfolioSection() {
             <div className="absolute inset-0 z-10 pointer-events-none bg-gradient-to-r from-[#0F0F0F] via-transparent via-transparent to-[#0F0F0F] lg:hidden"
                  style={{ background: 'linear-gradient(to right, #0F0F0F 0%, transparent 10%, transparent 90%, #0F0F0F 100%)' }} />
             
-            <motion.div 
-              style={{ rotateY: -8, rotateX: 2 }}
-              className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4 h-full w-full origin-center"
+            <div
+              style={{ transform: lowPower ? undefined : "rotateY(-8deg) rotateX(2deg)" }}
+              className="portfolio-wall-3d grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4 h-full w-full origin-center"
             >
-              {/* Column 1 - Down */}
+              {/* Column 1 - Up (CSS-animated: runs on the compositor, off the main thread) */}
               <div className="relative h-full overflow-hidden">
-                <motion.div 
-                  animate={{ y: ["0%", "-50%"] }}
-                  transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-                  className="flex flex-col gap-4"
-                >
+                <div className="wall-scroll wall-up-25 flex flex-col gap-4">
                   {col1.map((url, i) => (
                     <div key={i} className={`w-full rounded-2xl overflow-hidden bg-zinc-900 border border-white/5 shadow-2xl ${i % 2 === 0 ? 'h-64' : 'h-48'}`}>
-                      <img src={url} className="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-opacity" alt="Portfolio" />
+                      <img src={url} className="w-full h-full object-cover opacity-60" alt="Portfolio" loading="lazy" />
                     </div>
                   ))}
                   {/* Duplicate for seamless loop */}
                   {col1.map((url, i) => (
                     <div key={`d1-${i}`} className={`w-full rounded-2xl overflow-hidden bg-zinc-900 border border-white/5 shadow-2xl ${i % 2 === 0 ? 'h-64' : 'h-48'}`}>
-                      <img src={url} className="w-full h-full object-cover opacity-60" alt="Portfolio" />
+                      <img src={url} className="w-full h-full object-cover opacity-60" alt="Portfolio" loading="lazy" />
                     </div>
                   ))}
-                </motion.div>
+                </div>
               </div>
 
-              {/* Column 2 - Up */}
+              {/* Column 2 - Down */}
               <div className="relative h-full overflow-hidden pt-12">
-                <motion.div 
-                  animate={{ y: ["-50%", "0%"] }}
-                  transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-                  className="flex flex-col gap-4"
-                >
+                <div className="wall-scroll wall-down-30 flex flex-col gap-4">
                   {col2.map((url, i) => (
                     <div key={i} className={`w-full rounded-2xl overflow-hidden bg-zinc-900 border border-white/5 shadow-2xl ${i % 3 === 0 ? 'h-80' : 'h-56'}`}>
-                      <img src={url} className="w-full h-full object-cover opacity-60" alt="Portfolio" />
+                      <img src={url} className="w-full h-full object-cover opacity-60" alt="Portfolio" loading="lazy" />
                     </div>
                   ))}
                   {/* Duplicate */}
                   {col2.map((url, i) => (
                     <div key={`d2-${i}`} className={`w-full rounded-2xl overflow-hidden bg-zinc-900 border border-white/5 shadow-2xl ${i % 3 === 0 ? 'h-80' : 'h-56'}`}>
-                      <img src={url} className="w-full h-full object-cover opacity-60" alt="Portfolio" />
+                      <img src={url} className="w-full h-full object-cover opacity-60" alt="Portfolio" loading="lazy" />
                     </div>
                   ))}
-                </motion.div>
+                </div>
               </div>
 
-              {/* Column 3 - Down (Hidden on mobile for better performance) */}
+              {/* Column 3 - Up (Hidden on mobile for better performance) */}
               <div className="relative h-full overflow-hidden hidden md:block">
-                <motion.div 
-                  animate={{ y: ["0%", "-50%"] }}
-                  transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                  className="flex flex-col gap-4"
-                >
+                <div className="wall-scroll wall-up-20 flex flex-col gap-4">
                   {col3.map((url, i) => (
                     <div key={i} className={`w-full rounded-2xl overflow-hidden bg-zinc-900 border border-white/5 shadow-2xl ${i % 2 !== 0 ? 'h-72' : 'h-44'}`}>
-                      <img src={url} className="w-full h-full object-cover opacity-60" alt="Portfolio" />
+                      <img src={url} className="w-full h-full object-cover opacity-60" alt="Portfolio" loading="lazy" />
                     </div>
                   ))}
                   {/* Duplicate */}
                   {col3.map((url, i) => (
                     <div key={`d3-${i}`} className={`w-full rounded-2xl overflow-hidden bg-zinc-900 border border-white/5 shadow-2xl ${i % 2 !== 0 ? 'h-72' : 'h-44'}`}>
-                      <img src={url} className="w-full h-full object-cover opacity-60" alt="Portfolio" />
+                      <img src={url} className="w-full h-full object-cover opacity-60" alt="Portfolio" loading="lazy" />
                     </div>
                   ))}
-                </motion.div>
+                </div>
               </div>
-            </motion.div>
+            </div>
           </div>
         </div>
       </div>
@@ -1175,22 +1127,22 @@ function DoubleScrollMarquee() {
   const row1 = [
     { name: "UGC", icon: <Clapperboard className="w-3.5 h-3.5 md:w-4 md:h-4 text-purple-400" /> },
     { name: "Video Production", icon: <Video className="w-3.5 h-3.5 md:w-4 md:h-4 text-pink-400" /> },
-    { name: "Social Media", icon: <Smartphone className="w-3.5 h-3.5 md:w-4 md:h-4 text-blue-400" /> },
-    { name: "Website Development", icon: <Monitor className="w-3.5 h-3.5 md:w-4 md:h-4 text-cyan-400" /> },
-    { name: "App Development", icon: <Rocket className="w-3.5 h-3.5 md:w-4 md:h-4 text-orange-400" /> },
+    { name: "Social Media", icon: <Smartphone className="w-3.5 h-3.5 md:w-4 md:h-4 text-purple-400" /> },
+    { name: "Website Development", icon: <Monitor className="w-3.5 h-3.5 md:w-4 md:h-4 text-violet-400" /> },
+    { name: "App Development", icon: <Rocket className="w-3.5 h-3.5 md:w-4 md:h-4 text-violet-400" /> },
     { name: "Google Ads", icon: <Target className="w-3.5 h-3.5 md:w-4 md:h-4 text-red-500" /> },
-    { name: "Meta Ads", icon: <Megaphone className="w-3.5 h-3.5 md:w-4 md:h-4 text-blue-500" /> },
+    { name: "Meta Ads", icon: <Megaphone className="w-3.5 h-3.5 md:w-4 md:h-4 text-pink-500" /> },
     { name: "Podcast", icon: <Mic className="w-3.5 h-3.5 md:w-4 md:h-4 text-emerald-400" /> },
   ];
   const row2 = [
-    { name: "Brand Design", icon: <Palette className="w-3.5 h-3.5 md:w-4 md:h-4 text-fuchsia-400" /> },
+    { name: "Brand Design", icon: <Palette className="w-3.5 h-3.5 md:w-4 md:h-4 text-violet-400" /> },
     { name: "Strategy", icon: <Brain className="w-3.5 h-3.5 md:w-4 md:h-4 text-yellow-400" /> },
     { name: "SEO Optimization", icon: <TrendingUp className="w-3.5 h-3.5 md:w-4 md:h-4 text-green-400" /> },
     { name: "Content Creation", icon: <PenTool className="w-3.5 h-3.5 md:w-4 md:h-4 text-pink-300" /> },
-    { name: "Analytics", icon: <BarChart3 className="w-3.5 h-3.5 md:w-4 md:h-4 text-indigo-400" /> },
-    { name: "Email Marketing", icon: <Mail className="w-3.5 h-3.5 md:w-4 md:h-4 text-amber-400" /> },
+    { name: "Analytics", icon: <BarChart3 className="w-3.5 h-3.5 md:w-4 md:h-4 text-purple-400" /> },
+    { name: "Email Marketing", icon: <Mail className="w-3.5 h-3.5 md:w-4 md:h-4 text-pink-300" /> },
     { name: "Automation", icon: <Settings className="w-3.5 h-3.5 md:w-4 md:h-4 text-gray-300" /> },
-    { name: "PR & Media", icon: <Newspaper className="w-3.5 h-3.5 md:w-4 md:h-4 text-teal-400" /> },
+    { name: "PR & Media", icon: <Newspaper className="w-3.5 h-3.5 md:w-4 md:h-4 text-pink-400" /> },
   ];
 
   useEffect(() => {
@@ -1303,10 +1255,10 @@ function CTASection() {
           transition={{ duration: 0.6, ease: "easeOut" }}
           className="relative rounded-[1.5rem] md:rounded-[2rem] overflow-hidden"
         >
-          <div className="absolute -inset-[1px] rounded-[1.5rem] md:rounded-[2rem] bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500 opacity-40"></div>
+          <div className="absolute -inset-[1px] rounded-[1.5rem] md:rounded-[2rem] bg-gradient-to-r from-purple-800 to-pink-700 opacity-40"></div>
 
           <div className="relative rounded-[1.5rem] md:rounded-[2rem] bg-black">
-            <div className="absolute inset-0 bg-gradient-to-br from-purple-900/30 via-pink-900/20 to-orange-900/30 rounded-[1.5rem] md:rounded-[2rem]"></div>
+            <div className="absolute inset-0 bg-gradient-to-br from-purple-900/30 to-pink-900/20 rounded-[1.5rem] md:rounded-[2rem]"></div>
             
             {/* Animated Real Estate Skyline SVG */}
             <div className="absolute inset-0 opacity-20 pointer-events-none">

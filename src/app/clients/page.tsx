@@ -126,7 +126,7 @@ function ClientCard({ client, index }: { client: any; index: number }) {
                                 <MoveUpRight className="w-4 h-4 transform group-hover:translate-x-0.5 -group-hover:translate-y-0.5 transition-transform" />
                             </div>
                         </div>
-                        <div className="absolute bottom-0 left-0 w-0 h-[2px] bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500 transition-all duration-700 group-hover:w-full"></div>
+                        <div className="absolute bottom-0 left-0 w-0 h-[2px] bg-gradient-to-r from-purple-800 to-pink-700 transition-all duration-700 group-hover:w-full"></div>
                     </div>
                 </div>
             </div>

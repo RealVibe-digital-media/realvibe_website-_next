@@ -20,10 +20,10 @@ export default function AdminDashboardPage() {
     }, []);
 
     const stats = [
-        { label: "Service Leads", value: data?.leads || "0", icon: MousePointerClick, color: "text-blue-400", bg: "bg-blue-500/10" },
+        { label: "Service Leads", value: data?.leads || "0", icon: MousePointerClick, color: "text-purple-400", bg: "bg-purple-500/10" },
         { label: "Team Members", value: data?.team || "0", icon: Users, color: "text-purple-400", bg: "bg-purple-500/10" },
-        { label: "Blog Articles", value: data?.blogs || "0", icon: BookOpen, color: "text-orange-400", bg: "bg-orange-500/10" },
-        { label: "Total Testimonials", value: data?.testimonials || "0", icon: MessageSquareQuote, color: "text-cyan-400", bg: "bg-cyan-500/10" },
+        { label: "Blog Articles", value: data?.blogs || "0", icon: BookOpen, color: "text-purple-400", bg: "bg-purple-500/10" },
+        { label: "Total Testimonials", value: data?.testimonials || "0", icon: MessageSquareQuote, color: "text-pink-400", bg: "bg-pink-500/10" },
     ];
 
     if (loading) {
@@ -76,13 +76,13 @@ export default function AdminDashboardPage() {
                         <p className="text-gray-400 text-sm mb-6 leading-relaxed">
                             Create SEO-optimized articles, update industry insights, and share company news.
                         </p>
-                        <Link href="/admin/blog" className="inline-flex items-center gap-2 text-orange-400 font-bold text-xs uppercase tracking-widest hover:text-orange-300 transition-colors">
+                        <Link href="/admin/blog" className="inline-flex items-center gap-2 text-purple-400 font-bold text-xs uppercase tracking-widest hover:text-purple-300 transition-colors">
                             Launch Articles
                             <ArrowRight size={14} />
                         </Link>
                     </div>
                     <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:scale-110 transition-transform">
-                        <BookOpen size={64} className="text-orange-500" />
+                        <BookOpen size={64} className="text-purple-500" />
                     </div>
                 </div>
 
@@ -124,13 +124,13 @@ export default function AdminDashboardPage() {
                         <p className="text-gray-400 text-sm mb-6 leading-relaxed">
                             Publish detailed success stories with ROI metrics and client narratives.
                         </p>
-                        <Link href="/admin/portfolio" className="inline-flex items-center gap-2 text-cyan-400 font-bold text-xs uppercase tracking-widest hover:text-cyan-300 transition-colors">
+                        <Link href="/admin/portfolio" className="inline-flex items-center gap-2 text-pink-400 font-bold text-xs uppercase tracking-widest hover:text-pink-300 transition-colors">
                             Manage Cases
                             <ArrowRight size={14} />
                         </Link>
                     </div>
                     <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:scale-110 transition-transform">
-                        <ScrollText size={64} className="text-cyan-500" />
+                        <ScrollText size={64} className="text-pink-500" />
                     </div>
                 </div>
             </div>

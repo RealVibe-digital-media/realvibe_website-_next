@@ -140,7 +140,7 @@ function HeroSection({ openModal }: { openModal: () => void }) {
                 >
                     <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.05] mb-6 text-white">
                         High-Intent, <br />
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500">Qualified Leads.</span><br />
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-800 to-pink-700">Qualified Leads.</span><br />
                         Delivered Daily.
                     </h1>
 
@@ -247,7 +247,7 @@ function ProblemSection({ openModal }: { openModal: () => void }) {
 
                     <button
                         onClick={openModal}
-                        className="group flex items-center justify-center gap-3 px-8 py-4 rounded-2xl bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold hover:scale-[1.05] hover:shadow-[0_0_30px_rgba(168,85,247,0.3)] transition-all w-full md:w-auto"
+                        className="group flex items-center justify-center gap-3 px-8 py-4 rounded-2xl bg-gradient-to-r from-purple-800 to-pink-700 hover:from-purple-700 hover:to-pink-600 text-white font-bold hover:scale-[1.05] hover:shadow-[0_0_30px_rgba(168,85,247,0.3)] transition-all w-full md:w-auto"
                     >
                         Fix My Intent Problem
                         <Rocket className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
@@ -416,7 +416,7 @@ function EngineSection() {
                 </div>
                 <h2 className="text-4xl md:text-8xl font-black text-white leading-[1.1] tracking-tighter">
                     THE LEAD <br />
-                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500">ENGINE</span>
+                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-800 to-pink-700">ENGINE</span>
                 </h2>
                 <div className="mt-8 flex justify-center">
                     <div className="w-[1px] h-12 md:h-16 bg-gradient-to-b from-purple-500 to-transparent" />
@@ -428,7 +428,7 @@ function EngineSection() {
                 <div className="absolute left-[34px] md:left-[30px] lg:left-1/2 top-0 bottom-0 w-[1px] md:w-[3px] bg-white/5 lg:-translate-x-1/2 overflow-hidden">
                     {/* Glowing Progress Base */}
                     <motion.div
-                        className="w-full bg-gradient-to-b from-purple-500 via-pink-500 to-orange-500 shadow-[0_0_20px_rgba(168,85,247,0.5)]"
+                        className="w-full bg-gradient-to-b from-purple-800 to-pink-700 shadow-[0_0_20px_rgba(168,85,247,0.5)]"
                         style={{
                             scaleY,
                             transformOrigin: "top"

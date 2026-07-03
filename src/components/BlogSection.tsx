@@ -49,7 +49,7 @@ export const BlogSection = () => {
             viewport={{ once: true }}
             className="flex-1"
           >
-            <span className="inline-block px-4 py-1.5 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-400 text-xs font-bold uppercase tracking-widest mb-4">
+            <span className="inline-block px-4 py-1.5 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-400 text-xs font-bold uppercase tracking-widest mb-4">
               Insights & Stories
             </span>
             <h2 className="text-4xl md:text-6xl font-bold font-heading text-white tracking-tight">
@@ -87,7 +87,7 @@ export const BlogSection = () => {
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                   />
                 ) : (
-                  <div className="w-full h-full bg-gradient-to-br from-orange-500/20 to-pink-500/20 flex items-center justify-center">
+                  <div className="w-full h-full bg-gradient-to-br from-purple-500/20 to-pink-500/20 flex items-center justify-center">
                     <span className="text-white/20 font-black text-4xl uppercase opacity-20">Insights</span>
                   </div>
                 )}
@@ -97,7 +97,7 @@ export const BlogSection = () => {
               <div className="flex flex-col flex-1 p-8">
                 <div className="flex items-center gap-4 text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-4">
                   <span className="flex items-center gap-1.5">
-                    <Calendar size={12} className="text-orange-500/80" />
+                    <Calendar size={12} className="text-purple-500/80" />
                     {new Date(blog.created_at).toLocaleDateString("en-US", { month: 'short', day: 'numeric', year: 'numeric' })}
                   </span>
                   <span className="w-1 h-1 rounded-full bg-white/10" />
@@ -107,7 +107,7 @@ export const BlogSection = () => {
                   </span>
                 </div>
                 
-                <h3 className="text-xl md:text-2xl font-bold text-white mb-4 line-clamp-2 transition-colors group-hover:text-orange-300">
+                <h3 className="text-xl md:text-2xl font-bold text-white mb-4 line-clamp-2 transition-colors group-hover:text-pink-300">
                   <Link href={`/blog/${blog.slug}`}>{blog.title}</Link>
                 </h3>
                 
@@ -117,7 +117,7 @@ export const BlogSection = () => {
                 
                 <Link 
                   href={`/blog/${blog.slug}`} 
-                  className="mt-auto inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-white hover:text-orange-400 transition-colors"
+                  className="mt-auto inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-white hover:text-pink-400 transition-colors"
                 >
                   Read Full Story
                   <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />

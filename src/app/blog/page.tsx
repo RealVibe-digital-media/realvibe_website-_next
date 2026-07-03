@@ -45,7 +45,7 @@ export default function BlogListingPage() {
       {/* Hero Section */}
       <section className="relative pt-40 pb-20 px-6 overflow-hidden">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full opacity-30 pointer-events-none">
-          <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-orange-600/10 blur-[150px] rounded-full" />
+          <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-purple-600/10 blur-[150px] rounded-full" />
           <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-pink-600/10 blur-[150px] rounded-full" />
         </div>
 
@@ -100,7 +100,7 @@ export default function BlogListingPage() {
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                       />
                     ) : (
-                      <div className="w-full h-full bg-gradient-to-br from-orange-500/20 to-pink-500/20 flex items-center justify-center" />
+                      <div className="w-full h-full bg-gradient-to-br from-purple-500/20 to-pink-500/20 flex items-center justify-center" />
                     )}
                     <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-500" />
                   </Link>
@@ -108,7 +108,7 @@ export default function BlogListingPage() {
                   <div className="flex flex-col flex-1 p-8 md:p-10">
                     <div className="flex items-center gap-4 text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-5">
                       <span className="flex items-center gap-1.5">
-                        <Calendar size={12} className="text-orange-500/80" />
+                        <Calendar size={12} className="text-purple-500/80" />
                         {new Date(blog.created_at).toLocaleDateString("en-US", { month: 'short', day: 'numeric', year: 'numeric' })}
                       </span>
                       <span className="w-1 h-1 rounded-full bg-white/10" />
@@ -118,7 +118,7 @@ export default function BlogListingPage() {
                       </span>
                     </div>
                     
-                    <h3 className="text-2xl font-bold text-white mb-5 line-clamp-2 transition-colors group-hover:text-orange-300">
+                    <h3 className="text-2xl font-bold text-white mb-5 line-clamp-2 transition-colors group-hover:text-pink-300">
                       <Link href={`/blog/${blog.slug}`}>{blog.title}</Link>
                     </h3>
                     
@@ -128,7 +128,7 @@ export default function BlogListingPage() {
                     
                     <Link 
                       href={`/blog/${blog.slug}`} 
-                      className="mt-auto inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.25em] text-white hover:text-orange-400 transition-colors"
+                      className="mt-auto inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.25em] text-white hover:text-pink-400 transition-colors"
                     >
                       Explore More
                       <ArrowRight size={14} className="transition-transform group-hover:translate-x-1.5" />

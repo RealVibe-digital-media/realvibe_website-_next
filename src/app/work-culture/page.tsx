@@ -92,7 +92,7 @@ export default function WorkCulturePage() {
                         transition={{ duration: 0.8, delay: 0.1 }}
                         className="text-5xl md:text-7xl font-bold mb-8 tracking-tight"
                     >
-                        Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-orange-400">Work Culture</span>
+                        Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-800 to-pink-700">Work Culture</span>
                     </motion.h1>
                     
                     <motion.p 

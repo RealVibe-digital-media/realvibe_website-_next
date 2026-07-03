@@ -71,7 +71,7 @@ export default function AboutPage() {
 // ════════ LEADERSHIP ════════
 function LeadershipSection() {
     const [expanded, setExpanded] = useState(false);
-    const ceoImage = "https://res.cloudinary.com/dd4dl6cu9/image/upload/v1776340768/Artboard_1.jpg_q7xt7c.jpg";
+    const ceoImage = "https://res.cloudinary.com/dk8sbv9ic/image/upload/v1783076697/WhatsApp_Image_2026-07-03_at_12.10.49_PM_m0gtyl.jpg";
 
     return (
         <section className="relative py-24 px-6 z-10 w-full overflow-hidden bg-black">
@@ -99,13 +99,13 @@ function LeadershipSection() {
                         <div className="relative rounded-3xl overflow-hidden aspect-[4/5] border border-white/10 shadow-2xl shadow-purple-900/20 bg-white/[0.02] w-full">
                             <img
                                 src={ceoImage}
-                                alt="Ashutosh Tiwari - CEO"
+                                alt="Nilesh Singh Rawat - Business Head"
                                 className="w-full h-full object-cover object-top filter contrast-125 saturate-110"
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
                         </div>
-                        <h3 className="text-xl md:text-2xl font-bold text-white mt-4 text-center">Ashutosh Tiwari</h3>
-                        <p className="text-sm md:text-base font-semibold text-pink-400 mt-1 text-center">(Chief Executive Officer)</p>
+                        <h3 className="text-xl md:text-2xl font-bold text-white mt-4 text-center">Nilesh Singh Rawat</h3>
+                        <p className="text-sm md:text-base font-semibold text-pink-400 mt-1 text-center">(Business Head)</p>
                     </motion.div>
 
                     <motion.div
@@ -117,10 +117,10 @@ function LeadershipSection() {
                     >
                         <div className="text-gray-300 text-lg leading-relaxed space-y-6">
                             <p>
-                                With over <span className="font-bold text-white">20 years of experience</span> in strategic marketing and brand growth, Ashutosh Tiwari is a seasoned marketing leader and the visionary CEO of a dynamic Digital Marketing Agency specializing in Real Estate.
+                                Nilesh is a <span className="font-bold text-white">dynamic, results-driven leader</span> with over <span className="font-bold text-white">8 years of robust experience</span> spanning business development, multi-industry marketing strategy, and complex project management. With an integrated engineering background and deep commercial expertise across B2G, B2B, and B2C landscapes, he specializes in steering high-value operations from ideation to scale.
                             </p>
                             <p>
-                                Throughout his professional journey, he has successfully worked in Real Estate & Healthcare sectors and with some of India's most recognized brands, including <span className="font-bold text-white">Hero Realty, Satya Developers, SRL Diagnostics, Fortis Healthcare, and Religare</span>, delivering impactful marketing strategies, brand positioning, lead generation, customer acquisition, experiential marketing and customer engagement solutions.
+                                Throughout his career, Nilesh has successfully spearheaded large-scale B2G procurement initiatives while simultaneously serving as a strategic brand consultant for over <span className="font-bold text-white">100+ clients</span> across diverse sectors—including hospitality, real estate, tech, and fashion.
                             </p>
 
                             <div
@@ -128,13 +128,10 @@ function LeadershipSection() {
                                 style={{ maxHeight: expanded ? '2000px' : '0px', opacity: expanded ? 1 : 0 }}
                             >
                                 <p>
-                                    Known for blending traditional marketing wisdom with modern digital innovation, he has played a pivotal role in scaling brands, driving revenue growth, and building high-performance marketing ecosystems across diverse industries.
+                                    A seasoned marketing strategist, he excels at architecting comprehensive online and offline campaigns, defining market-disrupting brand positioning, and creating innovative sales funnels that drive record-breaking growth.
                                 </p>
                                 <p>
-                                    Further strengthening his leadership and strategic expertise, he recently completed the prestigious <span className="font-bold text-white">Executive Program in Advanced Marketing from Indian Institute of Management Calcutta</span>, enhancing his understanding of evolving consumer behavior, digital transformation, and data-driven marketing strategies.
-                                </p>
-                                <p>
-                                    As a leader, he believes in creating marketing that not only generates business results but also builds long-term brand value and meaningful customer relationships. His vision continues to inspire businesses to embrace innovation, performance-driven strategies, and sustainable growth in an ever-evolving digital landscape.
+                                    As Head of Business, Nilesh combines a sharp analytical mindset with entrepreneurial agility to align cross-functional teams, cultivate top-tier partner relationships, and deliver high-impact market solutions across all commercial verticals.
                                 </p>
                             </div>
 
@@ -198,7 +195,7 @@ function TeamSection() {
                     viewport={{ once: true }}
                     className="text-center mb-16"
                 >
-                    <span className="inline-block px-4 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-300 text-xs font-bold uppercase tracking-widest mb-4">
+                    <span className="inline-block px-4 py-1.5 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-300 text-xs font-bold uppercase tracking-widest mb-4">
                         Our People
                     </span>
                     <h2 className="text-4xl md:text-5xl font-black text-white">
@@ -247,7 +244,7 @@ function TeamSection() {
                                             {member.image_url ? (
                                                 <img src={member.image_url} alt={member.name} className="w-full h-full object-cover" />
                                             ) : (
-                                                <div className="w-full h-full bg-gradient-to-br from-purple-500/20 to-blue-500/20 flex items-center justify-center text-3xl font-bold text-white/50">
+                                                <div className="w-full h-full bg-gradient-to-br from-purple-500/20 to-pink-500/20 flex items-center justify-center text-3xl font-bold text-white/50">
                                                     {member.name.charAt(0)}
                                                 </div>
                                             )}
@@ -262,12 +259,12 @@ function TeamSection() {
 
                                         <div className="flex items-center gap-4 mt-auto opacity-50 group-hover:opacity-100 transition-opacity">
                                             {socials.linkedin && (
-                                                <a href={socials.linkedin} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-400 transition-colors">
+                                                <a href={socials.linkedin} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-purple-400 transition-colors">
                                                     <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" /></svg>
                                                 </a>
                                             )}
                                             {socials.twitter && (
-                                                <a href={socials.twitter} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-cyan-400 transition-colors">
+                                                <a href={socials.twitter} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-pink-400 transition-colors">
                                                     <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z" /></svg>
                                                 </a>
                                             )}

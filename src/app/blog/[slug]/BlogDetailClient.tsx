@@ -41,7 +41,7 @@ export default function BlogDetailClient({ blog }: { blog: Blog }) {
 
             <div className="flex flex-wrap items-center gap-8 text-[11px] font-bold uppercase tracking-[0.2em] text-gray-400 border-y border-white/10 py-8">
               <div className="flex items-center gap-2">
-                <Calendar size={14} className="text-orange-500" />
+                <Calendar size={14} className="text-purple-500" />
                 {new Date(blog.created_at).toLocaleDateString("en-US", { month: 'long', day: 'numeric', year: 'numeric' })}
               </div>
               <div className="flex items-center gap-2">
@@ -49,7 +49,7 @@ export default function BlogDetailClient({ blog }: { blog: Blog }) {
                 Post by {blog.author}
               </div>
               <div className="flex items-center gap-2">
-                <Clock size={14} className="text-cyan-500" />
+                <Clock size={14} className="text-violet-500" />
                 {readTime} Min Read
               </div>
             </div>

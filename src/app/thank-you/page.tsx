@@ -10,7 +10,7 @@ export default function ThankYouPage() {
     return (
         <main className="min-h-screen bg-black selection:bg-purple-600/40 selection:text-white relative overflow-hidden">
             <Navbar />
-            
+
             {/* Architectural Backdrop (Matching Landing Page) */}
             <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
                 <div className="absolute inset-0 flex justify-around opacity-10">
@@ -45,7 +45,7 @@ export default function ThankYouPage() {
                 >
                     <h1 className="text-4xl md:text-6xl font-black text-white mb-6 tracking-tight leading-tight">
                         Strategy Session <br />
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500">Confirmed!</span>
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-800 to-pink-700">Confirmed!</span>
                     </h1>
                     <p className="text-gray-400 text-lg md:text-xl font-medium mb-12">
                         Your real estate growth plan is being synthesized. <br />
@@ -54,17 +54,17 @@ export default function ThankYouPage() {
 
                     {/* Action Grid */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-lg mx-auto">
-                        <Link 
+                        <Link
                             href="/real-estate-marketing"
                             className="flex items-center justify-center gap-3 px-8 py-5 rounded-2xl bg-white/[0.05] border border-white/10 text-white font-black hover:bg-white/[0.1] hover:scale-[1.02] active:scale-95 transition-all"
                         >
                             <Home className="w-5 h-5 text-gray-500" />
                             Back to Page
                         </Link>
-                        <Link 
+                        <Link
                             href="https://www.instagram.com/realvibe.in/"
                             target="_blank"
-                            className="flex items-center justify-center gap-3 px-8 py-5 rounded-2xl bg-gradient-to-r from-purple-600 to-pink-600 text-white font-black hover:scale-[1.02] active:scale-95 transition-all shadow-xl shadow-purple-900/20"
+                            className="flex items-center justify-center gap-3 px-8 py-5 rounded-2xl bg-gradient-to-r from-purple-800 to-pink-700 hover:from-purple-700 hover:to-pink-600 text-white font-black hover:scale-[1.02] active:scale-95 transition-all shadow-xl shadow-purple-900/20"
                         >
                             <Instagram className="w-5 h-5" />
                             See Our Work
@@ -73,7 +73,7 @@ export default function ThankYouPage() {
                 </motion.div>
 
                 {/* Support Contact */}
-                <motion.div 
+                <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 0.4 }}
                     transition={{ delay: 0.8 }}

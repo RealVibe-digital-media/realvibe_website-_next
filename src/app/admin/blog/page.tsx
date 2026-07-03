@@ -132,7 +132,7 @@ export default function BlogAdminPage() {
                 </div>
                 <button
                     onClick={() => handleOpenModal()}
-                    className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-orange-600 to-pink-500 hover:from-orange-500 hover:to-pink-400 text-white font-semibold rounded-xl transition-all shadow-lg shadow-orange-500/20"
+                    className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold rounded-xl transition-all shadow-lg shadow-purple-500/20"
                 >
                     <Plus size={18} />
                     New Article
@@ -145,7 +145,7 @@ export default function BlogAdminPage() {
                 </div>
             ) : loading ? (
                 <div className="flex items-center justify-center p-20">
-                    <Loader2 className="w-8 h-8 animate-spin text-orange-500" />
+                    <Loader2 className="w-8 h-8 animate-spin text-purple-500" />
                 </div>
             ) : blogs.length === 0 ? (
                 <div className="text-center p-20 border border-white/5 rounded-2xl bg-white/[0.02]">
@@ -169,13 +169,13 @@ export default function BlogAdminPage() {
                                 {blog.image_url ? (
                                     <img src={blog.image_url} alt={blog.title} className="w-24 h-24 rounded-xl object-cover bg-gray-800" />
                                 ) : (
-                                    <div className="w-24 h-24 rounded-xl bg-orange-500/20 flex items-center justify-center text-orange-300">
+                                    <div className="w-24 h-24 rounded-xl bg-purple-500/20 flex items-center justify-center text-purple-300">
                                         <FileText size={32} />
                                     </div>
                                 )}
                                 <div className="flex-1 min-w-0">
                                     <h3 className="font-bold text-white text-lg leading-tight mb-1 truncate">{blog.title}</h3>
-                                    <p className="text-sm text-orange-400 font-medium mb-2">/{blog.slug}</p>
+                                    <p className="text-sm text-purple-400 font-medium mb-2">/{blog.slug}</p>
                                     <p className="text-gray-400 text-xs line-clamp-2">{blog.excerpt}</p>
                                 </div>
                             </div>
@@ -206,33 +206,33 @@ export default function BlogAdminPage() {
                             <form onSubmit={handleSave} className="space-y-4">
                                 <div>
                                     <label className="block text-sm font-medium text-gray-400 mb-1 flex items-center gap-2"><FileText size={14} /> Title</label>
-                                    <input type="text" required value={title} onChange={(e) => setTitle(e.target.value)} className="w-full px-4 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-orange-500 font-sans" placeholder="Amazing Blog Title" />
+                                    <input type="text" required value={title} onChange={(e) => setTitle(e.target.value)} className="w-full px-4 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-purple-500 font-sans" placeholder="Amazing Blog Title" />
                                 </div>
 
                                 <div className="grid grid-cols-2 gap-4">
                                     <div>
                                         <label className="block text-sm font-medium text-gray-400 mb-1 flex items-center gap-2"><LinkIcon size={14} /> Slug (Optional)</label>
-                                        <input type="text" value={slug} onChange={(e) => setSlug(e.target.value)} className="w-full px-4 py-2 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-orange-500 text-sm font-sans" placeholder="amazing-blog-title" />
+                                        <input type="text" value={slug} onChange={(e) => setSlug(e.target.value)} className="w-full px-4 py-2 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-purple-500 text-sm font-sans" placeholder="amazing-blog-title" />
                                     </div>
                                     <div>
                                         <label className="block text-sm font-medium text-gray-400 mb-1 flex items-center gap-2"><User size={14} /> Author</label>
-                                        <input type="text" value={author} onChange={(e) => setAuthor(e.target.value)} className="w-full px-4 py-2 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-orange-500 text-sm font-sans" />
+                                        <input type="text" value={author} onChange={(e) => setAuthor(e.target.value)} className="w-full px-4 py-2 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-purple-500 text-sm font-sans" />
                                     </div>
                                 </div>
 
                                 <div>
                                     <label className="block text-sm font-medium text-gray-400 mb-1 flex items-center gap-2"><ImageIcon size={14} /> Featured Image URL</label>
-                                    <input type="url" value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} className="w-full px-4 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-orange-500 font-sans" placeholder="https://example.com/featured.jpg" />
+                                    <input type="url" value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} className="w-full px-4 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-purple-500 font-sans" placeholder="https://example.com/featured.jpg" />
                                 </div>
 
                                 <div>
                                     <label className="block text-sm font-medium text-gray-400 mb-1">Excerpt (Short Summary)</label>
-                                    <textarea rows={2} value={excerpt} onChange={(e) => setExcerpt(e.target.value)} className="w-full px-4 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-orange-500 font-sans resize-none" />
+                                    <textarea rows={2} value={excerpt} onChange={(e) => setExcerpt(e.target.value)} className="w-full px-4 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-purple-500 font-sans resize-none" />
                                 </div>
 
                                 <div>
                                     <label className="block text-sm font-medium text-gray-400 mb-1">Full Content (Markdown/HTML supported)</label>
-                                    <textarea rows={8} required value={content} onChange={(e) => setContent(e.target.value)} className="w-full px-4 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-orange-500 font-sans resize-y min-h-[200px]" />
+                                    <textarea rows={8} required value={content} onChange={(e) => setContent(e.target.value)} className="w-full px-4 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-purple-500 font-sans resize-y min-h-[200px]" />
                                 </div>
 
                                 {/* SEO Section */}
@@ -241,17 +241,17 @@ export default function BlogAdminPage() {
                                     
                                     <div>
                                         <label className="block text-sm font-medium text-gray-400 mb-1">Meta Title</label>
-                                        <input type="text" value={metaTitle} onChange={(e) => setMetaTitle(e.target.value)} className="w-full px-4 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-orange-500 font-sans" placeholder="SEO Title (Optional, defaults to article title)" />
+                                        <input type="text" value={metaTitle} onChange={(e) => setMetaTitle(e.target.value)} className="w-full px-4 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-purple-500 font-sans" placeholder="SEO Title (Optional, defaults to article title)" />
                                     </div>
                                     
                                     <div>
                                         <label className="block text-sm font-medium text-gray-400 mb-1">Meta Description</label>
-                                        <textarea rows={2} value={metaDescription} onChange={(e) => setMetaDescription(e.target.value)} className="w-full px-4 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-orange-500 font-sans resize-none" placeholder="SEO Description (Optional, defaults to excerpt)" />
+                                        <textarea rows={2} value={metaDescription} onChange={(e) => setMetaDescription(e.target.value)} className="w-full px-4 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-purple-500 font-sans resize-none" placeholder="SEO Description (Optional, defaults to excerpt)" />
                                     </div>
 
                                     <div>
                                         <label className="block text-sm font-medium text-gray-400 mb-1">Schema Markup (JSON-LD)</label>
-                                        <textarea rows={4} value={schemaMarkup} onChange={(e) => setSchemaMarkup(e.target.value)} className="w-full px-4 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-orange-500 font-sans resize-y font-mono text-sm" placeholder='<script type="application/ld+json">{...}</script>' />
+                                        <textarea rows={4} value={schemaMarkup} onChange={(e) => setSchemaMarkup(e.target.value)} className="w-full px-4 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-purple-500 font-sans resize-y font-mono text-sm" placeholder='<script type="application/ld+json">{...}</script>' />
                                         <p className="text-xs text-gray-500 mt-1">Paste your complete JSON-LD schema markup including the &lt;script&gt; tags, or just the JSON object.</p>
                                     </div>
                                 </div>
@@ -260,7 +260,7 @@ export default function BlogAdminPage() {
                                     <button type="button" onClick={() => setIsModalOpen(false)} className="px-5 py-2.5 rounded-xl font-medium text-gray-400 hover:text-white hover:bg-white/5 transition-colors">
                                         Cancel
                                     </button>
-                                    <button type="submit" disabled={saving} className="flex items-center gap-2 px-5 py-2.5 bg-orange-600 hover:bg-orange-500 text-white font-semibold rounded-xl transition-colors disabled:opacity-50">
+                                    <button type="submit" disabled={saving} className="flex items-center gap-2 px-5 py-2.5 bg-purple-600 hover:bg-purple-500 text-white font-semibold rounded-xl transition-colors disabled:opacity-50">
                                         {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : (id ? "Update Article" : "Publish Article")}
                                     </button>
                                 </div>

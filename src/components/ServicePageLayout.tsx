@@ -142,7 +142,7 @@ export function ServicePageLayout({
 
                     {/* RIGHT COLUMN: Sticky Lead Form */}
                     <div className="lg:col-span-5 xl:col-span-4 lg:sticky lg:top-32 relative">
-                        <div className="absolute inset-0 bg-gradient-to-br from-purple-600/20 via-pink-600/10 to-orange-600/20 rounded-[2rem] blur-2xl opacity-50"></div>
+                        <div className="absolute inset-0 bg-gradient-to-br from-purple-800/20 via-pink-700/10 to-pink-700/20 rounded-[2rem] blur-2xl opacity-50"></div>
                         <div className="relative bg-[#050505] border border-white/10 rounded-[2rem] p-8 shadow-2xl">
                             <h3 className="text-2xl font-black text-white mb-2">Request Proposal</h3>
                             <p className="text-gray-400 text-sm mb-8">Fill this form and our experts will call you in 24 hours.</p>
@@ -178,7 +178,7 @@ export function ServicePageLayout({
                                 <button
                                     type="submit"
                                     disabled={loading}
-                                    className="w-full py-4 rounded-xl bg-gradient-to-r from-purple-600 to-pink-500 text-white font-bold hover:opacity-90 transition-opacity active:scale-[0.98] disabled:opacity-50 flex justify-center items-center gap-2 mt-2 tap-bounce"
+                                    className="w-full py-4 rounded-xl bg-gradient-to-r from-purple-800 to-pink-700 hover:from-purple-700 hover:to-pink-600 text-white font-bold transition-all hover:scale-[1.01] hover:shadow-lg hover:shadow-purple-900/25 active:scale-[0.98] disabled:opacity-50 flex justify-center items-center gap-2 mt-2 tap-bounce"
                                 >
                                     {loading ? "Sending..." : "Submit Request"}
                                     {!loading && <ChevronRight className="w-4 h-4" />}

@@ -206,8 +206,8 @@ export default function PortfolioAdminPage() {
                                 <textarea value={description} onChange={e => setDescription(e.target.value)} rows={2} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:border-purple-500 outline-none resize-none" /></div>
 
                                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                                    <div className="p-6 bg-blue-500/5 border border-blue-500/10 rounded-2xl">
-                                        <div className="flex items-center gap-2 mb-4 text-blue-400 font-bold text-sm"><Target size={16} /> Challenge</div>
+                                    <div className="p-6 bg-purple-500/5 border border-purple-500/10 rounded-2xl">
+                                        <div className="flex items-center gap-2 mb-4 text-purple-400 font-bold text-sm"><Target size={16} /> Challenge</div>
                                         <textarea value={challenge} onChange={e => setChallenge(e.target.value)} rows={4} className="w-full bg-transparent outline-none text-sm text-gray-300 resize-none" placeholder="The problem..." />
                                     </div>
                                     <div className="p-6 bg-purple-500/5 border border-purple-500/10 rounded-2xl">

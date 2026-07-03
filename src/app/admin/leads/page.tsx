@@ -122,7 +122,7 @@ export default function LeadsAdminPage() {
                                         {lead.service.replace('-', ' ')}
                                     </span>
                                     {lead.source_page && (
-                                        <span className="px-3 py-1 rounded-full bg-blue-500/20 text-blue-300 text-[10px] font-bold uppercase tracking-wider border border-blue-500/20">
+                                        <span className="px-3 py-1 rounded-full bg-pink-500/20 text-pink-300 text-[10px] font-bold uppercase tracking-wider border border-pink-500/20">
                                             Source: {lead.source_page}
                                         </span>
                                     )}

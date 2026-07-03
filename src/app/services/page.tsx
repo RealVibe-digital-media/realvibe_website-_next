@@ -14,9 +14,9 @@ export default function ServicesIndexPage() {
             slug: "ppc",
             desc: "Precision-targeted campaigns designed to maximize ROI and scale your growth predictably.",
             icon: Target,
-            color: "from-orange-500 to-amber-500",
-            bg: "bg-orange-500/10",
-            border: "group-hover:border-orange-500/30",
+            color: "from-purple-500 to-violet-500",
+            bg: "bg-purple-500/10",
+            border: "group-hover:border-purple-500/30",
             delay: 0.1
         },
         {
@@ -24,7 +24,7 @@ export default function ServicesIndexPage() {
             slug: "seo",
             desc: "Dominate search rankings with data-driven technical, on-page, and authority optimization.",
             icon: Search,
-            color: "from-purple-500 to-fuchsia-500",
+            color: "from-purple-500 to-violet-500",
             bg: "bg-purple-500/10",
             border: "group-hover:border-purple-500/30",
             delay: 0.2
@@ -34,7 +34,7 @@ export default function ServicesIndexPage() {
             slug: "social-media",
             desc: "Ignite your community with viral formats, influencer campaigns, and active management.",
             icon: TrendingUp,
-            color: "from-pink-500 to-rose-500",
+            color: "from-pink-500 to-purple-500",
             bg: "bg-pink-500/10",
             border: "group-hover:border-pink-500/30",
             delay: 0.3
@@ -44,9 +44,9 @@ export default function ServicesIndexPage() {
             slug: "web-development",
             desc: "Blazing-fast, conversion-optimized applications built on modern tech stacks.",
             icon: MonitorSmartphone,
-            color: "from-blue-500 to-cyan-500",
-            bg: "bg-blue-500/10",
-            border: "group-hover:border-blue-500/30",
+            color: "from-purple-500 to-violet-500",
+            bg: "bg-purple-500/10",
+            border: "group-hover:border-purple-500/30",
             delay: 0.4
         },
         {
@@ -64,9 +64,9 @@ export default function ServicesIndexPage() {
             slug: "video-production",
             desc: "Cinematic video content — walkthroughs, brand films, reels, and drone shoots that captivate and convert.",
             icon: Video,
-            color: "from-red-500 to-orange-500",
-            bg: "bg-red-500/10",
-            border: "group-hover:border-red-500/30",
+            color: "from-pink-500 to-purple-500",
+            bg: "bg-pink-500/10",
+            border: "group-hover:border-pink-500/30",
             delay: 0.6
         }
     ];

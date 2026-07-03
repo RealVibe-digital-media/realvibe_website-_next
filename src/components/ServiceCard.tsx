@@ -23,9 +23,6 @@ export function ServiceCard({ index, totalCards, title, description, tags, bg, i
     const glowColors: Record<string, string> = {
         purple: "border-purple-500/10",
         pink: "border-pink-500/10",
-        orange: "border-orange-500/10",
-        blue: "border-blue-500/10",
-        fuchsia: "border-fuchsia-500/10",
     };
 
     return (

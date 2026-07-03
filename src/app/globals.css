@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 @theme {
-  --color-accent: #f97316;
+  --color-accent: #8b5cf6;
   --color-purple: #c026d3;
   --color-pink: #ec4899;
 
@@ -33,12 +33,12 @@ body {
 
 @layer utilities {
   .text-gradient-primary {
-    background: linear-gradient(135deg, var(--color-purple) 0%, var(--color-pink) 50%, var(--color-accent) 100%);
-    background-size: 200% 200%;
+    background: linear-gradient(135deg, #6b21a8 0%, #be185d 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    animation: gradientShift 4s ease infinite;
+    /* Static gradient — the infinite background-position animation re-rasterized
+       every gradient heading on the page each frame, a constant main-thread cost. */
   }
 
   .text-gradient-metallic {
@@ -266,14 +266,9 @@ html {
   }
 }
 
-/* Force GPU compositing for heavy elements */
-.blur-3xl,
-[class*="blur-"] {
-  -webkit-transform: translateZ(0);
-  transform: translateZ(0);
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
-}
+/* NOTE: We intentionally do NOT promote every [class*="blur-"] element to its own
+   GPU layer — that spawned dozens of huge composited blur layers and tanked FPS on
+   weak GPUs. Only the fixed background orbs opt in explicitly via `.gpu-layer`. */
 
 /* ═══ MOBILE TAP MICRO-INTERACTIONS ═══ */
 @media (max-width: 768px) {
@@ -389,3 +384,54 @@ html {
 .animate-marquee-slow:hover {
   animation-play-state: paused;
 }
+
+/* ════════ LOW-POWER MODE (weak GPU / low RAM / touch devices) ════════ */
+/* Flag set pre-paint by the inline script in layout.tsx. Strips the expensive,
+   purely-decorative effects while keeping the layout and brand identical. */
+html[data-low-power] .orb-1,
+html[data-low-power] .orb-2,
+html[data-low-power] .animate-float,
+html[data-low-power] .particle,
+html[data-low-power] .animate-drift,
+html[data-low-power] .animate-text-shimmer,
+html[data-low-power] .animate-shimmer,
+html[data-low-power] .text-gradient-primary {
+  animation: none !important;
+}
+
+/* Big soft decorative glows are the main GPU fill-rate cost — cap the radius hard.
+   Scoped to large/arbitrary blur utilities only; excludes backdrop-blur and the
+   small blur-sm/blur-md used on real UI (logos, cards, modals). */
+html[data-low-power] .blur-3xl,
+html[data-low-power] .blur-2xl,
+html[data-low-power] [class*="blur-["]:not([class*="backdrop"]) {
+  filter: blur(24px) !important;
+}
+
+/* mix-blend forces expensive read-back compositing each frame. */
+html[data-low-power] .mix-blend-screen {
+  mix-blend-mode: normal !important;
+}
+
+/* Flatten the 3D portfolio wall so its whole image subtree isn't 3D-composited. */
+html[data-low-power] .portfolio-wall-3d {
+  transform: none !important;
+  perspective: none !important;
+}
+
+/* ════════ PORTFOLIO WALL — compositor-driven CSS scroll (replaces framer rAF loops) ════════ */
+@keyframes wall-up {
+  from { transform: translateY(0); }
+  to   { transform: translateY(-50%); }
+}
+@keyframes wall-down {
+  from { transform: translateY(-50%); }
+  to   { transform: translateY(0); }
+}
+.wall-scroll {
+  will-change: transform;
+  backface-visibility: hidden;
+}
+.wall-up-25   { animation: wall-up   25s linear infinite; }
+.wall-down-30 { animation: wall-down 30s linear infinite; }
+.wall-up-20   { animation: wall-up   20s linear infinite; }

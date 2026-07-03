@@ -68,7 +68,7 @@ export default function ContactPage() {
                 >
                     <h1 className="text-5xl md:text-7xl font-bold mb-6 font-heading">
                         Let's Create <br />
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500">
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-800 to-pink-700">
                             Something Amazing
                         </span>
                     </h1>
@@ -143,7 +143,7 @@ export default function ContactPage() {
                         {errorMessage && <div className="text-red-500 text-sm font-medium bg-red-500/10 border border-red-500/20 px-4 py-3 rounded-lg">{errorMessage}</div>}
 
                         <button type="submit" disabled={loading}
-                            className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold py-4 rounded-xl transition-all transform hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-purple-500/25">
+                            className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-purple-800 to-pink-700 hover:from-purple-700 hover:to-pink-600 text-white font-bold py-4 rounded-xl transition-all transform hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-purple-900/30">
                             {loading ? (
                                 <>
                                     <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">

@@ -31,14 +31,14 @@ export function Footer() {
 
                 {/* CTA Card */}
                 <div className="relative rounded-2xl overflow-hidden mb-8">
-                    <div className="absolute inset-0 bg-gradient-to-br from-purple-600/20 via-pink-600/10 to-orange-600/20"></div>
+                    <div className="absolute inset-0 bg-gradient-to-br from-purple-800/20 via-pink-700/10 to-pink-700/20"></div>
                     <div className="absolute inset-[1px] bg-black/90 rounded-2xl"></div>
                     <div className="relative p-5">
                         <p className="text-white font-bold text-lg mb-1">Ready to grow?</p>
                         <p className="text-gray-400 text-sm mb-4">Let's build something extraordinary together.</p>
                         <Link
                             href="/contact"
-                            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-bold text-white bg-gradient-to-r from-purple-600 to-pink-500 active:scale-95 transition-transform"
+                            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-bold text-white bg-gradient-to-r from-purple-800 to-pink-700 hover:from-purple-700 hover:to-pink-600 active:scale-95 transition-all duration-300"
                         >
                             Start a Project
                             <ArrowUpRight className="w-4 h-4" />
@@ -59,7 +59,7 @@ export function Footer() {
                         </ul>
                     </div>
                     <div>
-                        <h4 className="text-[11px] uppercase tracking-[0.15em] font-black text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-orange-400 mb-3">Explore</h4>
+                        <h4 className="text-[11px] uppercase tracking-[0.15em] font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-700 to-pink-600 mb-3">Explore</h4>
                         <ul className="space-y-2.5">
                             <MobileFooterLink href="/" text="Home" />
                             <MobileFooterLink href="/#about" text="About Us" />
@@ -77,7 +77,7 @@ export function Footer() {
                         care@realvibe.in
                     </a>
                     <a href="tel:+919811238092" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.08] text-xs text-gray-400 hover:text-white hover:border-white/20 transition-all active:scale-95">
-                        <Phone className="w-3 h-3 text-orange-400" />
+                        <Phone className="w-3 h-3 text-purple-400" />
                         +91 98112 38092
                     </a>
                     <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.08] text-xs text-gray-400">
@@ -89,8 +89,8 @@ export function Footer() {
                 {/* Social Row */}
                 <div className="flex items-center gap-3 mb-6">
                     <MobileSocialLink href="#" icon={<Instagram className="w-4 h-4" />} gradient="from-pink-500 to-purple-500" />
-                    <MobileSocialLink href="#" icon={<Facebook className="w-4 h-4" />} gradient="from-blue-500 to-blue-600" />
-                    <MobileSocialLink href="#" icon={<Linkedin className="w-4 h-4" />} gradient="from-blue-400 to-cyan-500" />
+                    <MobileSocialLink href="#" icon={<Facebook className="w-4 h-4" />} gradient="from-purple-500 to-violet-600" />
+                    <MobileSocialLink href="#" icon={<Linkedin className="w-4 h-4" />} gradient="from-violet-400 to-purple-500" />
                     <MobileSocialLink href="#" icon={<Youtube className="w-4 h-4" />} gradient="from-red-500 to-pink-500" />
                     <MobileSocialLink href="#" icon={<Twitter className="w-4 h-4" />} gradient="from-gray-400 to-gray-500" />
                 </div>
@@ -150,7 +150,7 @@ export function Footer() {
                     <div>
                         <h3 className="text-white font-bold text-lg mb-6 relative w-fit">
                             Quick Links
-                            <span className="absolute -bottom-2 left-0 w-8 h-0.5 bg-gradient-to-r from-pink-500 to-orange-500"></span>
+                            <span className="absolute -bottom-2 left-0 w-8 h-0.5 bg-gradient-to-r from-purple-800 to-pink-700"></span>
                         </h3>
                         <ul className="space-y-3">
                             <FooterLink href="/" text="Home" color="bg-pink-500" />
@@ -166,7 +166,7 @@ export function Footer() {
                     <div>
                         <h3 className="text-white font-bold text-lg mb-6 relative w-fit">
                             Contact Us
-                            <span className="absolute -bottom-2 left-0 w-8 h-0.5 bg-gradient-to-r from-orange-500 to-amber-500"></span>
+                            <span className="absolute -bottom-2 left-0 w-8 h-0.5 bg-gradient-to-r from-purple-800 to-pink-700"></span>
                         </h3>
                         <div className="space-y-4">
                             <div className="flex gap-3">
@@ -183,7 +183,7 @@ export function Footer() {
                                 </a>
                             </div>
                             <div className="flex gap-3">
-                                <Phone className="w-5 h-5 text-orange-400 flex-shrink-0" />
+                                <Phone className="w-5 h-5 text-purple-400 flex-shrink-0" />
                                 <a href="tel:+919811238092" className="text-gray-400 hover:text-white transition-colors text-sm">
                                     +91 98112 38092
                                 </a>
