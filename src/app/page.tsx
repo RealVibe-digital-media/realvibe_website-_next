@@ -86,9 +86,11 @@ export default function HomePage() {
             description:
               "RealVibe is a top digital marketing agency in Gurgaon & Delhi NCR specialising in real estate marketing, SEO, paid ads, social media, branding and web development.",
             sameAs: [
-              "https://www.facebook.com/realvibe.in",
-              "https://www.instagram.com/realvibe.in/",
-              "https://www.linkedin.com/company/realvibe/",
+              "https://www.instagram.com/realvibe.in",
+              "https://www.facebook.com/realvibe.in/",
+              "https://x.com/RealVibedigital",
+              "https://www.linkedin.com/company/realvibe",
+              "https://www.youtube.com/@RealVibeDigital"
             ],
           }),
         }}
@@ -105,6 +107,13 @@ export default function HomePage() {
             alternateName: "RealVibe",
             url: "https://www.realvibe.in/",
             logo: "https://www.realvibe.in/assets/logo.png",
+            sameAs: [
+              "https://www.instagram.com/realvibe.in",
+              "https://www.facebook.com/realvibe.in/",
+              "https://x.com/RealVibedigital",
+              "https://www.linkedin.com/company/realvibe",
+              "https://www.youtube.com/@RealVibeDigital"
+            ],
             contactPoint: {
               "@type": "ContactPoint",
               telephone: "+919811238092",

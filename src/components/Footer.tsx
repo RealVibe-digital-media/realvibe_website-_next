@@ -88,11 +88,11 @@ export function Footer() {
 
                 {/* Social Row */}
                 <div className="flex items-center gap-3 mb-6">
-                    <MobileSocialLink href="#" icon={<Instagram className="w-4 h-4" />} gradient="from-pink-500 to-purple-500" />
-                    <MobileSocialLink href="#" icon={<Facebook className="w-4 h-4" />} gradient="from-purple-500 to-violet-600" />
-                    <MobileSocialLink href="#" icon={<Linkedin className="w-4 h-4" />} gradient="from-violet-400 to-purple-500" />
-                    <MobileSocialLink href="#" icon={<Youtube className="w-4 h-4" />} gradient="from-red-500 to-pink-500" />
-                    <MobileSocialLink href="#" icon={<Twitter className="w-4 h-4" />} gradient="from-gray-400 to-gray-500" />
+                    <MobileSocialLink href="https://www.instagram.com/realvibe.in" icon={<Instagram className="w-4 h-4" />} gradient="from-pink-500 to-purple-500" />
+                    <MobileSocialLink href="https://www.facebook.com/realvibe.in/" icon={<Facebook className="w-4 h-4" />} gradient="from-purple-500 to-violet-600" />
+                    <MobileSocialLink href="https://www.linkedin.com/company/realvibe" icon={<Linkedin className="w-4 h-4" />} gradient="from-violet-400 to-purple-500" />
+                    <MobileSocialLink href="https://www.youtube.com/@RealVibeDigital" icon={<Youtube className="w-4 h-4" />} gradient="from-red-500 to-pink-500" />
+                    <MobileSocialLink href="https://x.com/RealVibedigital" icon={<Twitter className="w-4 h-4" />} gradient="from-gray-400 to-gray-500" />
                 </div>
 
                 {/* Bottom Bar */}
@@ -123,11 +123,11 @@ export function Footer() {
                             with data-driven strategies.
                         </p>
                         <div className="flex flex-wrap items-center gap-4">
-                            <SocialLink href="#" icon={<Instagram className="w-4 h-4" />} label="Instagram" />
-                            <SocialLink href="#" icon={<Facebook className="w-4 h-4" />} label="Facebook" />
-                            <SocialLink href="#" icon={<Linkedin className="w-4 h-4" />} label="LinkedIn" />
-                            <SocialLink href="#" icon={<Youtube className="w-4 h-4" />} label="YouTube" />
-                            <SocialLink href="#" icon={<Twitter className="w-4 h-4" />} label="Twitter" />
+                            <SocialLink href="https://www.instagram.com/realvibe.in" icon={<Instagram className="w-4 h-4" />} label="Instagram" />
+                            <SocialLink href="https://www.facebook.com/realvibe.in/" icon={<Facebook className="w-4 h-4" />} label="Facebook" />
+                            <SocialLink href="https://www.linkedin.com/company/realvibe" icon={<Linkedin className="w-4 h-4" />} label="LinkedIn" />
+                            <SocialLink href="https://www.youtube.com/@RealVibeDigital" icon={<Youtube className="w-4 h-4" />} label="YouTube" />
+                            <SocialLink href="https://x.com/RealVibedigital" icon={<Twitter className="w-4 h-4" />} label="Twitter" />
                         </div>
                     </div>
 
