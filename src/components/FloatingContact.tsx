@@ -1,11 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Phone } from "lucide-react";
 
-// Contact details (same number shown in the Footer)
-const PHONE = "+919811238092";
-const PHONE_DISPLAY = "+91 98112 38092";
+// WhatsApp contact (same number shown in the Footer)
 const WHATSAPP_URL =
   "https://wa.me/919811238092?text=" +
   encodeURIComponent("Hi RealVibe, I'd like to know more about your services.");
@@ -52,18 +49,6 @@ export function FloatingContact() {
         {/* Hover label (desktop) */}
         <span className="pointer-events-none absolute right-full mr-3 hidden md:block whitespace-nowrap rounded-lg bg-black/85 border border-white/10 px-3 py-1.5 text-xs font-semibold text-white opacity-0 translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all">
           Chat on WhatsApp
-        </span>
-      </a>
-
-      {/* Call */}
-      <a
-        href={`tel:${PHONE}`}
-        aria-label={`Call us at ${PHONE_DISPLAY}`}
-        className="group relative flex items-center justify-center w-12 h-12 md:w-14 md:h-14 rounded-full bg-gradient-to-br from-purple-600 to-pink-600 shadow-lg shadow-purple-900/30 hover:scale-110 active:scale-95 transition-transform"
-      >
-        <Phone className="relative w-5 h-5 md:w-6 md:h-6 text-white" />
-        <span className="pointer-events-none absolute right-full mr-3 hidden md:block whitespace-nowrap rounded-lg bg-black/85 border border-white/10 px-3 py-1.5 text-xs font-semibold text-white opacity-0 translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all">
-          Call {PHONE_DISPLAY}
         </span>
       </a>
     </div>
