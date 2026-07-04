@@ -1,5 +1,22 @@
 import type { Metadata } from "next";
 import HomePageClient from "./HomePageClient";
+import { query } from "@/lib/db";
+
+// Prerender with ISR: real client logos are baked into the HTML (no placeholder
+// flash), and refreshed hourly instead of hitting the DB on every request.
+export const revalidate = 3600;
+
+async function getClients() {
+  try {
+    const rows = await query(
+      "SELECT id, name, logo_url FROM clients ORDER BY created_at DESC"
+    );
+    return Array.isArray(rows) ? rows : [];
+  } catch (error) {
+    console.error("Home getClients failed:", error);
+    return [];
+  }
+}
 
 export const metadata: Metadata = {
   title: "Best Digital Marketing Agency in Gurgaon & Delhi NCR | RealVibe",
@@ -41,7 +58,9 @@ export const metadata: Metadata = {
   },
 };
 
-export default function HomePage() {
+export default async function HomePage() {
+  const clients = await getClients();
+
   return (
     <>
       {/* JSON-LD: LocalBusiness Schema */}
@@ -125,8 +144,8 @@ export default function HomePage() {
         }}
       />
 
-      {/* Client-side interactive homepage */}
-      <HomePageClient />
+      {/* Client-side interactive homepage (client logos rendered server-side) */}
+      <HomePageClient initialClients={clients} />
     </>
   );
 }

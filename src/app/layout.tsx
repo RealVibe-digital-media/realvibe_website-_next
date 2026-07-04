@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Outfit } from "next/font/google";
 import "./globals.css";
 import { Preloader } from "@/components/Preloader";
-import Link from "next/link";
-import { MessageCircle } from "lucide-react";
+import { FloatingContact } from "@/components/FloatingContact";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -53,6 +52,8 @@ export default function RootLayout({
         {/* Native scrolling — Lenis (SmoothScroll) removed: it hijacked the scroll
             thread with JS and was the main cause of scroll jank on heavy pages. */}
         {children}
+        {/* Sticky WhatsApp + Call widget — appears after scrolling past the hero */}
+        <FloatingContact />
       </body>
     </html>
   );

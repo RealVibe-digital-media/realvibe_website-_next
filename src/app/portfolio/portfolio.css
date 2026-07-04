@@ -1,0 +1,73 @@
+/* ═══════════════════════════════════════════════════════════════════════
+   Portfolio section styles.
+   Everything is scoped under `.portfolio-scope` (applied in this section's
+   layout) so it does NOT collide with the main site's globals.css, which
+   defines its own `.text-gradient-primary`, `.grid-background`, `.particle`,
+   `gradientShift`, etc. Keyframes are prefixed `pf-` for the same reason.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.portfolio-scope {
+  --accent: #f97316;
+}
+
+/* Orange-accented 3-colour gradient text (portfolio identity) */
+.portfolio-scope .text-gradient-primary {
+  background: linear-gradient(135deg, #c026d3 0%, #ec4899 50%, #f97316 100%);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: pf-gradientShift 3s ease infinite;
+}
+@keyframes pf-gradientShift {
+  0%, 100% { background-position: 0% 50%; }
+  50%      { background-position: 100% 50%; }
+}
+
+.portfolio-scope .grid-background {
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(236, 72, 153, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(192, 38, 211, 0.03) 1px, transparent 1px);
+  background-size: 100px 100px;
+  animation: pf-gridMove 20s linear infinite;
+  pointer-events: none;
+}
+@keyframes pf-gridMove {
+  0%   { transform: translate(0, 0); }
+  100% { transform: translate(100px, 100px); }
+}
+
+.portfolio-scope .particle {
+  position: absolute;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(236, 72, 153, 0.4), rgba(192, 38, 211, 0.4));
+  filter: blur(4px);
+  animation: pf-float 20s ease-in-out infinite;
+}
+.portfolio-scope .particle:nth-child(2) { animation-delay: -5s; }
+.portfolio-scope .particle:nth-child(3) { animation-delay: -10s; }
+.portfolio-scope .particle:nth-child(4) { animation-delay: -15s; }
+@keyframes pf-float {
+  0%, 100% { transform: translate(0, 0) scale(1);        opacity: 0.3; }
+  25%      { transform: translate(100px, -100px) scale(1.2); opacity: 0.5; }
+  50%      { transform: translate(-80px, -200px) scale(0.8); opacity: 0.2; }
+  75%      { transform: translate(-150px, 50px) scale(1.1);  opacity: 0.4; }
+}
+
+.portfolio-scope .glow-effect {
+  text-shadow: 0 0 40px rgba(236, 72, 153, 0.5);
+}
+
+.portfolio-scope .scroll-indicator {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: pf-bounce 2s infinite;
+}
+@keyframes pf-bounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50%      { transform: translateX(-50%) translateY(-10px); }
+}

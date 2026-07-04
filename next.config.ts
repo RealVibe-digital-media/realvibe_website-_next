@@ -28,11 +28,6 @@ const nextConfig = {
         permanent: true,
       },
       {
-        source: '/portfolio',
-        destination: 'https://real-vibe-s-portfolio.vercel.app/',
-        permanent: true,
-      },
-      {
         source: '/our-services',
         destination: '/services',
         permanent: true,

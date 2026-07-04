@@ -98,13 +98,13 @@ const MarqueeSection = () => (
   </section>
 );
 
-export default function HomePageClient() {
+export default function HomePageClient({ initialClients = [] }: { initialClients?: any[] }) {
   return (
     <main className="bg-black min-h-screen selection:bg-pink-500 selection:text-white relative">
       <BackgroundDecor />
       <GlobalStyles />
       <Navbar />
-      <HeroSection />
+      <HeroSection initialClients={initialClients} />
       <ServicesSection />
       <DoubleScrollMarquee />
       <AboutSection />
@@ -120,9 +120,11 @@ export default function HomePageClient() {
 }
 
 // ════════ HERO ════════
-function HeroSection() {
-  const [clients, setClients] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
+function HeroSection({ initialClients = [] }: { initialClients?: any[] }) {
+  // Seeded from the server (SSR) so the real client logos are in the initial HTML —
+  // no flash of placeholder initials on first load. Refreshes in the background.
+  const [clients, setClients] = useState<any[]>(initialClients);
+  const [loading, setLoading] = useState(initialClients.length === 0);
 
   useEffect(() => {
     const fetchClients = async () => {
@@ -130,7 +132,7 @@ function HeroSection() {
         const res = await fetch('/api/admin/clients');
         if (res.ok) {
           const data = await res.json();
-          setClients(data || []);
+          if (Array.isArray(data)) setClients(data);
         }
       } catch (err) {
         console.error("Failed to fetch clients", err);

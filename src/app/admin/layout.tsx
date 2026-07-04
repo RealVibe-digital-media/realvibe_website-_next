@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { LayoutDashboard, Users, MessageSquareQuote, LogOut, Image as ImageIcon, Briefcase, FileText, BookOpen } from "lucide-react";
+import { LayoutDashboard, Users, MessageSquareQuote, LogOut, Image as ImageIcon, Briefcase, FileText, BookOpen, LayoutGrid } from "lucide-react";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
     const pathname = usePathname();
@@ -22,6 +22,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         { name: "Testimonials", href: "/admin/testimonials", icon: MessageSquareQuote },
         { name: "Team Members", href: "/admin/team", icon: Users },
         { name: "Work Culture", href: "/admin/culture", icon: ImageIcon },
+        { name: "Portfolio Studio", href: "/admin/showcase", icon: LayoutGrid },
     ];
 
     return (

@@ -63,7 +63,7 @@ export function Footer() {
                         <ul className="space-y-2.5">
                             <MobileFooterLink href="/" text="Home" />
                             <MobileFooterLink href="/#about" text="About Us" />
-                            <MobileFooterLink href="/#portfolio" text="Portfolio" />
+                            <MobileFooterLink href="/portfolio" text="Portfolio" />
                             <MobileFooterLink href="/clients" text="Our Clients" />
                             <MobileFooterLink href="/contact" text="Contact" />
                         </ul>
@@ -156,7 +156,7 @@ export function Footer() {
                             <FooterLink href="/" text="Home" color="bg-pink-500" />
                             <FooterLink href="/#about" text="About Us" color="bg-pink-500" />
                             <FooterLink href="/#services" text="Services" color="bg-pink-500" />
-                            <FooterLink href="/#portfolio" text="Portfolio" color="bg-pink-500" />
+                            <FooterLink href="/portfolio" text="Portfolio" color="bg-pink-500" />
                             <FooterLink href="/clients" text="Our Clients" color="bg-pink-500" />
                             <FooterLink href="/contact" text="Contact" color="bg-pink-500" />
                         </ul>
