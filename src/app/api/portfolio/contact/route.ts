@@ -83,3 +83,6 @@ Date: ${new Date().toLocaleString()}
         );
     }
 }
+
+// Always run at request time (never executed during `next build`).
+export const dynamic = 'force-dynamic';

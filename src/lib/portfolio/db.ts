@@ -11,30 +11,38 @@ try {
     // setServers can throw on some platforms; SRV then falls back to the OS resolver.
 }
 
-const MONGODB_URI = process.env.MONGODB_URI;
+// NOTE: the MONGODB_URI check is done lazily inside dbConnect() (not at module
+// load) so `next build` can import the portfolio API route modules even when the
+// env var isn't present at build time. It only throws if an actual DB connection
+// is attempted without a URI (i.e. at request time).
+function resolveMongoUri(): string {
+    const MONGODB_URI = process.env.MONGODB_URI;
 
-if (!MONGODB_URI) {
-    throw new Error(
-        'Please define the MONGODB_URI environment variable inside .env.local'
-    );
-}
+    if (!MONGODB_URI) {
+        throw new Error(
+            'Please define the MONGODB_URI environment variable (in .env / hosting env)'
+        );
+    }
 
-// `mongodb+srv://` requires DNS SRV lookups, which many networks (and some
-// hosts) refuse — producing `querySrv ECONNREFUSED`. For this Atlas cluster we
-// rewrite the SRV URI to a direct multi-host connection that needs no SRV, so it
-// works regardless of the resolver. Set MONGODB_FORCE_SRV=true to opt out (e.g.
-// if the shard hostnames below ever change) and use the SRV string as-is.
-let resolvedUri = MONGODB_URI;
+    // `mongodb+srv://` requires DNS SRV lookups, which many networks (and some
+    // hosts) refuse — producing `querySrv ECONNREFUSED`. For this Atlas cluster we
+    // rewrite the SRV URI to a direct multi-host connection that needs no SRV, so it
+    // works regardless of the resolver. Set MONGODB_FORCE_SRV=true to opt out (e.g.
+    // if the shard hostnames below ever change) and use the SRV string as-is.
+    let resolvedUri = MONGODB_URI;
 
-if (
-    process.env.MONGODB_FORCE_SRV !== 'true' &&
-    resolvedUri.startsWith('mongodb+srv://') &&
-    resolvedUri.includes('cluster1.avswby5.mongodb.net')
-) {
-    resolvedUri = resolvedUri.replace('mongodb+srv://', 'mongodb://')
-        .replace('@cluster1.avswby5.mongodb.net', '@ac-xx4tngq-shard-00-00.avswby5.mongodb.net:27017,ac-xx4tngq-shard-00-01.avswby5.mongodb.net:27017,ac-xx4tngq-shard-00-02.avswby5.mongodb.net:27017');
+    if (
+        process.env.MONGODB_FORCE_SRV !== 'true' &&
+        resolvedUri.startsWith('mongodb+srv://') &&
+        resolvedUri.includes('cluster1.avswby5.mongodb.net')
+    ) {
+        resolvedUri = resolvedUri.replace('mongodb+srv://', 'mongodb://')
+            .replace('@cluster1.avswby5.mongodb.net', '@ac-xx4tngq-shard-00-00.avswby5.mongodb.net:27017,ac-xx4tngq-shard-00-01.avswby5.mongodb.net:27017,ac-xx4tngq-shard-00-02.avswby5.mongodb.net:27017');
 
-    resolvedUri += (resolvedUri.includes('?') ? '&' : '?') + 'ssl=true&replicaSet=atlas-raz2sa-shard-0&authSource=admin';
+        resolvedUri += (resolvedUri.includes('?') ? '&' : '?') + 'ssl=true&replicaSet=atlas-raz2sa-shard-0&authSource=admin';
+    }
+
+    return resolvedUri;
 }
 
 
@@ -59,7 +67,7 @@ async function dbConnect() {
             bufferCommands: false,
         };
 
-        cached.promise = mongoose.connect(resolvedUri, opts).then((mongoose) => {
+        cached.promise = mongoose.connect(resolveMongoUri(), opts).then((mongoose) => {
             return mongoose;
         });
     }

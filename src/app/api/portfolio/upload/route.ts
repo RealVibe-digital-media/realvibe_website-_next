@@ -38,3 +38,6 @@ export async function POST(request: Request) {
         return NextResponse.json({ error: 'Upload failed' }, { status: 500 });
     }
 }
+
+// Always run at request time (never executed during `next build`).
+export const dynamic = 'force-dynamic';

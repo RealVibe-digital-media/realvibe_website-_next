@@ -37,3 +37,6 @@ export async function GET() {
         return NextResponse.json({ error: 'Failed to seed database' }, { status: 500 });
     }
 }
+
+// Always run at request time (never executed during `next build`).
+export const dynamic = 'force-dynamic';

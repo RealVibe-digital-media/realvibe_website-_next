@@ -134,3 +134,6 @@ export async function DELETE(request: Request) {
         return NextResponse.json({ error: 'Failed to delete client' }, { status: 500 });
     }
 }
+
+// Always run at request time (never executed during `next build`).
+export const dynamic = 'force-dynamic';

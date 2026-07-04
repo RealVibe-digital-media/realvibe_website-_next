@@ -89,3 +89,6 @@ export async function OPTIONS() {
     response.headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     return response;
 }
+
+// Always run at request time (never executed during `next build`).
+export const dynamic = 'force-dynamic';

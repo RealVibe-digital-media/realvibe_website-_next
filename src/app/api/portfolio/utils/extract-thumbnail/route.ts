@@ -91,3 +91,6 @@ export async function POST(request: Request) {
         }, { status: 500 });
     }
 }
+
+// Always run at request time (never executed during `next build`).
+export const dynamic = 'force-dynamic';
